@@ -1,0 +1,45 @@
+todas as músicas, com os assuntos, tipos e cantores
+
+select musica.idMusica, musica.nome as nomeMusica, duracao, diretorio, assunto, tipo, cantor.nome as nomeCantor from 
+((((musica left outer join musicacantor 
+	on musica.idMusica = musicacantor.idmusica)
+left outer join musicaAssunto 
+	on musica.idMusica = musicaAssunto.idMusica)
+left outer join assunto
+	on musicaAssunto.idAssunto = assunto.idAssunto)
+left outer join tipo
+	on musica.idTipo = tipo.idTipo)
+left outer join cantor
+	on cantor.idcantor = musicacantor.idcantor 
+group by musica.idMusica
+order by musica.nome, cantor.nome
+
+
+
+Músicas por cantor
+
+select musica.idMusica, musica.nome as nomeMusica, duracao, tipo, assunto, diretorio, cantor.nome as nomeCantor
+from ((((musica inner join musicacantor 
+	on musica.idMusica = musicacantor.idmusica)
+inner join cantor
+	on cantor.idcantor = musicacantor.idcantor)
+left outer join musicaAssunto
+	on musica.idMusica = musicaAssunto.idMusica)
+left outer join assunto
+	on musicaAssunto.idAssunto = assunto.idAssunto)
+left outer join tipo
+	on musica.idTipo = tipo.idTipo
+group by musica.idMusica
+order by cantor.nome, musica.nome
+
+
+
+cantores com números de músicas
+
+select cantor.idCantor, nome, count(idMusica) from 
+cantor inner join musicaCantor
+	on cantor.idCantor = musicaCantor.idCantor
+group by cantor.idCantor
+order by cantor.nome
+
+
