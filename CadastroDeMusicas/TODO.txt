@@ -1,3 +1,4 @@
+
 salvar a lista de reprodução
 fazer com que as alterações nas músicas se reflitam no player
 Colocar recurso de sincronização
