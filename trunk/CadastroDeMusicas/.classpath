@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="connector-mxj/mysql-connector-mxj-5-0-7-beta.jar"/>
 	<classpathentry exported="true" kind="lib" path="connector-mxj/mysql-connector-mxj-5-0-7-beta-db-files.jar"/>
-	<classpathentry exported="true" kind="lib" path="connector-mxj/lib/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="D:/Compartilhada/Cadastro de Músicas - Projeto/eclipse-java-ganymede-SR2-win32/plugins/org.aspectj.runtime_1.6.4.20090304172355/aspectjrt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/basicplayer3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-javaflow-20060411.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jdt-compiler-3.1.1.jar"/>
