@@ -27,6 +27,7 @@ import classesbasicas.Constantes;
 import classesbasicas.Log;
 import classesbasicas.Musica;
 import classesbasicas.MusicaNaColecao;
+import classesbasicas.Playlist;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
 import dao.AssuntoDAO;
@@ -34,6 +35,7 @@ import dao.CantorDAO;
 import dao.ColecaoDAO;
 import dao.LogDAO;
 import dao.MusicaDAO;
+import dao.PlaylistDAO;
 import dao.QualidadeDAO;
 import dao.TipoDAO;
 import dao.impl.AssuntoDAOMySQL;
@@ -41,6 +43,7 @@ import dao.impl.CantorDAOMySQL;
 import dao.impl.ColecaoDAOMySQL;
 import dao.impl.LogDAOMySQL;
 import dao.impl.MusicaDAOMySQL;
+import dao.impl.PlaylistDAOMySQL;
 import dao.impl.QualidadeDAOMySQL;
 import dao.impl.TipoDAOMySQL;
 import exceptions.DataException;
@@ -511,6 +514,21 @@ public class Fachada {
 	public static void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();
 		musicaDAO.alterarCapaDiscoMusica(m, nomeArquivo, caminhoArquivoImagem);
+	}
+	
+	// métodos de Playlist
+	public static Playlist getDefaultPlaylist() throws DataException {
+		return getPlaylist("default");
+	}
+	
+	public static Playlist getPlaylist(String nome) throws DataException {
+		PlaylistDAO pDAO = new PlaylistDAOMySQL();
+		return pDAO.getPlaylist(nome);
+	}
+	
+	public static void alterarPlaylist(Playlist p) throws DataException {
+		PlaylistDAO pDAO = new PlaylistDAOMySQL();
+		pDAO.alterarPlaylist(p);
 	}
 	
 	// métodos de teste	
