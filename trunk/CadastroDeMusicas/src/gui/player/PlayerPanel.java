@@ -3,6 +3,7 @@ package gui.player;
 import exceptions.ConfiguracaoInexistenteException;
 import exceptions.DataException;
 import exceptions.DiretorioBaseInvalidoException;
+import fachada.Fachada;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -49,6 +50,7 @@ import util.Util;
 import bd.BDUtil;
 import classesbasicas.Constantes;
 import classesbasicas.Musica;
+import classesbasicas.Playlist;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -105,7 +107,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private JPanel botoesPanel;
 	private JSlider progressoSlider;
 	
-	private List<Musica> musicas = new ArrayList<Musica>();
+	// private List<Musica> musicas = new ArrayList<Musica>();
 	private Musica musicaAtual;	
 	private int indiceAtual = -1;
 	
@@ -113,6 +115,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private int intervaloEntreMusicas = 0;
 	private boolean intervalo = false;
+	
+	private Playlist playlist = null;
 
 	/**
 	* Auto-generated main method to display this 
@@ -128,6 +132,16 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	public PlayerPanel() {
 		super();
+		
+		try {
+			playlist = Fachada.getDefaultPlaylist();
+			if (playlist == null) {
+				playlist = new Playlist();
+			}
+		} catch (DataException e) {
+			System.out.println("Erro ao Carregar Playlist");
+		}
+		
 		initGUI();
 		//$hide>>$
 		try {
@@ -135,6 +149,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		} catch (JavaLayerException e) {
 			JOptionPane.showMessageDialog(this, "Não Foi possível inicializar o Player.", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
+		
 		atualizarListaDeMusicas();
 		try {
 			String configIntervalo = BDUtil.getConfiguracao(Constantes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS);
@@ -144,6 +159,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
+		
 		//$hide<<$
 	}
 	
@@ -274,7 +290,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 								} else {
 									// int indice = playListList.getSelectedIndex();
 									// if (indice >= 0 && indice < musicas.size()) {
-									if (indiceAtual >= 0 && indiceAtual < musicas.size()) {
+									if (indiceAtual >= 0 && indiceAtual < playlist.getItens().size()) {
 										tocar(indiceAtual);
 									}
 								}
@@ -350,7 +366,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 									}
 								}
 								
-								if (index == PlayerPanel.this.musicas.size()) {
+								if (index == PlayerPanel.this.playlist.getItens().size()) {
 									this.setForeground(Color.white);
 								} else {
 									this.setForeground(Color.black);	
@@ -393,8 +409,14 @@ public class PlayerPanel extends javax.swing.JPanel {
 							int[] indices = playListList.getSelectedIndices();
 							for (int i = indices.length - 1; i >= 0; i--) {
 								int indice = indices[i];
-								if (indice != indiceAtual && indice >= 0 && indice < musicas.size()) {
-									musicas.remove(indice);
+								if (indice != indiceAtual && indice >= 0 && indice < playlist.getItens().size()) {
+									playlist.getItens().remove(indice);
+									try {
+										Fachada.alterarPlaylist(playlist);
+									} catch (DataException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									if (indice < indiceAtual) {
 										indiceAtual--;
 									}
@@ -413,9 +435,15 @@ public class PlayerPanel extends javax.swing.JPanel {
 					acimaButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							int indice = playListList.getSelectedIndex();
-							if (indice > 0 && indice <= musicas.size() - 1) {
-								Musica m = musicas.remove(indice);
-								musicas.add(indice - 1, m);
+							if (indice > 0 && indice <= playlist.getItens().size() - 1) {
+								Musica m = playlist.getItens().remove(indice);
+								playlist.getItens().add(indice - 1, m);
+								try {
+									Fachada.alterarPlaylist(playlist);
+								} catch (DataException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								if (indice == indiceAtual + 1) indiceAtual++;
 								else if (indice == indiceAtual) indiceAtual--;
 								atualizarListaDeMusicas();
@@ -433,9 +461,15 @@ public class PlayerPanel extends javax.swing.JPanel {
 					abaixoButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							int indice = playListList.getSelectedIndex();
-							if (indice < musicas.size() - 1 && indice >= 0) {
-								Musica m = musicas.remove(indice);
-								musicas.add(indice + 1, m);
+							if (indice < playlist.getItens().size() - 1 && indice >= 0) {
+								Musica m = playlist.getItens().remove(indice);
+								playlist.getItens().add(indice + 1, m);
+								try {
+									Fachada.alterarPlaylist(playlist);
+								} catch (DataException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								if (indice == indiceAtual - 1) indiceAtual--;
 								else if (indice == indiceAtual) indiceAtual++;
 								atualizarListaDeMusicas();
@@ -477,11 +511,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	public JButton getMuteButton() {
-		return muteButton;
+		return muteButton;		
 	}
 	
 	public void finalizouMusica() {
-		if (indiceAtual == musicas.size() - 1) {
+		if (indiceAtual == playlist.getItens().size() - 1) {
 			terminouMusica = true;	
 			stop();
 		} else {
@@ -536,11 +570,17 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	public void open(List<Musica> musicas) {
 		//$hide>>$
-		this.musicas.clear();
+		this.playlist.getItens().clear();
 		
 		if (musicas != null && musicas.size() > 0) {
 			for (Musica m: musicas) {
-				this.musicas.add(m);
+				this.playlist.getItens().add(m);
+			}
+			try {
+				Fachada.alterarPlaylist(playlist);
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			tocar(0);
 		} else {
@@ -555,11 +595,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 		//$hide>>$	
 		stop();
 		
-		if (indice >= musicas.size() || indice < 0) {
+		if (indice >= playlist.getItens().size() || indice < 0) {
 			return;
 		}
 		
-		Musica m = musicas.get(indice);
+		Musica m = playlist.getItens().get(indice);
 		indiceAtual = indice;
 		playListList.updateUI();
 		String nomeArquivo = null;
@@ -603,13 +643,13 @@ public class PlayerPanel extends javax.swing.JPanel {
 
 	private void atualizarListaDeMusicas() {
 		//$hide>>$
-		String[] nomesMusicas = new String[musicas.size() + 1];
+		String[] nomesMusicas = new String[playlist.getItens().size() + 1];
 		int tempoTotal = 0;
-		for (int i = 0; i < musicas.size(); i++) {
-			nomesMusicas[i] = musicas.get(i).getNome() + " (" + Util.formataDuracao(musicas.get(i).getDuracao()) + ")";
-			tempoTotal += musicas.get(i).getDuracao();
+		for (int i = 0; i < playlist.getItens().size(); i++) {
+			nomesMusicas[i] = playlist.getItens().get(i).getNome() + " (" + Util.formataDuracao(playlist.getItens().get(i).getDuracao()) + ")";
+			tempoTotal += playlist.getItens().get(i).getDuracao();
 		}
-		nomesMusicas[musicas.size()] = "";
+		nomesMusicas[playlist.getItens().size()] = "";
 		ListModel playListListModel = new DefaultComboBoxModel(nomesMusicas);
 		playListList.setModel(playListListModel);
 		
@@ -623,8 +663,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 			player.stop();
 			playPauseButton.setIcon(PAUSE_LABEL_PLAY);
 			progressoSlider.setValue(0);
-			if (indiceAtual >= 0 && indiceAtual < musicas.size()) {
-				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(musicas.get(indiceAtual).getDuracao()));	
+			if (indiceAtual >= 0 && indiceAtual < playlist.getItens().size()) {
+				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(playlist.getItens().get(indiceAtual).getDuracao()));	
 			} else {
 				duracaoMusicaAtualLabel.setText("0:00/0:00");
 			}
@@ -639,7 +679,13 @@ public class PlayerPanel extends javax.swing.JPanel {
 	public void adicionarMusicas(List<Musica> musicas) {
 		//$hide>>$
 		for (Musica m: musicas) {
-			this.musicas.add(m);
+			this.playlist.getItens().add(m);
+		}
+		try {
+			Fachada.alterarPlaylist(playlist);
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		atualizarListaDeMusicas();
 		//$hide<<$
@@ -647,7 +693,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private void proximaMusica() {
 		//$hide>>$
-		if (indiceAtual != musicas.size() - 1) {
+		if (indiceAtual != playlist.getItens().size() - 1) {
 			tocar(indiceAtual + 1);
 		}
 		//$hide<<$
