@@ -1,12 +1,13 @@
 package classesbasicas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
 	private int idPlaylist;
 	private String nome;
 	
-	private List<Musica> itens;
+	private List<Musica> itens = new ArrayList<Musica>();
 
 	public int getIdPlaylist() {
 		return idPlaylist;

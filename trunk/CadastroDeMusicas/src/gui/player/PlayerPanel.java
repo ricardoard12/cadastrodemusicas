@@ -116,7 +116,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private int intervaloEntreMusicas = 0;
 	private boolean intervalo = false;
 	
-	private Playlist playlist = null;
+	private Playlist playlist = new Playlist();
 
 	/**
 	* Auto-generated main method to display this 
@@ -133,6 +133,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	public PlayerPanel() {
 		super();
 		
+		//$hide>>$
 		try {
 			playlist = Fachada.getDefaultPlaylist();
 			if (playlist == null) {
@@ -141,6 +142,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		} catch (DataException e) {
 			System.out.println("Erro ao Carregar Playlist");
 		}
+		//$hide<<$
 		
 		initGUI();
 		//$hide>>$
@@ -664,7 +666,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 			playPauseButton.setIcon(PAUSE_LABEL_PLAY);
 			progressoSlider.setValue(0);
 			if (indiceAtual >= 0 && indiceAtual < playlist.getItens().size()) {
-				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(playlist.getItens().get(indiceAtual).getDuracao()));	
+				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(indiceAtual > 0 ?  playlist.getItens().get(indiceAtual).getDuracao() : 0));	
 			} else {
 				duracaoMusicaAtualLabel.setText("0:00/0:00");
 			}
