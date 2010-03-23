@@ -24,6 +24,7 @@
 	<classpathentry kind="lib" path="lib/JasperReports/iText-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/JasperReports/jasperreports-3.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/JasperReports/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/myid3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/looks-2.1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
