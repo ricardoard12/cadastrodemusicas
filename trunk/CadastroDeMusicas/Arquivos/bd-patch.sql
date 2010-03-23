@@ -178,3 +178,18 @@ INSERT INTO `cadastrodemusicas`.`configuracoes` (
 VALUES (
 'playlist_atual', 'default'
 );
+
+ALTER TABLE `assunto` ADD `created` DATETIME NULL DEFAULT NULL ,
+ADD `modified` DATETIME NULL DEFAULT NULL ;
+
+ALTER TABLE `cantor` ADD `created` DATETIME NULL DEFAULT NULL ,
+ADD `modified` DATETIME NULL DEFAULT NULL ;
+
+ALTER TABLE `colecao` ADD `created` DATETIME NULL DEFAULT NULL ,
+ADD `modified` DATETIME NULL DEFAULT NULL ;
+
+ALTER TABLE `musica` ADD `created` DATETIME NULL DEFAULT NULL ,
+ADD `modified` DATETIME NULL DEFAULT NULL ;
+
+ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,
+ADD `modified` DATETIME NULL DEFAULT NULL ;
