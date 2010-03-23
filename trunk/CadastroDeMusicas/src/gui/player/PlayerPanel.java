@@ -517,6 +517,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	public void finalizouMusica() {
+		//$hide>>$
 		if (indiceAtual == playlist.getItens().size() - 1) {
 			terminouMusica = true;	
 			stop();
@@ -536,9 +537,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 			intervalo = false;			
 			tocar(indiceAtual + 1);
 		}
+		//$hide<<$
 	}
 	
 	public void setProgressPosition(int pos) {
+		//$hide>>$
 		if (!mousePressionado) {
 			eventoAutomatico = true;
 			getProgressoSlider().setValue(pos);
@@ -546,6 +549,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		}		
 		int segundos = (int) ((long) pos * musicaAtual.getDuracao()) / progressoSlider.getMaximum();
 		duracaoMusicaAtualLabel.setText(Util.formataDuracao(segundos) + "/" + Util.formataDuracao(musicaAtual.getDuracao()));
+		//$hide<<$
 	}
 	
 	// muda o ícone do muteLabel para o com o volume normal (sem mute) 
@@ -637,10 +641,12 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	private void apagarArquivosTemporarios() {
+		//$hide>>$
 		for (String arquivo: arquivosTemporarios) {
 			File f = new File(arquivo);
 			f.delete();
 		}
+		//$hide<<$
 	}
 
 	private void atualizarListaDeMusicas() {
@@ -660,6 +666,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	private void stop() {
+		//$hide>>$
 		intervalo = false;
 		try {
 			player.stop();
@@ -676,6 +683,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//$hide<<$
 	}
 
 	public void adicionarMusicas(List<Musica> musicas) {
