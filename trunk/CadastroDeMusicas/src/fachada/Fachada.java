@@ -511,6 +511,10 @@ public class Fachada {
 		musicaDAO.alterarMusica(m);
 	}
 	
+	public static void dispararAlteracaoArquivoMusica(Musica m) {
+		return;
+	}
+	
 	public static void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();
 		musicaDAO.alterarCapaDiscoMusica(m, nomeArquivo, caminhoArquivoImagem);
