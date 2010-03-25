@@ -7,6 +7,8 @@ public class Tipo implements Serializable {
 	private int idTipo; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
 	private String tipo;
+	private Date created = null;
+	private Date modified = null;
 	
 	public int getIdTipo() {
 		return idTipo;
@@ -37,6 +39,23 @@ public class Tipo implements Serializable {
 
 	public void setChaveUnica(String chaveUnica) {
 		this.chaveUnica = chaveUnica;
+	}
+	
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	public Object clone() {

@@ -25,6 +25,9 @@ public class Musica implements Serializable {
 	private List<Cantor> cantores;
 	private List<Assunto> assuntos;
 	
+	private Date created = null;
+	private Date modified = null;
+	
 	public List<Assunto> getAssuntos() {
 		return assuntos;
 	}
@@ -117,6 +120,23 @@ public class Musica implements Serializable {
 	
 	public void setNomeArquivoCapa(String nomeArquivoCapa) {
 		this.nomeArquivoCapa = nomeArquivoCapa;
+	}
+	
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 	
 	public String gerarChaveUnica() {

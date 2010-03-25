@@ -1,11 +1,14 @@
 package classesbasicas;
 
+import java.util.Date;
 import java.util.List;
 
 public class Colecao {
 	int idColecao;
 	String nome;
 	String descricao;
+	private Date created = null;
+	private Date modified = null;
 	
 	List<Musica> musicas = null;
 
@@ -39,6 +42,23 @@ public class Colecao {
 
 	public void setMusicas(List<Musica> musicas) {
 		this.musicas = musicas;
+	}
+	
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 	
 	
