@@ -8,6 +8,8 @@ public class Cantor implements Serializable {
 	private String chaveUnica = null;
 	private String nomeSemEspacos;
 	private String nome;
+	private Date created = null;
+	private Date modified = null;
 	
 	public int getIdCantor() {
 		return idCantor;
@@ -55,6 +57,23 @@ public class Cantor implements Serializable {
 
 	public void setChaveUnica(String chaveUnica) {
 		this.chaveUnica = chaveUnica;
+	}
+	
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	/**

@@ -7,6 +7,8 @@ public class Assunto implements Serializable {
 	private int idAssunto; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
 	private String assunto;
+	private Date created = null;
+	private Date modified = null;
 
 	public String getAssunto() {
 		return assunto;
@@ -45,6 +47,22 @@ public class Assunto implements Serializable {
 
 	public void setChaveUnica(String chaveUnica) {
 		this.chaveUnica = chaveUnica;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	/**
