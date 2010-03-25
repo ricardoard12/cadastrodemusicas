@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
@@ -15,7 +17,7 @@ import exceptions.DataException;
 public class AssuntoDAOMySQL implements AssuntoDAO {
 
 	public void alterarAssunto(Assunto a) throws DataException {
-		String sql = "UPDATE assunto SET chaveUnica=?, assunto=? WHERE idAssunto=?";
+		String sql = "UPDATE assunto SET chaveUnica=?, assunto=?, modified=? WHERE idAssunto=?";
 
 		PreparedStatement ps;
 		try {
@@ -23,9 +25,12 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			
 			ps.setString(1, a.getChaveUnica());
 			ps.setString(2, a.getAssunto());
-			ps.setInt(3, a.getIdAssunto());
+			Date modified = new Date();
+			ps.setTimestamp(3, new Timestamp((modified.getTime())));
+			ps.setInt(4, a.getIdAssunto());
 			
 			ps.execute();
+			a.setModified(modified);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -33,14 +38,17 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public int cadastrarAssunto(Assunto a) throws DataException {
-		String sql = "INSERT INTO assunto (assunto, chaveUnica) "
-			+ "VALUES (?, ?)";
+		String sql = "INSERT INTO assunto (assunto, chaveUnica, created, modified) "
+			+ "VALUES (?, ?, ?, ?)";
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
 
 			ps.setString(1, a.getAssunto());
 			ps.setString(2, a.getChaveUnica());
+			Date data = new Date();
+			ps.setTimestamp(3, new Timestamp(data.getTime()));
+			ps.setTimestamp(4, new Timestamp(data.getTime()));
 			
 			ps.execute();
 
@@ -49,7 +57,9 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
-			a.setIdAssunto(codigo);			
+			a.setIdAssunto(codigo);
+			a.setCreated(data);
+			a.setModified(data);
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,6 +80,8 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 				a.setIdAssunto(r.getInt("idAssunto"));
 				a.setAssunto(r.getString("assunto"));
 				a.setChaveUnica(r.getString("chaveUnica"));
+				a.setCreated(r.getDate("created"));
+				a.setModified(r.getDate("modified"));
 								
 				lista.add(a);
 			}

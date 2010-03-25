@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
@@ -23,8 +25,8 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 
 	// insere uma nova coleção (sem músicas)
 	public int cadastrarColecao(Colecao c) throws DataException {
-		String sql = "INSERT INTO colecao (nome, descricao) "
-			+ "VALUES (?, ?)";
+		String sql = "INSERT INTO colecao (nome, descricao, created, modified) "
+			+ "VALUES (?, ?, ?, ?)";
 
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
@@ -34,7 +36,10 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				ps.setNull(2, java.sql.Types.VARCHAR);
 			} else {
 				ps.setString(2, c.getDescricao());	
-			}			
+			}
+			Date data = new Date();
+			ps.setTimestamp(3, new Timestamp(data.getTime()));
+			ps.setTimestamp(4, new Timestamp(data.getTime()));
 			
 			ps.execute();
 
@@ -43,7 +48,9 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
-			c.setIdColecao(codigo);			
+			c.setIdColecao(codigo);	
+			c.setCreated(data);
+			c.setModified(data);
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,6 +71,8 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				c.setIdColecao(r.getInt("idColecao"));
 				c.setNome(r.getString("nome"));
 				c.setDescricao(r.getString("descricao"));
+				c.setCreated(r.getDate("created"));
+				c.setModified(r.getDate("modified"));
 								
 				lista.add(c);
 			}

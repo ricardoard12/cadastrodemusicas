@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
@@ -16,7 +18,7 @@ import exceptions.DataException;
 public class TipoDAOMySQL implements TipoDAO {
 
 	public void alterarTipo(Tipo t) throws DataException {
-		String sql = "UPDATE tipo SET chaveUnica=?, tipo=? WHERE idTipo=?";
+		String sql = "UPDATE tipo SET chaveUnica=?, tipo=?, modified=? WHERE idTipo=?";
 
 		PreparedStatement ps;
 		try {
@@ -24,9 +26,12 @@ public class TipoDAOMySQL implements TipoDAO {
 			
 			ps.setString(1, t.getChaveUnica());
 			ps.setString(2, t.getTipo());
-			ps.setInt(3, t.getIdTipo());
+			Date modified = new Date();
+			ps.setTimestamp(3, new Timestamp((modified.getTime())));
+			ps.setInt(4, t.getIdTipo());
 			
 			ps.execute();
+			t.setModified(modified);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -34,14 +39,17 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public int cadastrarTipo(Tipo t) throws DataException {
-		String sql = "INSERT INTO tipo (tipo, chaveUnica) "
-			+ "VALUES (?, ?)";
+		String sql = "INSERT INTO tipo (tipo, chaveUnica, created, modified) "
+			+ "VALUES (?, ?, ?, ?)";
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
 
 			ps.setString(1, t.getTipo());
 			ps.setString(2, t.getChaveUnica());
+			Date data = new Date();
+			ps.setTimestamp(3, new Timestamp(data.getTime()));
+			ps.setTimestamp(4, new Timestamp(data.getTime()));
 			
 			ps.execute();
 
@@ -50,7 +58,9 @@ public class TipoDAOMySQL implements TipoDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
-			t.setIdTipo(codigo);			
+			t.setIdTipo(codigo);
+			t.setCreated(data);
+			t.setModified(data);
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,6 +93,8 @@ public class TipoDAOMySQL implements TipoDAO {
 				t.setIdTipo(r.getInt("idTipo"));
 				t.setTipo(r.getString("tipo"));
 				t.setChaveUnica(r.getString("chaveUnica"));
+				t.setCreated(r.getDate("created"));
+				t.setModified(r.getDate("modified"));
 								
 				lista.add(t);
 			}
