@@ -2297,6 +2297,7 @@ public class EditarMusicasPanel extends JPanel {
 							m.setDuracao(Util.getMP3Duration(nomeArquivoAntigo));
 							
 							Fachada.alterarMusica(m);
+							Fachada.dispararAlteracaoArquivoMusica(m);
 							
 							pai.musicaFoiEditada();
 							

@@ -2,19 +2,21 @@ package aspects;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import bd.BDUtil;
 import classesbasicas.Assunto;
+import classesbasicas.Cantor;
 import classesbasicas.Log;
 import classesbasicas.Musica;
 import classesbasicas.Tipo;
-import classesbasicas.Cantor;
 import dao.AssuntoDAO;
-import dao.LogDAO;
 import dao.CantorDAO;
+import dao.LogDAO;
 import dao.MusicaDAO;
 import dao.TipoDAO;
 import dao.impl.LogDAOMySQL;
 import exceptions.DataException;
+import fachada.Fachada;
 
 public aspect BDAspect {
 
@@ -27,6 +29,7 @@ public aspect BDAspect {
 
 	// chamada dos métodos de alteração
 	pointcut alterarMusica(MusicaDAO mdao, Musica m) : call(void MusicaDAO.alterarMusica(Musica)) && args(m) && target(mdao);
+	pointcut dispararAlteracaoArquivoMusica(Musica m) : call(void Fachada.dispararAlteracaoArquivoMusica(Musica)) && args(m);
 	pointcut alterarCantor(CantorDAO cdao, Cantor c) : call(void CantorDAO.alterarCantor(Cantor)) && args(c) && target(cdao);
 	pointcut alterarRitmo(TipoDAO tdao, Tipo t) : call(void TipoDAO.alterarTipo(Tipo)) && args(t) && target(tdao);
 	pointcut alterarAssunto(AssuntoDAO adao, Assunto a) : call(void AssuntoDAO.alterarAssunto(Assunto)) && args(a) && target(adao);
@@ -148,6 +151,25 @@ public aspect BDAspect {
 		log.setObjeto(m);
 		log.setChaveUnicaObjeto(m.getChaveUnica());
 		log.setTipoOperacao(Log.TipoOperacao.ALTERACAO);
+		
+		LogDAO dao = new LogDAOMySQL();
+		try {
+			dao.cadastrarLog(log);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// depois da alteração do arquivo de uma música
+	after(Musica m) : dispararAlteracaoArquivoMusica(m) {
+		if (!BDUtil.isSincronizacaoAtiva()) return;
+		
+		Log log = new Log();
+		log.setClasseObjeto("Musica");
+		log.setData(new Date());
+		log.setObjeto(m);
+		log.setChaveUnicaObjeto(m.getChaveUnica());
+		log.setTipoOperacao(Log.TipoOperacao.ALTERACAO_ARQUIVO_MUSICA);
 		
 		LogDAO dao = new LogDAOMySQL();
 		try {

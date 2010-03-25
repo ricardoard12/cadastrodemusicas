@@ -11,7 +11,7 @@ public class Log implements Serializable {
 	private String chaveUnicaObjeto;
 	
 	// tipo da operação registrada
-	public enum TipoOperacao {CADASTRO, ALTERACAO, DELECAO, ADICAO_CANTOR_A_MUSICA};
+	public enum TipoOperacao {CADASTRO, ALTERACAO, DELECAO, ADICAO_CANTOR_A_MUSICA, ALTERACAO_ARQUIVO_MUSICA};
 	TipoOperacao tipoOperacao;
 	
 	// classe do objeto da operação
