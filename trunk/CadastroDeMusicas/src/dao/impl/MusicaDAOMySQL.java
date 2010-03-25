@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
@@ -42,7 +44,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			System.out.println("Assuntos antigos removidos da música");
 
 			sql = "UPDATE Musica SET nome=?, letra=?, duracao=?, observacao=?, "
-					+ "nomearquivo=?, diretorio=?, idTipo=?, idQualidade=?, chaveUnica=?, ano = ? "
+					+ "nomearquivo=?, diretorio=?, idTipo=?, idQualidade=?, chaveUnica=?, ano = ?, modified = ? "
 					+ "WHERE idMusica=?";
 
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
@@ -79,9 +81,13 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				ps.setNull(10, java.sql.Types.INTEGER);
 			}
 			
-			ps.setInt(11, m.getIdMusica());
+			Date modified = new Date();
+			ps.setTimestamp(11, new Timestamp((modified.getTime())));	
+			
+			ps.setInt(12, m.getIdMusica());
 
 			ps.execute();
+			m.setModified(modified);
 
 			if (m.getCantores() != null && m.getCantores().size() > 0) {
 				sql = "INSERT INTO MusicaCantor (idCantor, idMusica) "
@@ -122,8 +128,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	}
 
 	public int cadastrarMusica(Musica m) throws DataException {
-		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, nomearquivo, diretorio, idTipo, idQualidade, chaveUnica, ano) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, nomearquivo, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
@@ -159,6 +165,10 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				ps.setNull(10, java.sql.Types.INTEGER);
 			}
 			
+			Date data = new Date();
+			ps.setTimestamp(11, new Timestamp(data.getTime()));
+			ps.setTimestamp(12, new Timestamp(data.getTime()));
+			
 			ps.execute();
 
 			System.out.println("Musica cadastrada");
@@ -166,7 +176,9 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
-			m.setIdMusica(codigo);		
+			m.setIdMusica(codigo);
+			m.setCreated(data);
+			m.setModified(data);
 			
 			// cadastrando os cantores
 			if (m.getCantores() != null && m.getCantores().size() > 0) {
@@ -226,6 +238,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				m.setChaveUnica(r.getString("chaveUnica"));
 				m.setAno(r.getInt("ano"));
 				m.setNomeArquivoCapa(r.getString("nomeArquivoCapa"));
+				m.setCreated(r.getDate("created"));
+				m.setModified(r.getDate("modified"));
 				
 				m.setCantores(new ArrayList<Cantor>());
 				

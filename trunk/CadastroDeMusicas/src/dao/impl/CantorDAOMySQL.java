@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
@@ -16,7 +18,7 @@ import exceptions.DataException;
 public class CantorDAOMySQL implements CantorDAO {
 
 	public void alterarCantor(Cantor c) throws DataException {
-		String sql = "UPDATE Cantor SET nome=?, nomeSemEspacos=?, chaveUnica=? WHERE idCantor=?";
+		String sql = "UPDATE Cantor SET nome=?, nomeSemEspacos=?, chaveUnica=?, modified=? WHERE idCantor=?";
 
 		PreparedStatement ps;
 		try {
@@ -25,9 +27,13 @@ public class CantorDAOMySQL implements CantorDAO {
 			ps.setString(1, c.getNome());
 			ps.setString(2, c.getNomeSemEspacos());
 			ps.setString(3, c.getChaveUnica());
-			ps.setInt(4, c.getIdCantor());
+			Date modified = new Date();
+			ps.setTimestamp(4, new Timestamp((modified.getTime())));			
+			ps.setInt(5, c.getIdCantor());
 			
 			ps.execute();
+			
+			c.setModified(modified);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -35,8 +41,8 @@ public class CantorDAOMySQL implements CantorDAO {
 	}
 
 	public int cadastrarCantor(Cantor c) throws DataException {
-		String sql = "INSERT INTO Cantor (nomesemespacos, nome, chaveUnica) "
-			+ "VALUES (?, ?, ?)";
+		String sql = "INSERT INTO Cantor (nomesemespacos, nome, chaveUnica, created, modified) "
+			+ "VALUES (?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
@@ -44,6 +50,9 @@ public class CantorDAOMySQL implements CantorDAO {
 			ps.setString(1, c.getNomeSemEspacos());
 			ps.setString(2, c.getNome());
 			ps.setString(3, c.getChaveUnica());
+			Date data = new Date();
+			ps.setTimestamp(4, new Timestamp(data.getTime()));
+			ps.setTimestamp(5, new Timestamp(data.getTime()));
 			
 			ps.execute();
 
@@ -53,6 +62,8 @@ public class CantorDAOMySQL implements CantorDAO {
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
 			c.setIdCantor(codigo);
+			c.setCreated(data);
+			c.setModified(data);
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,6 +85,8 @@ public class CantorDAOMySQL implements CantorDAO {
 				c.setNomeSemEspacos(r.getString("nomesemespacos"));
 				c.setNome(r.getString("nome"));
 				c.setChaveUnica(r.getString("chaveUnica"));
+				c.setCreated(r.getDate("created"));
+				c.setModified(r.getDate("modified"));
 				
 				lista.add(c);
 			}
