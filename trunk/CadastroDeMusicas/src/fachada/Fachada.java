@@ -522,7 +522,7 @@ public class Fachada {
 	
 	// métodos de Playlist
 	public static Playlist getDefaultPlaylist() throws DataException {
-		return getPlaylist("default");
+		return getPlaylist(Playlist.NOME_PLAYLIST_PADRAO);
 	}
 	
 	public static Playlist getPlaylist(String nome) throws DataException {
@@ -533,6 +533,11 @@ public class Fachada {
 	public static void alterarPlaylist(Playlist p) throws DataException {
 		PlaylistDAO pDAO = new PlaylistDAOMySQL();
 		pDAO.alterarPlaylist(p);
+	}
+	
+	public static List<Playlist> listarPlaylists() throws DataException {
+		PlaylistDAO pDAO = new PlaylistDAOMySQL();
+		return pDAO.listarPlaylists();
 	}
 	
 	// métodos de teste	
