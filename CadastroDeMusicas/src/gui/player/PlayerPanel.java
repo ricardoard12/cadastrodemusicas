@@ -117,6 +117,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private Playlist playlist = new Playlist();
 
+	private PlayerFrame playerFrame;
+
 	/**
 	* Auto-generated main method to display this 
 	* JPanel inside a new JFrame.
@@ -783,9 +785,16 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	private void salvarPlaylistAtual() {
-		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(null);
+		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(playerFrame);
+		dialog.setPlaylistSalvar(playlist);
 		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
+
+	//$hide>>$
+	public void setPlayerFrame(PlayerFrame playerFrame) {
+		this.playerFrame = playerFrame;
+	}
+	//$hide<<$
 }
 

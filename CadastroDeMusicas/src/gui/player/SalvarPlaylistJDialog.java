@@ -1,4 +1,6 @@
 package gui.player;
+import fachada.Fachada;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -15,10 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import javazoom.jlgui.player.amp.util.ini.Array;
-
+import classesbasicas.Musica;
 import classesbasicas.Playlist;
-import fachada.Fachada;
 
 
 /**
@@ -39,6 +39,7 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 	private JButton buttonNovaPlaylist;
 	private JButton buttonCadastrarPlaylistEscolhida;
 	private JLabel labelPlaylistsCadatradas;
+	private Playlist playlistSalvar;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -65,17 +66,18 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 				this.setTitle("Salvar Playlist");
 				thisLayout.rowWeights = new double[] {0.1, 0.1, 0.1};
 				thisLayout.rowHeights = new int[] {7, 7, 7};
-				thisLayout.columnWeights = new double[] {0.1, 0.1};
+				thisLayout.columnWeights = new double[] {0.9, 0.1};
 				thisLayout.columnWidths = new int[] {7, 7};
 				getContentPane().setLayout(thisLayout);
 				this.setResizable(false);
+				this.setPreferredSize(new java.awt.Dimension(194, 112));
 				{
 					String[] lista;
 					//$hide>>$
 					List<Playlist> playlists = Fachada.listarPlaylists();
 					lista = new String[playlists.size() + 1];
 					lista[0] = "";
-					for (int i = 1; i <= lista.length; i++) lista[i] = playlists.get(i).getNome();
+					for (int i = 1; i <= playlists.size(); i++) lista[i] = playlists.get(i-1).getNome();
 					//$hide<<$
 					ComboBoxModel comboBoxEscolherPlaylistModel = 
 						new DefaultComboBoxModel(lista);
@@ -104,6 +106,7 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 					buttonNovaPlaylist = new JButton();
 					getContentPane().add(buttonNovaPlaylist, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(4, 0, 5, 5), 0, 0));
 					buttonNovaPlaylist.setText("Nova Playlist");
+					buttonNovaPlaylist.setToolTipText("Adiciona Uma Nova Playlist com as Músicas Atuais");
 					buttonNovaPlaylist.setFocusable(false);
 				}
 				{
@@ -116,6 +119,14 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Playlist getPlaylistSalvar() {
+		return playlistSalvar;
+	}
+
+	public void setPlaylistSalvar(Playlist playlistSalvar) {
+		this.playlistSalvar = playlistSalvar;
 	}
 
 }
