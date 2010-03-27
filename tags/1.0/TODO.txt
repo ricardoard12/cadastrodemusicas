@@ -1,0 +1,60 @@
+
+salvar a lista de reprodução
+fazer com que as alterações nas músicas se reflitam no player
+Colocar recurso de sincronização
+Se recuperar de erro com o bd na inicialização (tentar matar o processo e iniciar novamente, ou se não conseguir matar, iniciar em outra porta)
+Melhorar a parte das coleções
+
+
+
+
+
+Sistema de Cadastro de Músicas
+
+-------------------------------------------------------------
+
+Perguntar a João Bosco uma forma boa de separar as músicas por assuntos, e como colocar assuntos em algumas músicas mais difíceis (Bolero de Isabel, Como diria Dylan)
+
+-------------------------------------------------------------
+
+COISAS A FAZER
+
+*Melhorar o suporte à geração de coleções
+
+Tirar os assuntos dos relatórios
+
+Colocar um recurso no programa para poder ser usada mais de uma coleção
+
+Fazer as checagens das operações com arquivos na tela de gerar coleção
+
+Melhorar os relatórios, e fazer outros diferentes para gerar em html
+
+Melhorar a tela de verificação de arquivos
+
+Melhorar a tela de geração da coleção
+
+
+
+
+Setar para iniciar o mysql em outra porta
+Telas de Edição e Cadastro de Músicas - Alterar para que quando se coloque o nome do cantor, ele já seja o nome definitivo do cantor (nome completo)
+Telas de Edição e Cadastro de Músicas - Alterar para que quando se coloque o nome do cantor ou música, tire os caracteres ''', para não dar problema no banco de dados
+Melhorar o cadastro de assuntos
+
+
+
+
+
+- Descrição do recurso de sincronização
+01 - Colocar um recurso para criar ponto de sincronização
+	- Descrição
+	- Data/hora
+02 - A partir de criado o Ponto de Sincronização, o sistema salva cada operação de alteração ou inserção feitas
+	- tipo de operação
+	- Objeto enviado para a função (inteiro)
+	- data/hora
+03 - Colocar um recurso para que, caso tenha sido criado um ponto de sincronização, possam ser exportados os dados desde o último ponto
+04 - Colocar um recurso para que se possa importar dados de sincronização, podendo-se resolver os conflitos
+	- esse recurso deve ter uma escolha de se deve ser criado outro ponto de sincronização depois de importados os dados
+
+	

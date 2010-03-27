@@ -1,0 +1,43 @@
+package dao;
+
+import java.io.InputStream;
+import java.util.List;
+
+import classesbasicas.Cantor;
+import classesbasicas.Colecao;
+import classesbasicas.Musica;
+import exceptions.DataException;
+
+public interface MusicaDAO {
+	
+	public int cadastrarMusica(Musica m) throws DataException;
+	public void alterarMusica(Musica m) throws DataException;
+	public void removerMusica(Musica m) throws DataException;
+	public Musica getMusica(int idMusica) throws DataException;
+	public List<Musica> listarMusicasEmOrdemAlfabetica() throws DataException;
+	public List<Musica> listarMusicasOrdenarPorCantor() throws DataException;
+	public List<Musica> listarMusicasOrdenarPorAssunto() throws DataException;
+	public void adicionarCantor(Musica m, Cantor c) throws DataException;
+	public List<Musica> listarMusicasPorDiversos(
+			String nome, boolean naoListarPorNome,
+			String nomeCantor, boolean naoListarPorNomeCantor,
+			String ritmo, boolean naoListarPorRitmo,
+			String assunto, boolean naoListarPorAssunto,
+			String observacao, boolean naoListarPorObservacao,
+			String qualidade, boolean naoListarPorQualidade,
+			String letra, boolean naoListarPorLetra,
+			int ano, boolean naoListarPorAno) throws DataException;
+	public List<Musica> listarMusicasDaColecaoPorDiversos(
+			String nome, boolean naoListarPorNome,
+			String nomeCantor, boolean naoListarPorNomeCantor,
+			String ritmo, boolean naoListarPorRitmo,
+			String assunto, boolean naoListarPorAssunto,
+			String observacao, boolean naoListarPorObservacao,
+			String qualidade, boolean naoListarPorQualidade,
+			String letra, boolean naoListarPorLetra,
+			int ano, boolean naoListarPorAno,
+			Colecao colecao) throws DataException;
+	public List<Musica> listarMusicasSemChaveUnica() throws DataException;
+	public void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException;
+	public InputStream getCapaDiscoMusica(Musica m) throws DataException;
+}
