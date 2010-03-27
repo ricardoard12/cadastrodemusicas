@@ -7,16 +7,13 @@ import fachada.Fachada;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,8 +36,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicSliderUI;
-
-import com.sun.media.sound.MidiUtils.TempoCache;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jlgui.basicplayer.BasicPlayer;
@@ -78,6 +73,10 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private final ImageIcon PAUSE_LABEL_PAUSE = new ImageIcon(getClass().getResource("/figuras/media/media_pause.png"));  //  @jve:decl-index=0:
 	private final ImageIcon PAUSE_LABEL_PLAY = new ImageIcon(getClass().getResource("/figuras/media/media_play_green.png"));
+	private JButton buttonExportarPlaylist;
+	private JButton buttonCarregarPlaylist;
+	private JButton buttonExcluirPlaylist;
+	private JButton buttonSalvarPlaylist;
 	private JButton configuracoesButton;
 	private JLabel duracaoPlaylistLabel;
 	private JButton abaixoButton;
@@ -498,6 +497,42 @@ public class PlayerPanel extends javax.swing.JPanel {
 						}
 					});
 				}
+				{
+					buttonSalvarPlaylist = new JButton();
+					buttonSalvarPlaylist.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/disk_blue16x16.png")));
+					buttonSalvarPlaylist.setMargin(new java.awt.Insets(3, 4, 2, 3));
+					botoesPlayListPanel.add(buttonSalvarPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 103), 0, 0));
+					buttonSalvarPlaylist.setSize(27, 25);
+					buttonSalvarPlaylist.setFocusable(false);
+					buttonSalvarPlaylist.setToolTipText("Salvar Playlist Atual");
+					buttonSalvarPlaylist.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							salvarPlaylistAtual();
+						}
+					});
+				}
+				{
+					buttonExcluirPlaylist = new JButton();
+					botoesPlayListPanel.add(buttonExcluirPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 49), 0, 0));
+					buttonExcluirPlaylist.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/garbage.png")));
+					buttonExcluirPlaylist.setMargin(new java.awt.Insets(3, 4, 2, 3));
+					buttonExcluirPlaylist.setFocusable(false);
+					buttonExcluirPlaylist.setToolTipText("Remover Playlists Salvas");
+				}
+				{
+					buttonCarregarPlaylist = new JButton();
+					botoesPlayListPanel.add(buttonCarregarPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 56, 0, 0), 0, 0));
+					buttonCarregarPlaylist.setText("Carregar");
+					buttonCarregarPlaylist.setFocusable(false);
+					buttonCarregarPlaylist.setToolTipText("Carregar Playlist Salva anteriormente");
+				}
+				{
+					buttonExportarPlaylist = new JButton();
+					botoesPlayListPanel.add(buttonExportarPlaylist, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					buttonExportarPlaylist.setText("Exportar");
+					buttonExportarPlaylist.setFocusable(false);
+					buttonExportarPlaylist.setToolTipText("Exportar Playlist Atual Como uma Coleção");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -745,6 +780,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 			}
 		}
 		//$hide<<$
+	}
+	
+	private void salvarPlaylistAtual() {
+		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(null);
+		dialog.setVisible(true);
 	}
 }
 
