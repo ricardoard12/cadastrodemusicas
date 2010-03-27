@@ -56,6 +56,7 @@ public class PlayerFrame extends javax.swing.JFrame {
 			this.setTitle("Player");
 			{
 				playerPanel = new PlayerPanel();
+				playerPanel.setPlayerFrame(this);
 				getContentPane().add(playerPanel, BorderLayout.CENTER);
 				playerPanel.setPreferredSize(new java.awt.Dimension(232, 288));
 			}
