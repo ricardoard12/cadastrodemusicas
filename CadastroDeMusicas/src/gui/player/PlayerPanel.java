@@ -784,6 +784,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private void salvarPlaylistAtual() {
 		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(null);
+		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
 }

@@ -2,15 +2,23 @@ package gui.player;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import javazoom.jlgui.player.amp.util.ini.Array;
+
+import classesbasicas.Playlist;
+import fachada.Fachada;
 
 
 /**
@@ -60,10 +68,17 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 				thisLayout.columnWeights = new double[] {0.1, 0.1};
 				thisLayout.columnWidths = new int[] {7, 7};
 				getContentPane().setLayout(thisLayout);
+				this.setResizable(false);
 				{
+					String[] lista;
+					//$hide>>$
+					List<Playlist> playlists = Fachada.listarPlaylists();
+					lista = new String[playlists.size() + 1];
+					lista[0] = "";
+					for (int i = 1; i <= lista.length; i++) lista[i] = playlists.get(i).getNome();
+					//$hide<<$
 					ComboBoxModel comboBoxEscolherPlaylistModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+						new DefaultComboBoxModel(lista);
 					comboBoxEscolherPlaylist = new JComboBox();
 					getContentPane().add(comboBoxEscolherPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 					comboBoxEscolherPlaylist.setModel(comboBoxEscolherPlaylistModel);
@@ -79,6 +94,11 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 					buttonCadastrarPlaylistEscolhida.setText("Salvar na Playlist");
 					buttonCadastrarPlaylistEscolhida.setFocusable(false);
 					buttonCadastrarPlaylistEscolhida.setToolTipText("Salva os Arquivos para a Playlist Escolhida ao Lado");
+					buttonCadastrarPlaylistEscolhida.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							
+						}
+					});
 				}
 				{
 					buttonNovaPlaylist = new JButton();

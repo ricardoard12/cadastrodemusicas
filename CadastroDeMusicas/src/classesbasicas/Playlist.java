@@ -8,6 +8,8 @@ public class Playlist {
 	private String nome;
 	
 	private List<Musica> itens = new ArrayList<Musica>();
+	
+	public static String NOME_PLAYLIST_PADRAO = "default";
 
 	public int getIdPlaylist() {
 		return idPlaylist;

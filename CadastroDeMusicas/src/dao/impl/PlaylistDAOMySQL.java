@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import bd.BDUtil;
 import classesbasicas.Musica;
@@ -72,7 +73,6 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 			e.printStackTrace();
 			throw new DataException("Não foi possível cadastrar a Playlist.");
 		}
-
 	}
 
 	public Playlist getPlaylist(String nome) throws DataException {
@@ -110,5 +110,44 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 			throw new DataException("Não foi possível realizar a operação");
 		}
 	}
+
+	public List<Playlist> listarPlaylists() throws DataException {
+		String sql = "SELECT * FROM playlist WHERE nome <> '" + Playlist.NOME_PLAYLIST_PADRAO + "' ORDER BY nome";
+		List<Playlist> playlists = new ArrayList<Playlist>();
+		
+		try {
+			Statement s = BDUtil.getConexao().createStatement();
+			ResultSet r = s.executeQuery(sql);
+			
+			while (r.next()) {
+				Playlist p = new Playlist();
+				
+				p.setIdPlaylist(r.getInt("idPlaylist"));
+				p.setNome(r.getString("nome"));
+				p.setItens(new ArrayList<Musica>());
+				p.setItens(new ArrayList<Musica>());
+				
+				sql = "SELECT * FROM playlistitem WHERE idPlaylist = " + p.getIdPlaylist() + " ORDER BY ordem";
+				
+				s = BDUtil.getConexao().createStatement();
+				ResultSet mus = s.executeQuery(sql);
+				
+				MusicaDAO mDAO = new MusicaDAOMySQL();
+				while (mus.next()) {
+					int id = mus.getInt("idMusica");
+					p.getItens().add(mDAO.getMusica(id));
+				}
+				
+				playlists.add(p);
+			}
+			
+			return playlists;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataException("Não foi possível realizar a operação");
+		}
+	}
+	
+	
 
 }
