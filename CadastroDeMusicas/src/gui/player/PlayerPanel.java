@@ -527,6 +527,12 @@ public class PlayerPanel extends javax.swing.JPanel {
 					buttonCarregarPlaylist.setText("Carregar");
 					buttonCarregarPlaylist.setFocusable(false);
 					buttonCarregarPlaylist.setToolTipText("Carregar Playlist Salva anteriormente");
+					buttonCarregarPlaylist.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							carregarPlaylist();
+						}
+
+					});
 				}
 				{
 					buttonExportarPlaylist = new JButton();
@@ -796,5 +802,12 @@ public class PlayerPanel extends javax.swing.JPanel {
 		this.playerFrame = playerFrame;
 	}
 	//$hide<<$
+	
+	
+	private void carregarPlaylist() {
+		//$hide>>$
+		
+		//$hide<<$
+	}
 }
 
