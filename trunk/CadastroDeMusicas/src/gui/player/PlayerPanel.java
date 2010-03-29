@@ -519,6 +519,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					buttonExcluirPlaylist.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/garbage.png")));
 					buttonExcluirPlaylist.setMargin(new java.awt.Insets(3, 4, 2, 3));
 					buttonExcluirPlaylist.setFocusable(false);
+					buttonExcluirPlaylist.setEnabled(false);
 					buttonExcluirPlaylist.setToolTipText("Remover Playlists Salvas");
 				}
 				{
@@ -539,6 +540,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					botoesPlayListPanel.add(buttonExportarPlaylist, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					buttonExportarPlaylist.setText("Exportar");
 					buttonExportarPlaylist.setFocusable(false);
+					buttonExportarPlaylist.setEnabled(false);
 					buttonExportarPlaylist.setToolTipText("Exportar Playlist Atual Como uma Coleção");
 				}
 			}
@@ -806,7 +808,20 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private void carregarPlaylist() {
 		//$hide>>$
+		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame);
+		dialog.setModal(true);
+		dialog.setVisible(true);
+		String nome = dialog.getPlaylistEscolhida();
 		
+		if (nome != null) {
+			try {
+				Playlist p = Fachada.getPlaylist(nome);
+				open(p.getItens());
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		//$hide<<$
 	}
 }
