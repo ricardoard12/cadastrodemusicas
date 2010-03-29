@@ -43,7 +43,7 @@ public class PlayerFrame extends javax.swing.JFrame {
 	
 	public PlayerFrame() {
 		super();
-		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		setModalExclusionType(ModalExclusionType.NO_EXCLUDE);
 		initGUI();
 	}
 	
