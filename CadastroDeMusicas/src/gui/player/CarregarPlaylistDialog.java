@@ -92,6 +92,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 					buttonOK.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							playlistEscolhida = (String) comboBoxPlaylists.getSelectedItem();
+							if (playlistEscolhida.equals("")) playlistEscolhida = null;
 							dispose();
 						}
 					});
