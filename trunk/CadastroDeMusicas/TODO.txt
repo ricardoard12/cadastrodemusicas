@@ -1,5 +1,4 @@
 
-salvar a lista de reprodução
 fazer com que as alterações nas músicas se reflitam no player
 Colocar recurso de sincronização
 Se recuperar de erro com o bd na inicialização (tentar matar o processo e iniciar novamente, ou se não conseguir matar, iniciar em outra porta)
