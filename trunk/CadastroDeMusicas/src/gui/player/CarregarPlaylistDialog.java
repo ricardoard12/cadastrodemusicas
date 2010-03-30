@@ -86,12 +86,12 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 					ComboBoxModel comboBoxPlaylistModel = 
 						new DefaultComboBoxModel(lista);
 					comboBoxPlaylists = new JComboBox();
-					getContentPane().add(comboBoxPlaylists, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(comboBoxPlaylists, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 					comboBoxPlaylists.setModel(comboBoxPlaylistModel);
 				}
 				{
 					buttonOK = new JButton();
-					getContentPane().add(buttonOK, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(buttonOK, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 					buttonOK.setText("OK");
 					buttonOK.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
