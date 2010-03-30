@@ -147,6 +147,23 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 			throw new DataException("Não foi possível realizar a operação");
 		}
 	}
+
+	public void removerPlaylist(Playlist playlist) throws DataException {
+		if (playlist.getIdPlaylist() <= 0) {
+			return;
+		}
+		
+		Statement s;
+		try {
+			s = BDUtil.getConexao().createStatement();
+			String sql = "DELETE FROM playlistitem WHERE idPlaylist = " + playlist.getIdPlaylist();
+			s.execute(sql);
+			sql = "DELETE FROM playlist WHERE idPlaylist = " + playlist.getIdPlaylist();
+			s.execute(sql);
+		} catch (SQLException e) {
+			throw new DataException("Não foi possível remover a Playlist.");
+		}		
+	}
 	
 	
 

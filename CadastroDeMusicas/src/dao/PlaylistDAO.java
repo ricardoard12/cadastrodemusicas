@@ -10,4 +10,5 @@ public interface PlaylistDAO {
 	public void alterarPlaylist(Playlist playlist) throws DataException;
 	public Playlist getPlaylist(String nome) throws DataException;
 	public List<Playlist> listarPlaylists() throws DataException;
+	public void removerPlaylist(Playlist playlist) throws DataException;
 }

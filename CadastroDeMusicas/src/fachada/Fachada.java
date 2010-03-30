@@ -545,6 +545,11 @@ public class Fachada {
 		return pDAO.cadastrarPlaylist(p);
 	}
 	
+	public static void removerPlaylist(Playlist p) throws DataException {
+		PlaylistDAO pDAO = new PlaylistDAOMySQL();
+		pDAO.removerPlaylist(p);
+	}
+	
 	// métodos de teste	
 	public static void criaRelatorioDeTeste() {
 		List<MusicaNaColecao> set = new ArrayList<MusicaNaColecao>();
