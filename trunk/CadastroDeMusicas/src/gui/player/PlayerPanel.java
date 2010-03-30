@@ -544,7 +544,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 					botoesPlayListPanel.add(buttonExportarPlaylist, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					buttonExportarPlaylist.setText("Exportar");
 					buttonExportarPlaylist.setFocusable(false);
-					buttonExportarPlaylist.setEnabled(false);
 					buttonExportarPlaylist.setToolTipText("Exportar Playlist Atual Como uma Coleção");
 				}
 			}
