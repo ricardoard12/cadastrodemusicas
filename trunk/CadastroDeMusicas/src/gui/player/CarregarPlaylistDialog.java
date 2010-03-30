@@ -35,6 +35,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 	private JComboBox comboBoxPlaylists;
 	private JButton buttonOK;
 	private String playlistEscolhida = null;
+	private boolean remover = false;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -43,14 +44,15 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JFrame frame = new JFrame();
-				CarregarPlaylistDialog inst = new CarregarPlaylistDialog(frame);
+				CarregarPlaylistDialog inst = new CarregarPlaylistDialog(frame, false);
 				inst.setVisible(true);
 			}
 		});
 	}
 	
-	public CarregarPlaylistDialog(JFrame frame) {
+	public CarregarPlaylistDialog(JFrame frame, boolean remover) {
 		super(frame);
+		this.remover = remover;
 		initGUI();
 	}
 	
@@ -58,6 +60,8 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 		try {
 			{
 				GridBagLayout thisLayout = new GridBagLayout();
+				if (remover) this.setTitle("Remover Playlist");
+				else this.setTitle("Carregar Playlist");
 				this.setTitle("Carregar Playlist");
 				thisLayout.rowWeights = new double[] {0.1, 0.1};
 				thisLayout.rowHeights = new int[] {7, 7};
