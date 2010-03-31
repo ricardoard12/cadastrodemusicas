@@ -68,10 +68,10 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 				thisLayout.columnWeights = new double[] {0.9, 0.1};
 				thisLayout.columnWidths = new int[] {7, 7};
 				getContentPane().setLayout(thisLayout);
-				this.setPreferredSize(new java.awt.Dimension(200, 82));
+				this.setPreferredSize(new java.awt.Dimension(200, 94));
 				{
 					labelPlaylists = new JLabel();
-					getContentPane().add(labelPlaylists, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(labelPlaylists, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 					labelPlaylists.setText("Playlists");
 				}
 				{
@@ -88,11 +88,14 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 					comboBoxPlaylists = new JComboBox();
 					getContentPane().add(comboBoxPlaylists, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 					comboBoxPlaylists.setModel(comboBoxPlaylistModel);
+					comboBoxPlaylists.setPreferredSize(new java.awt.Dimension(125, 23));
 				}
 				{
 					buttonOK = new JButton();
-					getContentPane().add(buttonOK, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(buttonOK, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 0, 0), 0, 0));
 					buttonOK.setText("OK");
+					buttonOK.setPreferredSize(new java.awt.Dimension(45, 23));
+					buttonOK.setSize(45, 23);
 					buttonOK.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							playlistEscolhida = (String) comboBoxPlaylists.getSelectedItem();
@@ -103,7 +106,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 				}
 			}
 			pack();
-			this.setSize(200, 82);
+			this.setSize(200, 94);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
