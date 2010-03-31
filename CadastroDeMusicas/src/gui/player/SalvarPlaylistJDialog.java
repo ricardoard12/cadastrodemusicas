@@ -2,6 +2,7 @@ package gui.player;
 import exceptions.DataException;
 import fachada.Fachada;
 
+import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -59,7 +60,7 @@ public class SalvarPlaylistJDialog extends javax.swing.JDialog {
 	
 	public SalvarPlaylistJDialog(JFrame frame) {
 		super(frame);
-		setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
+		this.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 		initGUI();
 	}
 	

@@ -798,7 +798,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void salvarPlaylistAtual() {
 		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(playerFrame);
 		dialog.setPlaylistSalvar(playlist);
-		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
 
@@ -812,7 +811,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void carregarPlaylist() {
 		//$hide>>$
 		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame, false);
-		dialog.setModal(true);
 		dialog.setVisible(true);
 		String nome = dialog.getPlaylistEscolhida();
 		
@@ -831,7 +829,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void removerPlaylist() {
 		//$hide>>$
 		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame, true);
-		dialog.setModal(true);
 		dialog.setVisible(true);
 		String nome = dialog.getPlaylistEscolhida();
 		
