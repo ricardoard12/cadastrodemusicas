@@ -7,9 +7,11 @@ import fachada.Fachada;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -782,6 +784,12 @@ public class PlayerPanel extends javax.swing.JPanel {
 		Object[] itens = {
 			intervaloString, intervaloTextField
 		};
+		
+		JOptionPane pane = new JOptionPane("Teste", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, itens);
+		pane.setWantsInput(true);
+		Dialog dialog = pane.createDialog(this, "Configurações");
+		dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
+		dialog.setVisible(true);
 		
 		if (JOptionPane.showConfirmDialog(this, itens, "Configurações", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 			intervaloEntreMusicas = Integer.parseInt(intervaloTextField.getText());
