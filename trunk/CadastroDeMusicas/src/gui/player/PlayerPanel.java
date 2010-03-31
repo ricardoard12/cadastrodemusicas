@@ -831,7 +831,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void removerPlaylist() {
 		//$hide>>$
 		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame, true);
-		
 		dialog.setModal(true);
 		dialog.setVisible(true);
 		String nome = dialog.getPlaylistEscolhida();

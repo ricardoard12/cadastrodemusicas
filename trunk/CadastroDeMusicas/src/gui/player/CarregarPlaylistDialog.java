@@ -1,4 +1,5 @@
 package gui.player;
+import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -53,6 +54,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 	public CarregarPlaylistDialog(JFrame frame, boolean remover) {
 		super(frame);
 		this.remover = remover;
+		this.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 		initGUI();
 	}
 	
@@ -62,7 +64,6 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 				GridBagLayout thisLayout = new GridBagLayout();
 				if (remover) this.setTitle("Remover Playlist");
 				else this.setTitle("Carregar Playlist");
-				this.setTitle("Carregar Playlist");
 				thisLayout.rowWeights = new double[] {0.1, 0.1};
 				thisLayout.rowHeights = new int[] {7, 7};
 				thisLayout.columnWeights = new double[] {0.9, 0.1};
