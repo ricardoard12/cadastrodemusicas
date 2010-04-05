@@ -1,8 +1,12 @@
 package gui.sincronizacao;
+import exceptions.DataException;
+import fachada.Fachada;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,11 +24,14 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import util.Util;
 import bd.BDUtil;
+import classesbasicas.Cantor;
 import classesbasicas.Log;
+import classesbasicas.Musica;
+import classesbasicas.Log.TipoOperacao;
 import dao.LogDAO;
 import dao.impl.LogDAOMySQL;
-import exceptions.DataException;
 
 
 /**
@@ -163,15 +171,57 @@ public class Sincronizacao extends javax.swing.JFrame {
 			return;
 		}
 		
-		try {
+		// adicionando uma pasta temporária para a cópia de todos os arquivos necessários
+		String nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
+		File tempDir = new File(Util.getCaminhoDiretorioTemporario());
+		File tempDirLogs = new File(tempDir.getPath() + File.separator + nomeDiretorio);
+		while (tempDirLogs.exists()) {
+			nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
+			tempDirLogs = new File(tempDir.getPath() + File.separator + nomeDiretorio);
+		}
+		tempDirLogs.mkdir();
+		
+		try {			
 			LogDAO dao = new LogDAOMySQL();
-			List<Log> logsListados = dao.listarLogs(); // todos os logs
+			List<Log> logsListados = dao.listarLogs(); // todos os logs não excluídos
 			
 			List<Log> logs = new ArrayList<Log>(); // somente os logs que interessam
 			
 			for (Log l: logsListados) {
-				
+				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {					
+					// pegar o arquivo para exportar
+					if (l.getObjeto() instanceof Musica) {
+						Musica mLog = (Musica) l.getObjeto();	
+						
+						List<Log> logsObjeto = Fachada.listarLogs(mLog.getChaveUnica());
+						if (logsObjeto != null && logsObjeto.size() > 0) {
+							// logs
+						}
+						
+						
+						// comparando a data de modified da música para verificar se a versão contida no log é a mais nova
+						// caso não seja, ignorar o Log atual
+						Musica mBD = Fachada.getMusica(mLog.getIdMusica());
+						
+						if (mBD != null && mBD.getModified().equals(mLog.getModified())) {
+							// exportar a música
+							l.setObjeto(mBD); // garante que está pegando a versão mais atual da música
+							logs.add(l);
+							
+							// salvando o arquivo MP3 para o arquivo final
+						} else {
+							// ignorar a música atual
+							continue;
+						}
+					} else if (l.getObjeto() instanceof Cantor) {
+						
+					} else {
+						System.out.println("Erro ao exportar Objeto -> Objeto de Tipo insperado.");
+					}
+				}
 			}
+			
+			// TODO remover arquivos e pasta temporária
 			
 			FileOutputStream fos = new FileOutputStream(caminhoArquivo);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
