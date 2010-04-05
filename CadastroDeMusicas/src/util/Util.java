@@ -45,7 +45,11 @@ public class Util {
 	
 	public static String getCaminhoDiretorioTemporario() {
 		if (caminhoDiretorioTemp == null) {
-			caminhoDiretorioTemp = diretorioBase + File.separator + Constantes.nomeDiretorioTemp;			
+			caminhoDiretorioTemp = diretorioBase + File.separator + Constantes.nomeDiretorioTemp;	
+			File tempDir = new File(caminhoDiretorioTemp);
+			if (!tempDir.exists()) {
+				tempDir.mkdir();
+			}
 		}
 		return caminhoDiretorioTemp;
 	}
@@ -55,9 +59,6 @@ public class Util {
 		String nomeArquivo;
 		
 		File diretorioTemporario = new File(getCaminhoDiretorioTemporario());
-		if (!diretorioTemporario.exists()) {
-			diretorioTemporario.mkdir();
-		}
 		
 		nomeArquivo = Util.gerarChaveUnica("" + (new Date().getTime()) + arquivo.getPath());
 		nomeArquivo = diretorioTemporario.getPath() + File.separator + nomeArquivo;

@@ -128,4 +128,9 @@ public class LogDAOMySQL implements LogDAO {
 		String sql = "SELECT * FROM log WHERE (excluido <> 1) ORDER BY data, idLog";
 		return listarLogsPorConsulta(sql);
 	}
+
+	public List<Log> listarLogs(String chaveUnicaObjeto) throws DataException {
+		String sql = "SELECT * FROM log WHERE (excluido <> 1) AND chaveUnicaObjeto LIKE '" + chaveUnicaObjeto + "' ORDER BY data, idLog";
+		return listarLogsPorConsulta(sql);
+	}
 }

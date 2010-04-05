@@ -143,6 +143,11 @@ public class Fachada {
 		return dao.listarLogs();
 	}
 	
+	public static List<Log> listarLogs(String chaveUnica) throws DataException {
+		LogDAO dao = new LogDAOMySQL();
+		return dao.listarLogs(chaveUnica);
+	}
+	
 	public static List<Musica> listarMusicasSemChaveUnica() throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();
 		return musicaDAO.listarMusicasSemChaveUnica();
