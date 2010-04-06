@@ -241,6 +241,12 @@ public class Fachada {
 		return cDAO.listarColecoes();
 	}
 	
+
+	public static Colecao getColecao(String nome) throws DataException {
+		ColecaoDAO cDAO = new ColecaoDAOMySQL();
+		return cDAO.getColecao(nome);
+	}	
+	
 	// Métodos de cadastro
 	public static void cadastrarMusica(Musica m) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();		
@@ -589,5 +595,6 @@ public class Fachada {
 	// para testar alguns métodos...
 	public static void main(String[] args) {
 		criaRelatorioDeTeste();
-	}	
+	}
+
 }
