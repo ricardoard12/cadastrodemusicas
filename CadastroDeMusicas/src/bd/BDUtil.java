@@ -76,6 +76,7 @@ public class BDUtil {
 						USUARIO, SENHA);
 				
 				// verificar a versão do banco de dados, pra o caso de precisar de atualização
+				// testando a versão anterior à 1.0
 				String sql = "SELECT * FROM configuracoes";
 				Statement stat;			
 				stat = getConexao().createStatement();
@@ -91,6 +92,7 @@ public class BDUtil {
 					if (config == null || config.length() <= 0) {
 						config = "Coleção Checada";
 					}
+					System.out.println("Atualizando o Banco de dados da Versão anterior à 1.0 para a Versão 1.1");
 					String[] sqls = {"ALTER TABLE `musica` ADD `chaveUnica` VARCHAR( 255 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL AFTER `idMusica` ;",
 									 "ALTER TABLE `musica` ADD INDEX ( `chaveUnica` ) ;",
 									 "ALTER TABLE `musica` ADD INDEX `nome_musica` ( `nome` );",
@@ -153,8 +155,72 @@ public class BDUtil {
 									 "ALTER TABLE `musica` CHANGE `nome` `nome` VARCHAR( 500 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;",
 									 "ALTER TABLE `musica` CHANGE `nomearquivo` `nomearquivo` VARCHAR( 600 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;",
 									 "ALTER TABLE `cantor` CHANGE `nomesemespacos` `nomesemespacos` VARCHAR( 250 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;",
-									 "ALTER TABLE `cantor` CHANGE `nome` `nome` VARCHAR( 250 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;"
+									 "ALTER TABLE `cantor` CHANGE `nome` `nome` VARCHAR( 250 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;",
+									 "DROP TABLE `playlist` ;",
+									"CREATE TABLE `cadastrodemusicas`.`playlist` (`idPlaylist` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,`nome` VARCHAR( 160 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,`created` DATETIME NULL ,`modified` DATETIME NULL) ENGINE = InnoDB;",
+									"ALTER TABLE `playlist` CHANGE `idPlaylist` `idPlaylist` BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT ;",
+									"CREATE TABLE `cadastrodemusicas`.`playlistitem` (`idPlaylist` BIGINT UNSIGNED NOT NULL ,`idMusica` BIGINT UNSIGNED NOT NULL ,`ordem` INT NULL DEFAULT '2147483647') ENGINE = InnoDB;",
+									"ALTER TABLE `playlistitem` ADD INDEX ( `idPlaylist` ) ;",
+									"ALTER TABLE `playlistitem` ADD INDEX ( `idMusica` ) ;",
+									"ALTER TABLE `playlistitem` ADD FOREIGN KEY ( `idPlaylist` ) REFERENCES `cadastrodemusicas`.`playlist` (`idPlaylist`) ON DELETE CASCADE ON UPDATE CASCADE ;",
+									"ALTER TABLE `playlistitem` ADD FOREIGN KEY ( `idMusica` ) REFERENCES `cadastrodemusicas`.`musica` (`idMusica`) ON DELETE CASCADE ON UPDATE CASCADE ;",
+									"ALTER TABLE `musicacolecao` CHANGE `ordem` `ordem` INT NULL DEFAULT '2147483647';",
+									"INSERT INTO `cadastrodemusicas`.`playlist` (`idPlaylist` ,`nome` ,`created` ,`modified`) VALUES (NULL , 'default', '2010-02-22 23:26:37', '2010-02-22 23:26:37');",
+									"UPDATE `cadastrodemusicas`.`configuracoes` SET `configuracao` = 'playlist_indice_atual' WHERE `configuracoes`.`configuracao` = 'playlistIndiceAtual';",
+									"INSERT INTO `cadastrodemusicas`.`configuracoes` (`configuracao` ,`valor`) VALUES ('playlist_atual', 'default');",
+									"ALTER TABLE `assunto` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+									"UPDATE assunto SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+									"ALTER TABLE `cantor` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+									"UPDATE cantor SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+									"ALTER TABLE `colecao` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+									"UPDATE colecao SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+									"ALTER TABLE `musica` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+									"UPDATE musica SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+									"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+									"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+									"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1' WHERE `configuracoes`.`configuracao` =  'versao';"
 									};
+					conexao.setAutoCommit(false);
+					for (String s : sqls) {
+						System.out.println(s);
+						stat.addBatch(s);
+						// stat.execute(s);
+					}				
+					stat.executeBatch();
+					conexao.commit();
+					conexao.setAutoCommit(true);
+				}
+
+				// atualizando o banco de dados caso a versão do banco seja a 1.0 (menos alterações no banco) 
+				sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'versao'";
+				rs = stat.executeQuery(sql);				
+				rs.next();
+				if (rs.getString("valor").equals("1.0")) {
+					System.out.println("Atualizando o Banco de Dados da Versão 1.0 para a 1.1");
+					String[] sqls = {"DROP TABLE `playlist` ;",
+							"CREATE TABLE `cadastrodemusicas`.`playlist` (`idPlaylist` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,`nome` VARCHAR( 160 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,`created` DATETIME NULL ,`modified` DATETIME NULL) ENGINE = InnoDB;",
+							"ALTER TABLE `playlist` CHANGE `idPlaylist` `idPlaylist` BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT ;",
+							"CREATE TABLE `cadastrodemusicas`.`playlistitem` (`idPlaylist` BIGINT UNSIGNED NOT NULL ,`idMusica` BIGINT UNSIGNED NOT NULL ,`ordem` INT NULL DEFAULT '2147483647') ENGINE = InnoDB;",
+							"ALTER TABLE `playlistitem` ADD INDEX ( `idPlaylist` ) ;",
+							"ALTER TABLE `playlistitem` ADD INDEX ( `idMusica` ) ;",
+							"ALTER TABLE `playlistitem` ADD FOREIGN KEY ( `idPlaylist` ) REFERENCES `cadastrodemusicas`.`playlist` (`idPlaylist`) ON DELETE CASCADE ON UPDATE CASCADE ;",
+							"ALTER TABLE `playlistitem` ADD FOREIGN KEY ( `idMusica` ) REFERENCES `cadastrodemusicas`.`musica` (`idMusica`) ON DELETE CASCADE ON UPDATE CASCADE ;",
+							"ALTER TABLE `musicacolecao` CHANGE `ordem` `ordem` INT NULL DEFAULT '2147483647';",
+							"INSERT INTO `cadastrodemusicas`.`playlist` (`idPlaylist` ,`nome` ,`created` ,`modified`) VALUES (NULL , 'default', '2010-02-22 23:26:37', '2010-02-22 23:26:37');",
+							"UPDATE `cadastrodemusicas`.`configuracoes` SET `configuracao` = 'playlist_indice_atual' WHERE `configuracoes`.`configuracao` = 'playlistIndiceAtual';",
+							"INSERT INTO `cadastrodemusicas`.`configuracoes` (`configuracao` ,`valor`) VALUES ('playlist_atual', 'default');",
+							"ALTER TABLE `assunto` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+							"UPDATE assunto SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+							"ALTER TABLE `cantor` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+							"UPDATE cantor SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+							"ALTER TABLE `colecao` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+							"UPDATE colecao SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+							"ALTER TABLE `musica` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+							"UPDATE musica SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+							"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
+							"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
+							"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1' WHERE `configuracoes`.`configuracao` =  'versao';"
+							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
 						System.out.println(s);

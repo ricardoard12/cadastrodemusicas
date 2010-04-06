@@ -7,7 +7,6 @@ import fachada.Fachada;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -32,7 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -547,6 +545,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 					buttonExportarPlaylist.setText("Exportar");
 					buttonExportarPlaylist.setFocusable(false);
 					buttonExportarPlaylist.setToolTipText("Exportar Playlist Atual Como uma Coleção");
+					buttonExportarPlaylist.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							exportarPlaylist();
+						}
+					});
 				}
 			}
 		} catch (Exception e) {
@@ -777,22 +780,13 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private void abrirConfiguracoesPlayer() {
 		//$hide>>$
-		String intervaloString = "Intervalo Entre as Músicas";
-		JTextField intervaloTextField = new JTextField();
-		intervaloTextField.setText("" + intervaloEntreMusicas);
-		
-		Object[] itens = {
-			intervaloString, intervaloTextField
-		};
-		
-		JOptionPane pane = new JOptionPane("Teste", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, itens);
-		pane.setWantsInput(true);
-		Dialog dialog = pane.createDialog(this, "Configurações");
+		ConfiguracoesPlayerDialog dialog = new ConfiguracoesPlayerDialog(this.playerFrame, intervaloEntreMusicas);
 		dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
 		dialog.setVisible(true);
 		
-		if (JOptionPane.showConfirmDialog(this, itens, "Configurações", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-			intervaloEntreMusicas = Integer.parseInt(intervaloTextField.getText());
+		if (dialog.getOpcaoEscolhida() == ConfiguracoesPlayerDialog.OPCAO_OK) {
+			System.out.println("Novo intevalo entre as músicas: " + dialog.getIntervaloEntreMusicas());
+			intervaloEntreMusicas = dialog.getIntervaloEntreMusicas();
 			try {
 				BDUtil.salvarConfiguracao(Constantes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS, "" + intervaloEntreMusicas);
 			} catch (DataException e) {
@@ -804,9 +798,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 	}
 	
 	private void salvarPlaylistAtual() {
+		//$hide>>$
 		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(playerFrame);
 		dialog.setPlaylistSalvar(playlist);
 		dialog.setVisible(true);
+		//$hide<<$
 	}
 
 	//$hide>>$
@@ -851,6 +847,12 @@ public class PlayerPanel extends javax.swing.JPanel {
 			}
 		}
 		//$hide<<$
+	}
+	
+	private void exportarPlaylist() {
+		ExportarPlaylistJDialog dialog = new ExportarPlaylistJDialog(this.playerFrame);
+		dialog.setPlaylistSalvar(playlist);
+		dialog.setVisible(true);
 	}
 }
 
