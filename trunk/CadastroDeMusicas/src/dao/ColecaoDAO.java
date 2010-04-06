@@ -14,4 +14,5 @@ public interface ColecaoDAO {
 	
 	public void adicionarMusicas(Colecao c, List<Musica> musicas) throws DataException;
 	public void removerMusicas(Colecao c, List<Musica> musicas) throws DataException;
+	public Colecao getColecao(String nome) throws DataException;
 }

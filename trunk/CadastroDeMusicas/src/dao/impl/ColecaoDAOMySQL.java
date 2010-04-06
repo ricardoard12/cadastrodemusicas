@@ -51,6 +51,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			c.setIdColecao(codigo);	
 			c.setCreated(data);
 			c.setModified(data);
+						
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -159,6 +160,13 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			throw new DataException("Erro ao remover as Músicas");
 		}
 		
+	}
+
+	public Colecao getColecao(String nome) throws DataException {
+		String sql = "SELECT * FROM colecao WHERE nome LIKE '" + nome + "'";
+		List<Colecao> colecoes = listarColecoesPorConsulta(sql);
+		if (colecoes != null && colecoes.size() > 0) return colecoes.get(0);
+		return null; 
 	}
 
 }
