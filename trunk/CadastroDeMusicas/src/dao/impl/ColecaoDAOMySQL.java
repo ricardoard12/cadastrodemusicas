@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import bd.BDUtil;
-
-import classesbasicas.Assunto;
 import classesbasicas.Colecao;
 import classesbasicas.Musica;
 import dao.ColecaoDAO;
@@ -23,7 +21,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 		
 	}
 
-	// insere uma nova coleção (sem músicas)
+	// insere uma nova coleção
 	public int cadastrarColecao(Colecao c) throws DataException {
 		String sql = "INSERT INTO colecao (nome, descricao, created, modified) "
 			+ "VALUES (?, ?, ?, ?)";
@@ -51,6 +49,28 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			c.setIdColecao(codigo);	
 			c.setCreated(data);
 			c.setModified(data);
+			
+			// adicionar as músicas na ordem encontrada na coleção
+			if (c.getMusicas() != null && c.getMusicas().size() > 0) {
+				String sqls[] = new String[c.getMusicas().size()];
+				for (int i = 1; i <= c.getMusicas().size(); i++) {
+					sqls[i - 1] = "INSERT INTO musicacolecao (idMusica, idColecao, ordem) VALUES (" + c.getMusicas().get(i -  1).getIdMusica() + ", " 
+									+ c.getIdColecao() + ", " + i + ")";
+				}
+				
+				BDUtil.getConexao().setAutoCommit(false);
+				Statement stat;			
+				stat = BDUtil.getConexao().createStatement();
+				for (String s : sqls) {
+					System.out.println(s);
+					stat.addBatch(s);
+				}				
+				stat.executeBatch();
+				BDUtil.getConexao().commit();
+				BDUtil.getConexao().setAutoCommit(true);
+			}
+			
+			
 						
 			return codigo;
 		} catch (SQLException e) {
