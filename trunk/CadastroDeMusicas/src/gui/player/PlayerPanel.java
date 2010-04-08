@@ -782,6 +782,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		//$hide>>$
 		ConfiguracoesPlayerDialog dialog = new ConfiguracoesPlayerDialog(this.playerFrame, intervaloEntreMusicas);
 		dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
+		dialog.setLocationRelativeTo(this.playerFrame);
 		dialog.setVisible(true);
 		
 		if (dialog.getOpcaoEscolhida() == ConfiguracoesPlayerDialog.OPCAO_OK) {
@@ -800,6 +801,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void salvarPlaylistAtual() {
 		//$hide>>$
 		SalvarPlaylistJDialog dialog = new SalvarPlaylistJDialog(playerFrame);
+		dialog.setLocationRelativeTo(this.playerFrame);
 		dialog.setPlaylistSalvar(playlist);
 		dialog.setVisible(true);
 		//$hide<<$
@@ -815,6 +817,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void carregarPlaylist() {
 		//$hide>>$
 		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame, false);
+		dialog.setLocationRelativeTo(this.playerFrame);
 		dialog.setVisible(true);
 		String nome = dialog.getPlaylistEscolhida();
 		
@@ -833,6 +836,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	private void removerPlaylist() {
 		//$hide>>$
 		CarregarPlaylistDialog dialog = new CarregarPlaylistDialog(playerFrame, true);
+		dialog.setLocationRelativeTo(this.playerFrame);
 		dialog.setVisible(true);
 		String nome = dialog.getPlaylistEscolhida();
 		
@@ -851,6 +855,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	
 	private void exportarPlaylist() {
 		ExportarPlaylistJDialog dialog = new ExportarPlaylistJDialog(this.playerFrame);
+		dialog.setLocationRelativeTo(this.playerFrame);
 		dialog.setPlaylistSalvar(playlist);
 		dialog.setVisible(true);
 	}
