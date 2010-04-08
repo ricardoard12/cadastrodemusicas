@@ -295,6 +295,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 									// if (indice >= 0 && indice < musicas.size()) {
 									if (indiceAtual >= 0 && indiceAtual < playlist.getItens().size()) {
 										tocar(indiceAtual);
+									} else {
+										int indice = playListList.getSelectedIndex();
+										if (indice >= 0 && indice < playlist.getItens().size()) {
+											tocar(indice);
+										}
 									}
 								}
 							} catch (BasicPlayerException e1) {
@@ -725,11 +730,14 @@ public class PlayerPanel extends javax.swing.JPanel {
 			player.stop();
 			playPauseButton.setIcon(PAUSE_LABEL_PLAY);
 			progressoSlider.setValue(0);
+			indiceAtual = -1;
 			if (indiceAtual >= 0 && indiceAtual < playlist.getItens().size()) {
 				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(indiceAtual > 0 ?  playlist.getItens().get(indiceAtual).getDuracao() : 0));	
 			} else {
 				duracaoMusicaAtualLabel.setText("0:00/0:00");
 			}
+			playListList.updateUI();
+			
 			
 			apagarArquivosTemporarios();
 		} catch (BasicPlayerException e) {
