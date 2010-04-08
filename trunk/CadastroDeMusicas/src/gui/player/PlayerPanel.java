@@ -735,6 +735,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 				duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(indiceAtual > 0 ?  playlist.getItens().get(indiceAtual).getDuracao() : 0));	
 			} else {
 				duracaoMusicaAtualLabel.setText("0:00/0:00");
+				nomeMusicaAtualLabel.setText("Nenhuma Música Sendo Tocada");
 			}
 			playListList.updateUI();
 			
