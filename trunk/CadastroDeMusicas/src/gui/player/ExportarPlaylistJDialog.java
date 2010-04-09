@@ -161,34 +161,13 @@ public class ExportarPlaylistJDialog extends javax.swing.JDialog {
 				return;
 			}
 			Fachada.cadastrarColecao(colecao);
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*Playlist p = new Playlist();
-		String nome = textFieldNovaPlaylist.getText();
-		
-		if (nome == null || nome.trim().equals("")) {
-			JOptionPane.showMessageDialog(this, "Nome inválido para a Playlist.\nPor favor, preencha ao Lado um nome para a Playlist.", "Nome Inválido", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		
-		try {
-			Playlist validacao = Fachada.getPlaylist(nome);
-			if (validacao != null) {
-				JOptionPane.showMessageDialog(this, "Nome de Playlist já existente no Sistema.\nPor favor, escolha um outro nome para a Playlist.", "Nome Inválido", JOptionPane.ERROR_MESSAGE);
-			}
 			
-			p.setNome(nome);
-			p.setItens(playlistSalvar.getItens());
-			Fachada.adicionarPlaylist(p);
-			
-			JOptionPane.showMessageDialog(this, "Playlist Salva com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Coleção Cadastrada com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		//$hide<<$
 	}
 	
@@ -196,16 +175,16 @@ public class ExportarPlaylistJDialog extends javax.swing.JDialog {
 		//$hide>>$
 		String nome = (String) comboBoxEscolherPlaylist.getSelectedItem();
 		if (nome == null || nome.trim().equals("")) {
-			JOptionPane.showMessageDialog(this, "Por favor, Selecione uma das Playlists ao Lado.", "Playlist Inválida", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Por favor, Selecione uma das Coleções ao Lado.", "Coleção Inválida", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
 		try {
-			Playlist p = Fachada.getPlaylist(nome);
-			p.setItens(playlistSalvar.getItens());
-			Fachada.alterarPlaylist(p);
+			Colecao c = Fachada.getColecao(nome);
+			c.setMusicas(playlistSalvar.getItens());
+			Fachada.alterarColecao(c);
 			
-			JOptionPane.showMessageDialog(this, "Playlist Salva com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Coleção Salva com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
 		} catch (DataException e) {
 			// TODO Auto-generated catch block

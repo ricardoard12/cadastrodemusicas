@@ -462,7 +462,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			sql += "and (qualidade.qualidade like '%" + qualidade + "%') ";
 		}
 				
-		sql +=  "group by musica.idMusica order by musica.nome";
+		sql +=  "group by musica.idMusica order by ordem, musica.nome";
 						
 		System.out.println(sql);
 		
