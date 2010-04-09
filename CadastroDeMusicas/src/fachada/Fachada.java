@@ -522,6 +522,11 @@ public class Fachada {
 		musicaDAO.alterarMusica(m);
 	}
 	
+	public static void alterarColecao(Colecao c) throws DataException {
+		ColecaoDAO colecaoDAO = new ColecaoDAOMySQL();
+		colecaoDAO.alterarColecao(c);
+	} 
+	
 	public static void dispararAlteracaoArquivoMusica(Musica m) {
 		return;
 	}

@@ -18,7 +18,49 @@ import exceptions.DataException;
 public class ColecaoDAOMySQL implements ColecaoDAO {
 
 	public void alterarColecao(Colecao c) throws DataException {
-		
+		try {
+			// Removendo as músicas atuais da coleção
+			String sql = "DELETE FROM musicacolecao WHERE idColecao = " + c.getIdColecao();
+			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
+			stat.execute();
+			System.out.println("Músicas antigas removidas da coleção");
+
+			sql = "UPDATE colecao SET nome=?, descricao=?, modified = ? WHERE idColecao=?";
+
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+
+			ps.setString(1, c.getNome());
+			ps.setString(2, c.getDescricao());
+			Date modified = new Date();
+			ps.setTimestamp(3, new Timestamp((modified.getTime())));	
+			ps.setInt(4, c.getIdColecao());
+
+			ps.execute();
+			c.setModified(modified);
+
+			// cadastrando as novas músicas
+			if (c.getMusicas() != null && c.getMusicas().size() > 0) {
+				String sqls[] = new String[c.getMusicas().size()];
+				for (int i = 1; i <= c.getMusicas().size(); i++) {
+					sqls[i - 1] = "INSERT INTO musicacolecao (idMusica, idColecao, ordem) VALUES (" + c.getMusicas().get(i -  1).getIdMusica() + ", " 
+									+ c.getIdColecao() + ", " + i + ")";
+				}
+				
+				BDUtil.getConexao().setAutoCommit(false);
+				Statement pstat;			
+				pstat = BDUtil.getConexao().createStatement();
+				for (String s : sqls) {
+					System.out.println(s);
+					pstat.addBatch(s);
+				}				
+				pstat.executeBatch();
+				BDUtil.getConexao().commit();
+				BDUtil.getConexao().setAutoCommit(true);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// insere uma nova coleção
@@ -70,8 +112,6 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				BDUtil.getConexao().setAutoCommit(true);
 			}
 			
-			
-						
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +121,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 
 	private List<Colecao> listarColecoesPorConsulta(String sql) throws DataException {
 		List<Colecao> lista = new ArrayList<Colecao>();
-		
+
 		try {
 			Statement s = BDUtil.getConexao().createStatement();
 			ResultSet r = s.executeQuery(sql);
