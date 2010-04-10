@@ -93,7 +93,7 @@ public class MusicasInternalFrame extends JInternalFrame {
 	 * 	
 	 * @return gui.musicas.ProcurarMusicasPanel	
 	 */
-	private ProcurarMusicasPanel getProcurarMusicasPanel() {
+	public ProcurarMusicasPanel getProcurarMusicasPanel() {
 		if (procurarMusicasPanel == null) {
 			procurarMusicasPanel = new ProcurarMusicasPanel();
 			procurarMusicasPanel.setPai(this);
@@ -121,10 +121,14 @@ public class MusicasInternalFrame extends JInternalFrame {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		GlobalPlayer.stop();
-		super.dispose();
+		fechar();
 	}
+	
+	public void fechar() {
+		GlobalPlayer.stop();
+		super.dispose();	
+	}
+	
 	
 	public void musicaFoiCadastrada() {
 		getProcurarMusicasPanel().procurarMusicas();

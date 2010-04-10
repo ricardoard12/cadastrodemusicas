@@ -1106,6 +1106,10 @@ public class ProcurarMusicasPanel extends JPanel {
 	
 	private void atualizarColecoes() {
 		//$hide>>$
+		// verificando as coleções selecionadas em colecoesComboBox e colecoesBuscaComboBox
+		String colecoes = (String) this.getColecoesComboBox().getSelectedItem();
+		String colecoesBusca = (String) this.getColecaoBuscaComboBox().getSelectedItem();
+		
 		try {
 			this.colecoes = Fachada.listarColecoes();
 		} catch (DataException e) {
@@ -1125,6 +1129,14 @@ public class ProcurarMusicasPanel extends JPanel {
 		getColecoesComboBox().setModel(colecoesComboBoxModel);
 		ComboBoxModel colecaoBuscaComboBoxModel = new DefaultComboBoxModel(itens);
 		getColecaoBuscaComboBox().setModel(colecaoBuscaComboBoxModel);
+		
+		if (colecoes != null && !colecoes.equals("")) {
+			getColecoesComboBox().setSelectedItem(colecoes);
+		}
+		if (colecoesBusca != null && !colecoesBusca.equals("")) {
+			getColecaoBuscaComboBox().setSelectedItem(colecoesBusca);
+			procurarMusicas();
+		}
 		//$hide<<$
 	}
 	
@@ -1281,6 +1293,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			});
 		}
 		return anoTextField;
+	}
+
+	public void novaColecaoCadastrada() {
+		System.out.println("Nova coleção Cadastrada.");
+		atualizarColecoes();
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
