@@ -152,3 +152,5 @@ ALTER TABLE `cantor` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DA
 ALTER TABLE `colecao` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;
 ALTER TABLE `musica` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;
 ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;
+set max_allowed_packet = 32000000;
+-- show variables like 'max%' ;
