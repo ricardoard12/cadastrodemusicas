@@ -132,7 +132,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, m.getNome());
 			ps.setString(2, m.getLetra());

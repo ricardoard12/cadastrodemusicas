@@ -45,7 +45,7 @@ public class CantorDAOMySQL implements CantorDAO {
 			+ "VALUES (?, ?, ?, ?, ?)";
 		
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, c.getNomeSemEspacos());
 			ps.setString(2, c.getNome());

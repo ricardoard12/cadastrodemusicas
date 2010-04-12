@@ -42,7 +42,7 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			+ "VALUES (?, ?, ?, ?)";
 	
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, a.getAssunto());
 			ps.setString(2, a.getChaveUnica());

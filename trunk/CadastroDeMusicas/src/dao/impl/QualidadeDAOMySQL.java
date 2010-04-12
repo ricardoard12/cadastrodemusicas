@@ -25,7 +25,7 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 			+ "VALUES (?)";
 	
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, q.getQualidade());
 			
