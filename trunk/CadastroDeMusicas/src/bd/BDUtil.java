@@ -279,7 +279,7 @@ public class BDUtil {
 	
 	private static String getUrl() {
 		return "jdbc:mysql:mxj://localhost:" + porta + "/" + DATABASE_NAME + "?"
-	    + "server.basedir=" + DIRETORIO_BD;
+	    + "server.basedir=" + DIRETORIO_BD + "&server.max_allowed_packet=32000000";
 	}
 		
 	public static void backupBD(String nomeArquivo) {
