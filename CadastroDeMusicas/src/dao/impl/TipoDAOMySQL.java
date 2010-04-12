@@ -43,7 +43,7 @@ public class TipoDAOMySQL implements TipoDAO {
 			+ "VALUES (?, ?, ?, ?)";
 	
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, t.getTipo());
 			ps.setString(2, t.getChaveUnica());

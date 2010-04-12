@@ -25,7 +25,7 @@ public class LogDAOMySQL implements LogDAO {
 		try {
 			String sql = "INSERT INTO log (chaveUnica, tipoOperacao, classeObjeto, objeto, data, chaveUnicaObjeto) VALUES (?, ?, ?, ?, ?, ?)";
 
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	        ObjectOutputStream oos;

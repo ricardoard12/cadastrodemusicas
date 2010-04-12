@@ -48,7 +48,7 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 		String sql = "INSERT INTO playlist(nome) VALUES(?)";
 		
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, playlist.getNome());
 			ps.execute();
 

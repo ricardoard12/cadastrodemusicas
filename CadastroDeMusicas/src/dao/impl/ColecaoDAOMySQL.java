@@ -69,7 +69,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			+ "VALUES (?, ?, ?, ?)";
 
 		try {
-			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, c.getNome());
 			if (c.getDescricao() == null || c.getDescricao().length() <= 0) {
