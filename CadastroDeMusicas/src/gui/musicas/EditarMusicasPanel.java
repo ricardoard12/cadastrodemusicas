@@ -1631,7 +1631,14 @@ public class EditarMusicasPanel extends JPanel {
 			String nomeArquivoAntigo = "";
 			
 			try {
-				nomeArquivoAntigo = Fachada.getMusica(musica.getIdMusica()).getNomeArquivo();
+				Musica mTemp = Fachada.getMusica(musica.getIdMusica());
+				if (mTemp != null) {
+					nomeArquivoAntigo = mTemp.getNomeArquivo();	
+				} else {
+					cancelarOperacao();
+					return;
+				}
+				
 				System.out.println(nomeArquivoAntigo);
 			} catch (DataException e) {
 				// TODO Auto-generated catch block
