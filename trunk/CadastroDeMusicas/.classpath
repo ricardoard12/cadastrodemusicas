@@ -9,7 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jl1.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jlgui3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mp3spi1.9.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.0.6-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/tritonus_share.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jakarta-regexp-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/nanoxml-lite-2.2.3.jar"/>
@@ -25,6 +24,7 @@
 	<classpathentry kind="lib" path="lib/myid3.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-mxj-gpl-5-0-11/mysql-connector-mxj-gpl-5-0-11-db-files.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-mxj-gpl-5-0-11/mysql-connector-mxj-gpl-5-0-11.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.12-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/looks-2.1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
