@@ -381,10 +381,10 @@ public class Fachada {
 		// inputParameters.put("sometitle","first report");
 		parameters.put(Constantes.NUMERO_MUSICAS, "" + colecao.size());
 		try {
-			JasperReport jasperReport = JasperCompileManager.compileReport("relatorios" + File.separator + "ColecaoPorOrdemAlfabetica.jrxml");
+			// JasperReport jasperReport = JasperCompileManager.compileReport("relatorios" + File.separator + "ColecaoPorOrdemAlfabetica.jrxml");
 			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(colecao);
-			// jasperPrint = JasperFillManager.fillReport("relatorios" + File.separator + "ColecaoPorOrdemAlfabetica.jasper", parameters, ds);
-			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+			jasperPrint = JasperFillManager.fillReport("relatorios" + File.separator + "ColecaoPorOrdemAlfabetica.jasper", parameters, ds);
+			// jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
 			// for a pdf
 			// JasperViewer.viewReport(jasperPrint, false);
 			
