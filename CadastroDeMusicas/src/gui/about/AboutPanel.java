@@ -19,6 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.MatteBorder;
 
+import exceptions.ConfiguracaoInexistenteException;
+import exceptions.DataException;
+
+import bd.BDUtil;
+
 public class AboutPanel extends JPanel implements ActionListener
 {
   /**
@@ -54,12 +59,28 @@ public class AboutPanel extends JPanel implements ActionListener
     MaxX = (int)this.getSize().getWidth();
     MaxY = (int)this.getSize().getHeight();
 
-    String version = "Desenvolvido por: Fábio Delicato";
+    String programa = "Sistema de Cadastro de Músicas (MP3)";
+    String versao = "";
+    try {
+		 versao = "Versão " + BDUtil.getConfiguracao("versao");
+	} catch (ConfiguracaoInexistenteException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (DataException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    String desenvolvidoPor = "Desenvolvido por: Fábio Delicato";
     String fones = "Fones: (81)9174-9666 / (81)3429-6414";
     String email = "E-Mail: fabiodfmelo@gmail.com";
-    graph.drawString(version, (MaxX - fonte.stringWidth(fones) - 6),(24));
-    graph.drawString(fones, (MaxX - fonte.stringWidth(fones) - 6),(38));
-    graph.drawString(email, (MaxX - fonte.stringWidth(fones) - 6),(52));
+    String dataRelease = "14/04/2010";
+    graph.drawString(programa, (MaxX - fonte.stringWidth(fones) - 6),(24));
+    graph.drawString(versao, (MaxX - fonte.stringWidth(fones) - 6),(38));
+    
+    graph.drawString(desenvolvidoPor, (MaxX - fonte.stringWidth(fones) - 6),(66));
+    graph.drawString(fones, (MaxX - fonte.stringWidth(fones) - 6),(80));
+    graph.drawString(email, (MaxX - fonte.stringWidth(fones) - 6),(94));
+    graph.drawString(dataRelease, (MaxX - fonte.stringWidth(dataRelease) - 6), MaxY - 6);
 
     graph = graph.create( (MaxX - width) / 2, 120, width, MaxY - 160);
 
