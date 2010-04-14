@@ -1,5 +1,6 @@
 package gui;
 
+import exceptions.ConfiguracaoInexistenteException;
 import exceptions.DataException;
 import exceptions.DiretorioBaseInvalidoException;
 import fachada.Fachada;
@@ -718,6 +719,14 @@ public class CadastroDeMusicas extends JFrame {
 				CadastroDeMusicas thisClass = new CadastroDeMusicas();
 				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				thisClass.setVisible(true);
+				try {
+					thisClass.setTitle(thisClass.getTitle() + " (Versão " + BDUtil.getConfiguracao("versao") + ")");
+				} catch (ConfiguracaoInexistenteException e) {
+					e.printStackTrace();
+				} catch (DataException e) {
+					e.printStackTrace();
+					System.out.println("Erro ao recuperar a configuracao de versao do sistema.");
+				}
 			}
 		});
 		//$hide>>$
