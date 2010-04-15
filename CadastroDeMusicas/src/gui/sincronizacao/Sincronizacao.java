@@ -164,13 +164,13 @@ public class Sincronizacao extends javax.swing.JFrame {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);					
 		int opcao = chooser.showOpenDialog(this);
 		String caminhoArquivo = null;
-		
+
 		if (opcao == JFileChooser.APPROVE_OPTION) { 
 			 caminhoArquivo = chooser.getSelectedFile().getPath();
 		} else {
 			return;
 		}
-		
+
 		// adicionando uma pasta temporária para a cópia de todos os arquivos necessários
 		String nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
 		File tempDir = new File(Util.getCaminhoDiretorioTemporario());
@@ -188,7 +188,7 @@ public class Sincronizacao extends javax.swing.JFrame {
 			List<Log> logs = new ArrayList<Log>(); // somente os logs que interessam
 			
 			for (Log l: logsListados) {
-				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {					
+				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {
 					// pegar o arquivo para exportar
 					if (l.getObjeto() instanceof Musica) {
 						Musica mLog = (Musica) l.getObjeto();	
