@@ -524,7 +524,7 @@ public class CadastroDeMusicas extends JFrame {
 		if (desktopPane == null) {
 			backgroundLabel = new JLabel();
 			backgroundLabel.setBounds(-6, 181, 577, 391);
-			backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/music-notes.jpg")));
+			backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/music-notes-transp.jpg")));
 			backgroundLabel.setText("");
 			mysqlLabel = new JLabel();
 			mysqlLabel.setBounds(new Rectangle(613, 410, 174, 120));
