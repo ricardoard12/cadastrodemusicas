@@ -523,8 +523,8 @@ public class CadastroDeMusicas extends JFrame {
 	private JDesktopPane getDesktopPane() {
 		if (desktopPane == null) {
 			backgroundLabel = new JLabel();
-			backgroundLabel.setBounds(new Rectangle(22, 251, 298, 272));
-			backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/Sol+Lua+e+Estrela.png")));
+			backgroundLabel.setBounds(-6, 181, 577, 391);
+			backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/music-notes.jpg")));
 			backgroundLabel.setText("");
 			mysqlLabel = new JLabel();
 			mysqlLabel.setBounds(new Rectangle(613, 410, 174, 120));
@@ -532,6 +532,7 @@ public class CadastroDeMusicas extends JFrame {
 			mysqlLabel.setText("");
 			desktopPane = new JDesktopPane();
 			desktopPane.setBackground(new java.awt.Color(255,255,255));
+			desktopPane.setPreferredSize(new java.awt.Dimension(794, 523));
 			desktopPane.add(mysqlLabel, null);
 			desktopPane.add(backgroundLabel, null);
 		}

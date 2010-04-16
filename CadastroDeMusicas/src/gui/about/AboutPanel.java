@@ -31,7 +31,7 @@ public class AboutPanel extends JPanel implements ActionListener
 	 */
 	private static final long serialVersionUID = -649463810582615935L;
 	
-	private Icon imagem = loadImageIcon("/figuras/Sol+Lua+e+Estrela-pequeno.png");
+	private Icon imagem = loadImageIcon("/figuras/music-notes-about.jpg");
 
   private FontMetrics fonte;
   private Vector vector;
