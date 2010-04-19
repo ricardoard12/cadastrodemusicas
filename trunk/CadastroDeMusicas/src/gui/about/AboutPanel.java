@@ -73,7 +73,7 @@ public class AboutPanel extends JPanel implements ActionListener
     String desenvolvidoPor = "Desenvolvido por: Fábio Delicato";
     String fones = "Fones: (81)9174-9666 / (81)3429-6414";
     String email = "E-Mail: fabiodfmelo@gmail.com";
-    String dataRelease = "14/04/2010";
+    String dataRelease = "19/04/2010";
     graph.drawString(programa, (MaxX - fonte.stringWidth(fones) - 6),(24));
     graph.drawString(versao, (MaxX - fonte.stringWidth(fones) - 6),(38));
     
