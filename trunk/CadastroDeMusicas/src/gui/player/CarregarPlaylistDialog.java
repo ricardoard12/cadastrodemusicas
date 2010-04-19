@@ -69,7 +69,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 				thisLayout.columnWeights = new double[] {0.9, 0.1};
 				thisLayout.columnWidths = new int[] {7, 7};
 				getContentPane().setLayout(thisLayout);
-				this.setPreferredSize(new java.awt.Dimension(200, 80));
+				this.setPreferredSize(new java.awt.Dimension(212, 100));
 				{
 					labelPlaylists = new JLabel();
 					getContentPane().add(labelPlaylists, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 4, 0, 4), 0, 0));
@@ -95,8 +95,8 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 					buttonOK = new JButton();
 					getContentPane().add(buttonOK, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 0, 4), 0, 0));
 					buttonOK.setText("OK");
-					buttonOK.setPreferredSize(new java.awt.Dimension(45, 23));
-					buttonOK.setSize(45, 23);
+					buttonOK.setPreferredSize(new java.awt.Dimension(55, 23));
+					buttonOK.setSize(55, 23);
 					buttonOK.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							playlistEscolhida = (String) comboBoxPlaylists.getSelectedItem();
@@ -107,7 +107,7 @@ public class CarregarPlaylistDialog extends javax.swing.JDialog {
 				}
 			}
 			pack();
-			this.setSize(200, 80);
+			this.setSize(212, 100);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

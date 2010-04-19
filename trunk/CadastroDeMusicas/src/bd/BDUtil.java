@@ -77,7 +77,7 @@ public class BDUtil {
 				
 				// verificar a versão do banco de dados, pra o caso de precisar de atualização
 				// testando a versão anterior à 1.0
-				/*String sql = "SELECT * FROM configuracoes";
+				String sql = "SELECT * FROM configuracoes";
 				Statement stat;			
 				stat = getConexao().createStatement();
 				ResultSet rs;
@@ -189,10 +189,10 @@ public class BDUtil {
 					stat.executeBatch();
 					conexao.commit();
 					conexao.setAutoCommit(true);
-				}*/
+				}
 
 				// atualizando o banco de dados caso a versão do banco seja a 1.0 (menos alterações no banco) 
-				/*sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'versao'";
+				sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'versao'";
 				rs = stat.executeQuery(sql);				
 				rs.next();
 				if (rs.getString("valor").equals("1.0")) {
@@ -230,10 +230,10 @@ public class BDUtil {
 					stat.executeBatch();
 					conexao.commit();
 					conexao.setAutoCommit(true);
-				}*/
+				}
 				
 				// atualizar a variavel sincronizacaoAtiva
-				/*sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'sincronizacao'";
+				sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'sincronizacao'";
 				rs = stat.executeQuery(sql);				
 				rs.next();
 				
@@ -243,7 +243,7 @@ public class BDUtil {
 					sincronizacaoAtiva = false;
 				}
 				
-				System.out.println("Sincronizacao: " + sincronizacaoAtiva);*/
+				System.out.println("Sincronizacao: " + sincronizacaoAtiva);
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
