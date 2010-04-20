@@ -1,5 +1,6 @@
 package gui.sincronizacao;
 import exceptions.DataException;
+import exceptions.DiretorioBaseInvalidoException;
 import fachada.Fachada;
 
 import java.awt.event.ActionEvent;
@@ -180,28 +181,46 @@ public class Sincronizacao extends javax.swing.JFrame {
 			tempDirLogs = new File(tempDir.getPath() + File.separator + nomeDiretorio);
 		}
 		tempDirLogs.mkdir();
+		// criado o diretório onde ficarao todos os dados das alteracoes realizadas
 		
 		try {			
 			LogDAO dao = new LogDAOMySQL();
 			List<Log> logsListados = dao.listarLogs(); // todos os logs não excluídos
+			List<String> objetosIgnorar = new ArrayList<String>();
 			
 			List<Log> logs = new ArrayList<Log>(); // somente os logs que interessam
 			
 			for (Log l: logsListados) {
+				// se o objeto já foi processado, ele está inserido na lista dos objetos a ignorar
+				if (objetosIgnorar.indexOf(l.getChaveUnicaObjeto()) >= 0) continue;
+				
+				// Operacao de cadastro: salvar o arquivo da música, mais os dados mais atuais da música
 				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {
 					// pegar o arquivo para exportar
 					if (l.getObjeto() instanceof Musica) {
-						Musica mLog = (Musica) l.getObjeto();	
+						Musica mLog = (Musica) l.getObjeto();
+						Musica musica = Fachada.getMusica(mLog.getIdMusica());
 						
-						List<Log> logsObjeto = Fachada.listarLogs(mLog.getChaveUnica());
+						// se não encontrou a música, ignora o log (a música foi excluída)
+						if (musica == null) {
+							// adicionar o objetos a lista de objetos a ignorar, assim se houver outro log referente ao mesmo objeto, ele nao sera processado
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+
+						// salvando o arquivo MP3 da música para o diretorio temporario
+						Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
+								, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
+						
+						/*List<Log> logsObjeto = Fachada.listarLogs(mLog.getChaveUnica());
 						if (logsObjeto != null && logsObjeto.size() > 0) {
 							// logs
-						}
+						}*/
 						
 						
 						// comparando a data de modified da música para verificar se a versão contida no log é a mais nova
 						// caso não seja, ignorar o Log atual
-						Musica mBD = Fachada.getMusica(mLog.getIdMusica());
+						/*Musica mBD = Fachada.getMusica(mLog.getIdMusica());
 						
 						if (mBD != null && mBD.getModified().equals(mLog.getModified())) {
 							// exportar a música
@@ -212,7 +231,7 @@ public class Sincronizacao extends javax.swing.JFrame {
 						} else {
 							// ignorar a música atual
 							continue;
-						}
+						}*/
 					} else if (l.getObjeto() instanceof Cantor) {
 						
 					} else {
@@ -237,6 +256,9 @@ public class Sincronizacao extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DiretorioBaseInvalidoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
