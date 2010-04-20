@@ -412,6 +412,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					removerDaListaButton.setIcon(new ImageIcon(getClass().getResource("/figuras/media/document_delete.png")));
 					removerDaListaButton.setMargin(new java.awt.Insets(3, 4, 2, 3));
 					removerDaListaButton.setFocusable(false);
+					removerDaListaButton.setToolTipText("Exclui a música selecionada da lista de músicas");
 					removerDaListaButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							int[] indices = playListList.getSelectedIndices();
@@ -440,6 +441,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					acimaButton.setIcon(new ImageIcon(getClass().getResource("/figuras/media/arrow_up_green.png")));
 					acimaButton.setMargin(new java.awt.Insets(3, 4, 2, 3));
 					acimaButton.setFocusable(false);
+					acimaButton.setToolTipText("Altera a ordem da música selecionada (1 antes)");
 					acimaButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							int indice = playListList.getSelectedIndex();
@@ -466,6 +468,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					abaixoButton.setIcon(new ImageIcon(getClass().getResource("/figuras/media/arrow_down_green.png")));
 					abaixoButton.setMargin(new java.awt.Insets(3, 4, 2, 3));
 					abaixoButton.setFocusable(false);
+					abaixoButton.setToolTipText("Altera a ordem da música selecionada (1 depois)");
 					abaixoButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							int indice = playListList.getSelectedIndex();
@@ -497,7 +500,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					configuracoesButton.setIcon(new ImageIcon(getClass().getResource("/figuras/gear_preferences.png")));
 					configuracoesButton.setFocusable(false);
 					configuracoesButton.setMargin(new java.awt.Insets(3, 4, 2, 3));
-					configuracoesButton.setToolTipText("Configurações");
+					configuracoesButton.setToolTipText("Altera as Configurações do Player");
 					configuracoesButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							abrirConfiguracoesPlayer();
@@ -511,7 +514,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					botoesPlayListPanel.add(buttonSalvarPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 103), 0, 0));
 					buttonSalvarPlaylist.setSize(27, 25);
 					buttonSalvarPlaylist.setFocusable(false);
-					buttonSalvarPlaylist.setToolTipText("Salvar Playlist Atual");
+					buttonSalvarPlaylist.setToolTipText("Salvar as músicas da Lista para uma Playlist");
 					buttonSalvarPlaylist.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							salvarPlaylistAtual();
@@ -524,7 +527,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					buttonExcluirPlaylist.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/garbage.png")));
 					buttonExcluirPlaylist.setMargin(new java.awt.Insets(3, 4, 2, 3));
 					buttonExcluirPlaylist.setFocusable(false);
-					buttonExcluirPlaylist.setToolTipText("Remover Playlists Salvas");
+					buttonExcluirPlaylist.setToolTipText("Remover Playlists");
 					buttonExcluirPlaylist.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							removerPlaylist();
@@ -536,7 +539,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					botoesPlayListPanel.add(buttonCarregarPlaylist, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 56, 0, 0), 0, 0));
 					buttonCarregarPlaylist.setText("Carregar");
 					buttonCarregarPlaylist.setFocusable(false);
-					buttonCarregarPlaylist.setToolTipText("Carregar Playlist Salva anteriormente");
+					buttonCarregarPlaylist.setToolTipText("Carregar uma Playlist para a Lista de músicas do Player");
 					buttonCarregarPlaylist.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							carregarPlaylist();
@@ -549,7 +552,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 					botoesPlayListPanel.add(buttonExportarPlaylist, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 					buttonExportarPlaylist.setText("Exportar");
 					buttonExportarPlaylist.setFocusable(false);
-					buttonExportarPlaylist.setToolTipText("Exportar Playlist Atual Como uma Coleção");
+					buttonExportarPlaylist.setToolTipText("Exportar a Lista de músicas atual para uma Coleção");
 					buttonExportarPlaylist.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							exportarPlaylist();
