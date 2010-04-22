@@ -40,12 +40,21 @@ public class Util {
 	}
 	
 	public static String getDiretorioBase() {
+		if (diretorioBase == null) {
+			try {
+				iniciarDiretorioBase();
+			} catch (DiretorioBaseInvalidoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 		return diretorioBase;
 	}
 	
 	public static String getCaminhoDiretorioTemporario() {
 		if (caminhoDiretorioTemp == null) {
-			caminhoDiretorioTemp = diretorioBase + File.separator + Constantes.nomeDiretorioTemp;	
+			caminhoDiretorioTemp = getDiretorioBase() + File.separator + Constantes.nomeDiretorioTemp;	
 			File tempDir = new File(caminhoDiretorioTemp);
 			if (!tempDir.exists()) {
 				tempDir.mkdir();

@@ -27,9 +27,12 @@ import javax.swing.WindowConstants;
 
 import util.Util;
 import bd.BDUtil;
+import classesbasicas.Assunto;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Log;
 import classesbasicas.Musica;
+import classesbasicas.Tipo;
 import classesbasicas.Log.TipoOperacao;
 import dao.LogDAO;
 import dao.impl.LogDAOMySQL;
@@ -173,13 +176,13 @@ public class Sincronizacao extends javax.swing.JFrame {
 		}
 
 		// adicionando uma pasta temporária para a cópia de todos os arquivos necessários
-		String nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
+		String nomeDiretorio = "";
 		File tempDir = new File(Util.getCaminhoDiretorioTemporario());
-		File tempDirLogs = new File(tempDir.getPath() + File.separator + nomeDiretorio);
-		while (tempDirLogs.exists()) {
+		File tempDirLogs = null;
+		do {
 			nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
-			tempDirLogs = new File(tempDir.getPath() + File.separator + nomeDiretorio);
-		}
+			tempDirLogs = new File(tempDir.getAbsolutePath() + File.separator + nomeDiretorio);
+		} while (tempDirLogs.exists());
 		tempDirLogs.mkdir();
 		// criado o diretório onde ficarao todos os dados das alteracoes realizadas
 		
@@ -196,7 +199,6 @@ public class Sincronizacao extends javax.swing.JFrame {
 				
 				// Operacao de cadastro: salvar o arquivo da música, mais os dados mais atuais da música
 				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {
-					// pegar o arquivo para exportar
 					if (l.getObjeto() instanceof Musica) {
 						Musica mLog = (Musica) l.getObjeto();
 						Musica musica = Fachada.getMusica(mLog.getIdMusica());
@@ -212,37 +214,76 @@ public class Sincronizacao extends javax.swing.JFrame {
 						Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
 								, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
 						
-						/*List<Log> logsObjeto = Fachada.listarLogs(mLog.getChaveUnica());
-						if (logsObjeto != null && logsObjeto.size() > 0) {
-							// logs
-						}*/
+						l.setObjeto(musica);
+						logs.add(l);
 						
-						
-						// comparando a data de modified da música para verificar se a versão contida no log é a mais nova
-						// caso não seja, ignorar o Log atual
-						/*Musica mBD = Fachada.getMusica(mLog.getIdMusica());
-						
-						if (mBD != null && mBD.getModified().equals(mLog.getModified())) {
-							// exportar a música
-							l.setObjeto(mBD); // garante que está pegando a versão mais atual da música
-							logs.add(l);
-							
-							// salvando o arquivo MP3 para o arquivo final
-						} else {
-							// ignorar a música atual
-							continue;
-						}*/
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
 					} else if (l.getObjeto() instanceof Cantor) {
-						
+						/*
+						 * pode-se ignorar, pois só interessa um Cantor que faça parte de alguma música.
+						 * e o cantor já vai dentro do objeto Musica quando a música é exportada
+						 */
+					} else if (l.getObjeto() instanceof Tipo) {
+						/*
+						 * pode-se ignorar, pois só interessa um Ritmo (Tipo) que faça parte de alguma música.
+						 * e o tipo já vai dentro do objeto Musica quando a música é exportada
+						 */
+					} else if (l.getObjeto() instanceof Assunto) {
+						/*
+						 * pode-se ignorar, pois só interessa um Assunto que faça parte de alguma música.
+						 * e o Assunto já vai dentro do objeto Musica quando a música é exportada
+						 */
 					} else {
 						System.out.println("Erro ao exportar Objeto -> Objeto de Tipo insperado.");
 					}
+				} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO) {
+					if (l.getObjeto() instanceof Musica) {
+						Musica mLog = (Musica) l.getObjeto();
+						Musica musica = Fachada.getMusica(mLog.getIdMusica());
+						
+						// se não encontrou a música, ignora o log (a música foi excluída)
+						if (musica == null) {
+							// adicionar o objetos a lista de objetos a ignorar, assim se houver outro log referente ao mesmo objeto, ele nao sera processado
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+						
+						l.setObjeto(musica);
+						logs.add(l);
+						
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
+					} else if (l.getObjeto() instanceof Cantor) {
+						Cantor cLog = (Cantor) l.getObjeto();
+						Cantor cantor = Fachada.getCantor(cLog.getIdCantor());
+						if (cantor == null) {
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+						l.setObjeto(cantor);
+						logs.add(l);
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
+					} else if (l.getObjeto() instanceof Tipo) {
+						Tipo tLog = (Tipo) l.getObjeto();
+						Tipo tipo = Fachada.getTipo(tLog.getIdTipo());
+						if (tipo == null) {
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+						l.setObjeto(tipo);
+						logs.add(l);
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
+					} else if (l.getObjeto() instanceof Assunto) {
+						// TODO terminar essa parte!!!!!!!!!!!!!!!!!
+					} else {
+						System.out.println("Erro ao exportar Objeto -> Objeto de Tipo insperado.");
+					}
+
 				}
 			}
 			
-			// TODO remover arquivos e pasta temporária
+			// TODO lembrar de remover arquivos e pasta temporária
 			
-			FileOutputStream fos = new FileOutputStream(caminhoArquivo);
+			FileOutputStream fos = new FileOutputStream(tempDirLogs.getAbsolutePath() + File.separator + Constantes.NOME_ARQUIVO_LOG);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(logs);
 			oos.flush();

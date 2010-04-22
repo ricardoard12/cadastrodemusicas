@@ -216,6 +216,18 @@ public class Fachada {
 		return musicaDAO.getMusica(idMusica);
 	}
 	
+	public static Cantor getCantor(int idCantor) throws DataException {
+		CantorDAO cantorDAO = new CantorDAOMySQL();
+		return cantorDAO.getCantor(idCantor);
+	}
+	
+	public static Tipo getTipo(int idTipo) throws DataException {
+		TipoDAO tipoDAO = new TipoDAOMySQL();
+		return tipoDAO.getTipo(idTipo);
+	}
+	
+	
+	
 	public static InputStream getCapaDiscoMusica(Musica m) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();
 		return musicaDAO.getCapaDiscoMusica(m);
