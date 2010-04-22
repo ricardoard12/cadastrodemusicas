@@ -23,6 +23,8 @@ public class Constantes {
 	
 	public static final String LOCAL_DE_DESTINO = "Local de Destino";
 	
+	public static final String NOME_ARQUIVO_LOG = "logs.bin";
+	
 	// tamanho do cd equivalente a 660MB, e do dvd a 4.2GB
 	public static final long TAMANHO_MAXIMO_CD = 692060160L;
 	public static final long TAMANHO_MAXIMO_DVD = 4509715661L;
