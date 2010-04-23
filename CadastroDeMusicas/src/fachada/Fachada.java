@@ -226,7 +226,10 @@ public class Fachada {
 		return tipoDAO.getTipo(idTipo);
 	}
 	
-	
+	public static Assunto getAssunto(int idAssunto) throws DataException {
+		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+		return assuntoDAO.getAssunto(idAssunto);
+	}
 	
 	public static InputStream getCapaDiscoMusica(Musica m) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();

@@ -8,15 +8,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -132,6 +139,11 @@ public class Sincronizacao extends javax.swing.JFrame {
 				importarDadosButton.setText("Importar Dados");
 				importarDadosButton.setBounds(164, 40, 131, 32);
 				importarDadosButton.setFocusable(false);
+				importarDadosButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						importarDados();
+					}
+				});
 			}
 			{
 				limparDadosButton = new JButton();
@@ -273,15 +285,60 @@ public class Sincronizacao extends javax.swing.JFrame {
 						logs.add(l);
 						objetosIgnorar.add(l.getChaveUnicaObjeto());
 					} else if (l.getObjeto() instanceof Assunto) {
-						// TODO terminar essa parte!!!!!!!!!!!!!!!!!
+						Assunto aLog = (Assunto) l.getObjeto();
+						Assunto assunto = Fachada.getAssunto(aLog.getIdAssunto());
+						if (assunto == null) {
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+						l.setObjeto(assunto);
+						logs.add(l);
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
 					} else {
 						System.out.println("Erro ao exportar Objeto -> Objeto de Tipo insperado.");
 					}
 
+				} else if (l.getTipoOperacao() == TipoOperacao.DELECAO) {
+					logs.add(l);
+					objetosIgnorar.add(l.getChaveUnicaObjeto());
+				} else if (l.getTipoOperacao() == TipoOperacao.ADICAO_CANTOR_A_MUSICA) {
+					if (l.getObjeto() instanceof Musica) {
+						Musica mLog = (Musica) l.getObjeto();
+						Musica musica = Fachada.getMusica(mLog.getIdMusica());
+						
+						// se não encontrou a música, ignora o log (a música foi excluída)
+						if (musica == null) {
+							// adicionar o objetos a lista de objetos a ignorar, assim se houver outro log referente ao mesmo objeto, ele nao sera processado
+							objetosIgnorar.add(l.getChaveUnicaObjeto());
+							continue;
+						}
+						
+						l.setObjeto(musica);
+						logs.add(l);
+						
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
+					} 
+				} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) {
+					Musica mLog = (Musica) l.getObjeto();
+					Musica musica = Fachada.getMusica(mLog.getIdMusica());
+					
+					// se não encontrou a música, ignora o log (a música foi excluída)
+					if (musica == null) {
+						// adicionar o objetos a lista de objetos a ignorar, assim se houver outro log referente ao mesmo objeto, ele nao sera processado
+						objetosIgnorar.add(l.getChaveUnicaObjeto());
+						continue;
+					}
+
+					// salvando o arquivo MP3 da música para o diretorio temporario
+					Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
+							, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
+					
+					l.setObjeto(musica);
+					logs.add(l);
+					
+					objetosIgnorar.add(l.getChaveUnicaObjeto()); 
 				}
 			}
-			
-			// TODO lembrar de remover arquivos e pasta temporária
 			
 			FileOutputStream fos = new FileOutputStream(tempDirLogs.getAbsolutePath() + File.separator + Constantes.NOME_ARQUIVO_LOG);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -289,6 +346,29 @@ public class Sincronizacao extends javax.swing.JFrame {
 			oos.flush();
 			oos.close();
 			fos.close();
+			
+			// criar o arquivo ZIP com todos os dados exportados
+			FileOutputStream arquivoSaida = new FileOutputStream(caminhoArquivo);
+			ZipOutputStream arquivoZip = new ZipOutputStream(arquivoSaida);
+			byte temp[] = new byte[8192];
+			for (File arquivo: tempDirLogs.listFiles()) {
+				FileInputStream in = new FileInputStream(arquivo);
+				arquivoZip.putNextEntry(new ZipEntry(arquivo.getName()));
+				int len;
+				while ((len = in.read(temp)) > 0) {
+					arquivoZip.write(temp, 0, len);
+				}
+				arquivoZip.closeEntry();
+				in.close();
+			}
+			arquivoZip.close();
+
+			// remover os arquivos temporarios
+			for (File arquivo: tempDirLogs.listFiles()) {
+				arquivo.delete();
+			}
+			tempDirLogs.delete();
+			
 			JOptionPane.showMessageDialog(this, "Alterações exportadas com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
@@ -317,6 +397,69 @@ public class Sincronizacao extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void importarDados() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);					
+		int opcao = chooser.showOpenDialog(this);
+		String caminhoArquivo = null;
+
+		if (opcao == JFileChooser.APPROVE_OPTION) { 
+			 caminhoArquivo = chooser.getSelectedFile().getAbsolutePath();
+		} else {
+			return;
+		}
+		
+		// adicionando uma pasta temporária para a cópia de todos os arquivos necessários
+		String nomeDiretorio = "";
+		File tempDir = new File(Util.getCaminhoDiretorioTemporario());
+		File tempDirLogs = null;
+		do {
+			nomeDiretorio = Util.gerarChaveUnica("" + (new Date().getTime()));
+			tempDirLogs = new File(tempDir.getAbsolutePath() + File.separator + nomeDiretorio);
+		} while (tempDirLogs.exists());
+		tempDirLogs.mkdir();
+		// criado o diretório onde ficarao todos os dados das alteracoes realizadas
+		
+		try {
+			// copiando os arquivos dentro do arquivo zip para a pasta temporaria criada
+			FileInputStream in;
+			in = new FileInputStream(caminhoArquivo);
+			ZipInputStream arquivoZip = new ZipInputStream(in);
+			ZipEntry arquivo;
+			byte temp[] = new byte[8192];
+			while ((arquivo = arquivoZip.getNextEntry()) != null) {
+				FileOutputStream out = new FileOutputStream(tempDirLogs + File.separator + arquivo.getName());
+				int len;
+				while ((len = arquivoZip.read(temp, 0, temp.length)) > 0) {
+					out.write(temp, 0, len);
+				}
+				out.close();
+				arquivoZip.closeEntry();
+			}
+			arquivoZip.close();
+			
+			// lendo o arquivo de logs
+			FileInputStream is = new FileInputStream(tempDirLogs + File.separator + Constantes.NOME_ARQUIVO_LOG);
+			ObjectInputStream ois = new ObjectInputStream(is);
+			Object o = ois.readObject();
+			if (o instanceof List) {
+				List<Log> logs = (List<Log>) o;	
+				System.out.println("Size: " + logs.size());
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	//$hide<<$
 }
