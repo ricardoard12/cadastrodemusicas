@@ -444,9 +444,12 @@ public class Sincronizacao extends javax.swing.JFrame {
 			FileInputStream is = new FileInputStream(tempDirLogs + File.separator + Constantes.NOME_ARQUIVO_LOG);
 			ObjectInputStream ois = new ObjectInputStream(is);
 			Object o = ois.readObject();
-			if (o instanceof List) {
+			if (o instanceof List<?>) {
 				List<Log> logs = (List<Log>) o;	
 				System.out.println("Size: " + logs.size());
+				for (Log l: logs) {
+					System.out.println("Log: " + l.getClasseObjeto() + " - " + l.getTipoOperacao());
+				}
 			}
 			
 		} catch (FileNotFoundException e) {
