@@ -12,6 +12,7 @@ public class Log implements Serializable {
 	
 	// tipo da operação registrada
 	public enum TipoOperacao {CADASTRO, ALTERACAO, DELECAO, ADICAO_CANTOR_A_MUSICA, ALTERACAO_ARQUIVO_MUSICA};
+	private String[] operacoes = {"Cadastro", "Alteração", "Remoção", "Adição de Cantor a Música", "Subst. Arquivo"};
 	TipoOperacao tipoOperacao;
 	
 	// classe do objeto da operação
@@ -84,6 +85,7 @@ public class Log implements Serializable {
 		this.chaveUnicaObjeto = chaveUnicaObjeto;
 	}
 	
-	
-	
+	public String getNomeOperacao() {
+		return operacoes[tipoOperacao.ordinal()];
+	}
 }
