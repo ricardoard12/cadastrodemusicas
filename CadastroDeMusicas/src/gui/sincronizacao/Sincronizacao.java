@@ -452,6 +452,12 @@ public class Sincronizacao extends javax.swing.JFrame {
 				}
 			}
 			
+			// removendo os arquivos temporarios criados
+			for (File arquivoTemporario: tempDirLogs.listFiles()) {
+				arquivoTemporario.delete();
+			}
+			tempDirLogs.delete();
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

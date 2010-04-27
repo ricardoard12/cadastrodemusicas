@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import util.Util;
+
 public class Musica implements Serializable {
 	private int idMusica; // chave primária da tabela no banco de dados
 	private Tipo tipo;
@@ -27,6 +29,36 @@ public class Musica implements Serializable {
 	
 	private Date created = null;
 	private Date modified = null;
+	
+	public String getDescricaoCompleta() {
+		String descricao = "Dados da Música\n";
+		descricao += "idMusica: " + idMusica + "\n";
+		descricao += "Nome: " + nome + "\n";
+		descricao += "Cantor: " + (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "") + "\n";
+		descricao += "Duração: " + Util.formataDuracao(duracao) + "\n";
+		descricao += "Ritmo: " + tipo.getTipo() + "\n";
+		String assuntosString = "";
+		if (assuntos != null && assuntos.size() > 0) {
+			for (int j = 0; j < assuntos.size(); j++) {
+				assuntosString += assuntos.get(j).getAssunto();
+				if (j < assuntos.size() - 1) assuntosString += ", ";
+			}
+		}
+		descricao += "Assuntos: " + assuntosString + "\n";
+		descricao += "Qualidade: " + (qualidade != null ? qualidade.getQualidade() : "") + "\n";
+		descricao += "Ano: " + (ano > 0 ? ano : "") + "\n";
+		descricao += "Nome do Arquivo: " + nomeArquivo + "\n";
+		descricao += "Diretório: " + diretorio + "\n";
+		descricao += "Chave Única: " + chaveUnica + "\n";
+		descricao += "Nome Arquivo Capa: " + nomeArquivoCapa + "\n";
+		descricao += "Created: " + created.toString() + "\n";
+		descricao += "Modified: " + modified.toString() + "\n";
+		descricao += "Observação: " + letra;
+		descricao += "Letra: " + letra;
+		
+		
+		return descricao;
+	}
 	
 	public List<Assunto> getAssuntos() {
 		return assuntos;
