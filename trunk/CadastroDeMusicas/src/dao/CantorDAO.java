@@ -14,4 +14,5 @@ public interface CantorDAO {
 	public List<Cantor> listarCantores() throws DataException;
 	public List<Cantor> listarCantoresPorDiversos(String nome, boolean naoListarPorNome, String nomeSemEspacos, boolean naoListarPorNomeSemEspacos) throws DataException;
 	public List<Cantor> listarCantoresSemChaveUnica() throws DataException;
+	public List<Cantor> listarCantoresPorNome(String nome) throws DataException;
 }

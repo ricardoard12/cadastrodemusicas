@@ -124,4 +124,9 @@ public class TipoDAOMySQL implements TipoDAO {
 		return listarTiposPorConsulta(sql);
 	}
 
+	public List<Tipo> listarTipos(String tipo) throws DataException {
+		String sql = "SELECT * FROM tipo WHERE tipo LIKE '" + tipo + "'";
+		return listarTiposPorConsulta(sql);
+	}
+
 }

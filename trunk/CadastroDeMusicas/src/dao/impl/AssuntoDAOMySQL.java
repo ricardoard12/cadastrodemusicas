@@ -120,4 +120,9 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 		return listarAssuntosPorConsulta(sql);		
 	}
 
+	public List<Assunto> listarAssuntos(String assunto) throws DataException {
+		String sql = "SELECT * FROM assunto WHERE assunto LIKE '" + assunto + "";
+		return listarAssuntosPorConsulta(sql);
+	}
+
 }
