@@ -445,7 +445,9 @@ public class Sincronizacao extends javax.swing.JFrame {
 			ObjectInputStream ois = new ObjectInputStream(is);
 			Object o = ois.readObject();
 			if (o instanceof List<?>) {
-				List<Log> logs = (List<Log>) o;	
+				List<Log> logs = (List<Log>) o;
+				DialogImportacao importacao = new DialogImportacao(this);
+				importacao.sincronizar(logs, tempDirLogs);
 				System.out.println("Size: " + logs.size());
 				for (Log l: logs) {
 					System.out.println("Log: " + l.getClasseObjeto() + " - " + l.getTipoOperacao());

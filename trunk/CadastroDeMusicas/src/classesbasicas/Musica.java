@@ -30,6 +30,8 @@ public class Musica implements Serializable {
 	private Date created = null;
 	private Date modified = null;
 	
+	private static final long serialVersionUID = 6670383463558570605L;
+	
 	public String getDescricaoCompleta() {
 		String descricao = "Dados da Música\n";
 		descricao += "idMusica: " + idMusica + "\n";
