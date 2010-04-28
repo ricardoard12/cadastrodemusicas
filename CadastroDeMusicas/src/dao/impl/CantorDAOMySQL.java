@@ -136,4 +136,11 @@ public class CantorDAOMySQL implements CantorDAO {
 		return listarCantoresPorConsulta(sql);
 	}
 
+	public List<Cantor> listarCantoresPorNome(String nome) throws DataException {
+		String sql = "SELECT * FROM cantor WHERE nome LIKE '" + nome + "'";
+		return listarCantoresPorConsulta(sql);
+	}
+	
+	
+
 }
