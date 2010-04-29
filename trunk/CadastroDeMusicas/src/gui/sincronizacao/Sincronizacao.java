@@ -446,8 +446,10 @@ public class Sincronizacao extends javax.swing.JFrame {
 			Object o = ois.readObject();
 			if (o instanceof List<?>) {
 				List<Log> logs = (List<Log>) o;
-				DialogImportacao importacao = new DialogImportacao(this);
-				importacao.sincronizar(logs, tempDirLogs);
+				DialogImportacao importacao = new DialogImportacao(this, logs, tempDirLogs);
+				importacao.setModal(true);
+				importacao.setVisible(true);
+				System.out.println("Sincronização Finalizada.");
 				System.out.println("Size: " + logs.size());
 				for (Log l: logs) {
 					System.out.println("Log: " + l.getClasseObjeto() + " - " + l.getTipoOperacao());

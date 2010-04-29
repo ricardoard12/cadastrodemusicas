@@ -55,7 +55,7 @@ public class Musica implements Serializable {
 		descricao += "Nome Arquivo Capa: " + nomeArquivoCapa + "\n";
 		descricao += "Created: " + created.toString() + "\n";
 		descricao += "Modified: " + modified.toString() + "\n";
-		descricao += "Observação: " + letra;
+		descricao += "Observação: " + observacao + "\n";
 		descricao += "Letra: " + letra;
 
 		return descricao;

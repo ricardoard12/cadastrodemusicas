@@ -5,6 +5,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
 
 import util.Util;
 import classesbasicas.Assunto;
@@ -56,9 +59,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 	* Auto-generated main method to display this JDialog
 	*/
 	
-	public DialogImportacao(JFrame frame) {
+	public DialogImportacao(JFrame frame, List<Log> logs, File diretorioArquivos) {
 		super(frame);
 		initGUI();
+		this.logs = logs;
+		this.diretorioArquivos = diretorioArquivos;
+		indiceAtual = 0;
 	}
 	
 	private void initGUI() {
@@ -123,12 +129,26 @@ public class DialogImportacao extends javax.swing.JDialog {
 						panelBotoes.add(buttonAplicarAlteracoes);
 						buttonAplicarAlteracoes.setText("Aplicar Alterações");
 						buttonAplicarAlteracoes.setEnabled(false);
+						buttonAplicarAlteracoes.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								aplicarAlteracoes();
+								indiceAtual++;
+								processarEntradaLog();
+							}
+						});
 					}
 					{
 						buttonRemover = new JButton();
 						panelBotoes.add(buttonRemover);
 						buttonRemover.setText("Remover Dado");
 						buttonRemover.setEnabled(false);
+						buttonRemover.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								removerDado();
+								indiceAtual++;
+								processarEntradaLog();
+							}
+						});
 					}
 				}
 			}
@@ -139,17 +159,17 @@ public class DialogImportacao extends javax.swing.JDialog {
 		}
 	}
 	
-	public void sincronizar(List<Log> logs, File diretorioArquivos) {
-		this.logs = logs;
-		this.diretorioArquivos = diretorioArquivos;
-		indiceAtual = 0;
-		
-		setVisible(true);
-		
+	public void sincronizar() {
 		// iniciando a sincronização dos dados
 		//$hide>>$
+		System.out.println("Iniciando a sincronização.");
 		processarEntradaLog();
 		//$hide<<$
+	}
+	
+	public void setVisible(boolean b) {
+		if (b) sincronizar();
+		super.setVisible(b);
 	}
 	
 	private void finalizarProcessamento() {
@@ -158,6 +178,11 @@ public class DialogImportacao extends javax.swing.JDialog {
 	
 	private void processarEntradaLog() {
 		//$hide>>$
+		buttonIgnorar.setEnabled(false);
+		buttonAdicionarDado.setEnabled(false);
+		buttonAplicarAlteracoes.setEnabled(false);
+		buttonRemover.setEnabled(false);
+
 		if (indiceAtual >= logs.size()) {
 			finalizarProcessamento();
 			return;
@@ -551,5 +576,205 @@ public class DialogImportacao extends javax.swing.JDialog {
 		
 		//$hide<<$
 	}
+	
+	private void aplicarAlteracoes() {
+		//$hide>>$
+		Log l = logs.get(indiceAtual);
+		
+		if (l.getTipoOperacao() == TipoOperacao.ALTERACAO) {
+			if (l.getObjeto() instanceof Musica) {
+				Musica m = (Musica) l.getObjeto();
+				
+				// verificando se os assuntos da música estão cadastrados no sistema
+				if (m.getAssuntos() != null && m.getAssuntos().size() > 0) {
+					List<Assunto> assuntos = m.getAssuntos();
+					List<Assunto> assuntosSalvarMusica = new ArrayList<Assunto>();
+					for (Assunto aLog: assuntos) {
+						try {
+							List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+							if (assuntosSistema != null && assuntosSistema.size() > 0) {
+								assuntosSalvarMusica.add(assuntosSistema.get(0));
+							} else {
+								Assunto novoAssunto = new Assunto();
+								novoAssunto.setAssunto(aLog.getAssunto());
+								Fachada.cadastrarAssunto(novoAssunto);
+								assuntosSalvarMusica.add(novoAssunto);
+							}
+						} catch (DataException e) {
+							e.printStackTrace();
+						}
+					}
+					m.setAssuntos(assuntosSalvarMusica);
+				}
+				
+				// verificando se o ritmo da musica ja esta cadastrado no sistema
+				if (m.getTipo() != null) {
+					Tipo tipoMusica = m.getTipo();
+					try {
+						List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+						if (tiposSistema != null && tiposSistema.size() > 0) {
+							m.setTipo(tiposSistema.get(0));
+						} else {
+							Tipo tipo = new Tipo();
+							tipo.setTipo(tipoMusica.getTipo());
+							Fachada.cadastrarTipo(tipo);
+							m.setTipo(tipo);
+						}
+					} catch (DataException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				// verificando se os cantores da musica ja estao cadastrados no sistema
+				if (m.getCantores() != null && m.getCantores().size() > 0) {
+					List<Cantor> cantoresMusica = m.getCantores();
+					List<Cantor> cantoresSalvarMusica = new ArrayList<Cantor>();
+					
+					for (Cantor c: cantoresMusica) {
+						try {
+							List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+							if (cantoresSistema != null && cantoresSistema.size() > 0) {
+								cantoresSalvarMusica.add(cantoresSistema.get(0));
+							} else {
+								Cantor novoCantor = new Cantor();
+								novoCantor.setNome(c.getNome());
+								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+								Fachada.cadastrarCantor(novoCantor);
+								cantoresSalvarMusica.add(novoCantor);
+							}
+						} catch (DataException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					m.setCantores(cantoresSalvarMusica);
+				}
+				
+								
+				try {
+					Fachada.alterarMusica(m);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Cantor) {
+				Cantor c = (Cantor) l.getObjeto();
+				try {
+					Fachada.alterarCantor(c);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Tipo) {
+				Tipo t = (Tipo) l.getObjeto();
+				try {
+					Fachada.alterarTipo(t);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Assunto) {
+				Assunto a = (Assunto) l.getObjeto();
+				try {
+					Fachada.alterarAssunto(a);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Objeto de Tipo Inesperado.", "Erro ao Importar.", JOptionPane.ERROR_MESSAGE);
+			}	
+		} else if (l.getTipoOperacao() == TipoOperacao.ADICAO_CANTOR_A_MUSICA) {
+			if (l.getObjeto() instanceof Musica) {
+				Musica m = (Musica) l.getObjeto();
+				
+				// verificando se os assuntos da música estão cadastrados no sistema
+				if (m.getAssuntos() != null && m.getAssuntos().size() > 0) {
+					List<Assunto> assuntos = m.getAssuntos();
+					List<Assunto> assuntosSalvarMusica = new ArrayList<Assunto>();
+					for (Assunto aLog: assuntos) {
+						try {
+							List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+							if (assuntosSistema != null && assuntosSistema.size() > 0) {
+								assuntosSalvarMusica.add(assuntosSistema.get(0));
+							} else {
+								Assunto novoAssunto = new Assunto();
+								novoAssunto.setAssunto(aLog.getAssunto());
+								Fachada.cadastrarAssunto(novoAssunto);
+								assuntosSalvarMusica.add(novoAssunto);
+							}
+						} catch (DataException e) {
+							e.printStackTrace();
+						}
+					}
+					m.setAssuntos(assuntosSalvarMusica);
+				}
+				
+				// verificando se o ritmo da musica ja esta cadastrado no sistema
+				if (m.getTipo() != null) {
+					Tipo tipoMusica = m.getTipo();
+					try {
+						List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+						if (tiposSistema != null && tiposSistema.size() > 0) {
+							m.setTipo(tiposSistema.get(0));
+						} else {
+							Tipo tipo = new Tipo();
+							tipo.setTipo(tipoMusica.getTipo());
+							Fachada.cadastrarTipo(tipo);
+							m.setTipo(tipo);
+						}
+					} catch (DataException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				// verificando se os cantores da musica ja estao cadastrados no sistema
+				if (m.getCantores() != null && m.getCantores().size() > 0) {
+					List<Cantor> cantoresMusica = m.getCantores();
+					List<Cantor> cantoresSalvarMusica = new ArrayList<Cantor>();
+					
+					for (Cantor c: cantoresMusica) {
+						try {
+							List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+							if (cantoresSistema != null && cantoresSistema.size() > 0) {
+								cantoresSalvarMusica.add(cantoresSistema.get(0));
+							} else {
+								Cantor novoCantor = new Cantor();
+								novoCantor.setNome(c.getNome());
+								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+								Fachada.cadastrarCantor(novoCantor);
+								cantoresSalvarMusica.add(novoCantor);
+							}
+						} catch (DataException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					m.setCantores(cantoresSalvarMusica);
+				}
+								
+				try {
+					Fachada.alterarMusica(m);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) {
+			// Pode ser ignorado
+		} else {
+			JOptionPane.showMessageDialog(this, "Tipo de Operação inválido..", "Operação inválida.", JOptionPane.ERROR_MESSAGE);
+		}
+		//$hide<<$
+	}
+	private void removerDado() {
+		//$hide>>$
+		
+		//$hide<<$
+	}
+	
+	
 
 }
