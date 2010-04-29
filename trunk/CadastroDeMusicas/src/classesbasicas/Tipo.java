@@ -18,6 +18,17 @@ public class Tipo implements Serializable {
 		this.idTipo = idTipo;
 	}
 	
+	public String getDescricaoCompleta() {
+		String descricao = "Dados do Ritmo\n";
+		descricao += "idTipo: " + idTipo + "\n";
+		descricao += "tipo: " + tipo + "\n";
+		descricao += "Chave Única: " + chaveUnica + "\n";
+		descricao += "Created: " + created.toString() + "\n";
+		descricao += "Modified: " + modified.toString() + "\n";
+				
+		return descricao;
+	}
+	
 	public String getTipo() {
 		return tipo;
 	}

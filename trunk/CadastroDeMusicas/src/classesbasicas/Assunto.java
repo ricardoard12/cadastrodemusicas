@@ -17,6 +17,17 @@ public class Assunto implements Serializable {
 	public void setAssunto(String assunto) {
 		this.assunto = assunto;
 	}
+	
+	public String getDescricaoCompleta() {
+		String descricao = "Dados do Assunto\n";
+		descricao += "idAssunto: " + idAssunto + "\n";
+		descricao += "assunto: " + assunto + "\n";
+		descricao += "Chave Única: " + chaveUnica + "\n";
+		descricao += "Created: " + created.toString() + "\n";
+		descricao += "Modified: " + modified.toString() + "\n";
+				
+		return descricao;
+	}
 
 	public int getIdAssunto() {
 		return idAssunto;

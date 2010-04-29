@@ -3,6 +3,8 @@ package classesbasicas;
 import java.io.Serializable;
 import java.util.Date;
 
+import util.Util;
+
 public class Cantor implements Serializable {
 	private int idCantor; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
@@ -18,6 +20,19 @@ public class Cantor implements Serializable {
 	public void setIdCantor(int idCantor) {
 		this.idCantor = idCantor;
 	}
+	
+	public String getDescricaoCompleta() {
+		String descricao = "Dados do Cantor\n";
+		descricao += "idCantor: " + idCantor + "\n";
+		descricao += "Nome: " + nome + "\n";
+		descricao += "Nome Sem Espaços: " + nomeSemEspacos + "\n";
+		descricao += "Chave Única: " + chaveUnica + "\n";
+		descricao += "Created: " + created.toString() + "\n";
+		descricao += "Modified: " + modified.toString() + "\n";
+				
+		return descricao;
+	}
+
 	
 	public String getNome() {
 		return nome;
