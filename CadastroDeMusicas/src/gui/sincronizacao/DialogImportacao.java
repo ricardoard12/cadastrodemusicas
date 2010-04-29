@@ -41,6 +41,7 @@ import fachada.Fachada;
 public class DialogImportacao extends javax.swing.JDialog {
 	private JLabel LabelLog;
 	private JLabel LabelObservacoes;
+	private JButton buttonRemover;
 	private JButton buttonAplicarAlteracoes;
 	private JButton buttonAdicionarDado;
 	private JButton buttonIgnorar;
@@ -96,6 +97,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						buttonIgnorar = new JButton();
 						panelBotoes.add(buttonIgnorar);
 						buttonIgnorar.setText("Ignorar");
+						buttonIgnorar.setEnabled(false);
 						buttonIgnorar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
 								indiceAtual++;
@@ -107,6 +109,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						buttonAdicionarDado = new JButton();
 						panelBotoes.add(buttonAdicionarDado);
 						buttonAdicionarDado.setText("Adicionar Dado");
+						buttonAdicionarDado.setEnabled(false);
 						buttonAdicionarDado.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
 								adicionarDado();
@@ -119,6 +122,13 @@ public class DialogImportacao extends javax.swing.JDialog {
 						buttonAplicarAlteracoes = new JButton();
 						panelBotoes.add(buttonAplicarAlteracoes);
 						buttonAplicarAlteracoes.setText("Aplicar Alterações");
+						buttonAplicarAlteracoes.setEnabled(false);
+					}
+					{
+						buttonRemover = new JButton();
+						panelBotoes.add(buttonRemover);
+						buttonRemover.setText("Remover Dado");
+						buttonRemover.setEnabled(false);
 					}
 				}
 			}
@@ -137,7 +147,9 @@ public class DialogImportacao extends javax.swing.JDialog {
 		setVisible(true);
 		
 		// iniciando a sincronização dos dados
+		//$hide>>$
 		processarEntradaLog();
+		//$hide<<$
 	}
 	
 	private void finalizarProcessamento() {
@@ -145,6 +157,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 	}
 	
 	private void processarEntradaLog() {
+		//$hide>>$
 		if (indiceAtual >= logs.size()) {
 			finalizarProcessamento();
 			return;
@@ -158,7 +171,11 @@ public class DialogImportacao extends javax.swing.JDialog {
 		String logString = "Log " + (indiceAtual + 1) + "/" + logs.size() + "\n";
 		logString += "Operação: " + l.getNomeOperacao() + "(" + l.getClasseObjeto() + ")\n\n";
 		
+		// Operações de Cadastro
 		if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {
+			buttonIgnorar.setEnabled(true);
+			buttonAdicionarDado.setEnabled(true);
+			
 			if (l.getObjeto() instanceof Musica) {
 				// preenchendo a área de texto do Log
 				Musica m = (Musica) l.getObjeto();
@@ -192,10 +209,242 @@ public class DialogImportacao extends javax.swing.JDialog {
 			} else {
 				logString += "Erro ao exportar Objeto -> Objeto de Tipo insperado.";
 			}
+		} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO) {
+			buttonAplicarAlteracoes.setEnabled(true);
+			buttonIgnorar.setEnabled(true);
+			
+			if (l.getObjeto() instanceof Musica) {
+				// preenchendo a área de texto do Log
+				Musica m = (Musica) l.getObjeto();
+				logString += m.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando a música correspondente
+				try {
+					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
+					String textoObservacoes = "";
+					if (musicaLocal != null) {
+						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+					} else {
+						textoObservacoes += "Não foi encontrada a música local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Cantor) {
+				// preenchendo a área de texto do Log
+				Cantor c = (Cantor) l.getObjeto();
+				logString += c.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o cantor correspondente
+				try {
+					Cantor cantorLocal = Fachada.getCantor(c.getIdCantor());
+					String textoObservacoes = "";
+					
+					if (cantorLocal != null) {
+						textoObservacoes += cantorLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o cantor local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Tipo) {
+				Tipo t = (Tipo) l.getObjeto();
+				logString += t.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o tipo correspondente
+				try {
+					Tipo tipoLocal = Fachada.getTipo(t.getIdTipo());
+					String textoObservacoes = "";
+					
+					if (tipoLocal != null) {
+						textoObservacoes += tipoLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o Ritmo local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Assunto) {
+				Assunto a = (Assunto) l.getObjeto();
+				logString += a.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o assunto correspondente
+				try {
+					Assunto assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+					String textoObservacoes = "";
+					
+					if (assuntoLocal != null) {
+						textoObservacoes += assuntoLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o Assunto local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+				
+			} else {
+				logString += "Erro ao exportar Objeto -> Objeto de Tipo insperado.";
+				textAreaLog.setText(logString);
+			}
+		} else if (l.getTipoOperacao() == TipoOperacao.DELECAO) {
+			buttonRemover.setEnabled(true);
+			buttonIgnorar.setEnabled(true);
+			
+			if (l.getObjeto() instanceof Musica) {
+				// preenchendo a área de texto do Log
+				Musica m = (Musica) l.getObjeto();
+				logString += m.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando a música correspondente
+				try {
+					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
+					String textoObservacoes = "";
+					if (musicaLocal != null) {
+						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+					} else {
+						textoObservacoes += "Não foi encontrada a música local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Cantor) {
+				// preenchendo a área de texto do Log
+				Cantor c = (Cantor) l.getObjeto();
+				logString += c.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o cantor correspondente
+				try {
+					Cantor cantorLocal = Fachada.getCantor(c.getIdCantor());
+					String textoObservacoes = "";
+					
+					if (cantorLocal != null) {
+						textoObservacoes += cantorLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o cantor local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Tipo) {
+				Tipo t = (Tipo) l.getObjeto();
+				logString += t.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o tipo correspondente
+				try {
+					Tipo tipoLocal = Fachada.getTipo(t.getIdTipo());
+					String textoObservacoes = "";
+					
+					if (tipoLocal != null) {
+						textoObservacoes += tipoLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o Ritmo local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Assunto) {
+				Assunto a = (Assunto) l.getObjeto();
+				logString += a.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando o assunto correspondente
+				try {
+					Assunto assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+					String textoObservacoes = "";
+					
+					if (assuntoLocal != null) {
+						textoObservacoes += assuntoLocal.getDescricaoCompleta();
+					} else {
+						textoObservacoes += "Não foi encontrado o Assunto local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+				
+			} else {
+				logString += "Erro ao exportar Objeto -> Objeto de Tipo insperado.";
+				textAreaLog.setText(logString);
+			}
+		} else if (l.getTipoOperacao() == TipoOperacao.ADICAO_CANTOR_A_MUSICA) {
+			buttonAplicarAlteracoes.setEnabled(true);
+			buttonIgnorar.setEnabled(true);
+			
+			if (l.getObjeto() instanceof Musica) {
+				// preenchendo a área de texto do Log
+				Musica m = (Musica) l.getObjeto();
+				logString += m.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando a música correspondente
+				try {
+					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
+					String textoObservacoes = "";
+					if (musicaLocal != null) {
+						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+					} else {
+						textoObservacoes += "Não foi encontrada a música local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) {
+			buttonAplicarAlteracoes.setEnabled(true);
+			buttonIgnorar.setEnabled(true);
+			
+			if (l.getObjeto() instanceof Musica) {
+				// preenchendo a área de texto do Log
+				Musica m = (Musica) l.getObjeto();
+				logString += m.getDescricaoCompleta();
+				textAreaLog.setText(logString);
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando a música correspondente
+				try {
+					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
+					String textoObservacoes = "";
+					if (musicaLocal != null) {
+						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+					} else {
+						textoObservacoes += "Não foi encontrada a música local correspondente ao log.";
+					}
+					textAreaObservacoes.setText(textoObservacoes);
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		//$hide<<$
 	}
 	
 	private void adicionarDado() {
+		//$hide>>$
 		Log l = logs.get(indiceAtual);
 		
 		if (l.getObjeto() instanceof Musica) {
@@ -299,6 +548,8 @@ public class DialogImportacao extends javax.swing.JDialog {
 				JOptionPane.showMessageDialog(this, "Erro ao Copiar o Arquivo MP3 da Música para o Destino.", "Erro ao Copiar Arquivo", JOptionPane.ERROR_MESSAGE);
 			}
 		}
+		
+		//$hide<<$
 	}
 
 }

@@ -57,8 +57,7 @@ public class Musica implements Serializable {
 		descricao += "Modified: " + modified.toString() + "\n";
 		descricao += "Observação: " + letra;
 		descricao += "Letra: " + letra;
-		
-		
+
 		return descricao;
 	}
 	
