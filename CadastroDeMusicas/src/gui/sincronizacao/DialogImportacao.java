@@ -763,10 +763,41 @@ public class DialogImportacao extends javax.swing.JDialog {
 				}
 			}
 		} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) {
-			// Pode ser ignorado
+			Musica m = (Musica) l.getObjeto();
+			
+			// verificando o novo arquivo
+			File arquivoCopiar = new File(diretorioArquivos.getPath() + File.separator + m.getChaveUnica());
+			if (!arquivoCopiar.exists()) {
+				JOptionPane.showMessageDialog(this, "Arquivo MP3 da Música não foi encontrado.", "Arquivo não encontrado", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			// removendo o arquivo antigo da musica
+			try {
+				File tempFile = File.createTempFile("colec", ".mp3");
+				Musica ma = Fachada.getMusica(m.getIdMusica());
+				File arquivoAntigo = new File(Util.getDiretorioBase() + File.separator + ma.getDiretorio() + File.separator + ma.getNomeArquivo());
+				// salvando o arquivo antigo para um arquivo temporario
+				if (Util.copyFile(arquivoAntigo.getAbsolutePath(), tempFile.getAbsolutePath())) {
+					// removendo o arquivo antigo
+					arquivoAntigo.delete();
+					
+					// copiando o arquivo novo para o destino
+					if (Util.copyFile(arquivoAntigo.getAbsolutePath(), arquivoCopiar.getAbsolutePath())) {
+						System.out.println("Arquivo copiado com sucesso.");
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Tipo de Operação inválido..", "Operação inválida.", JOptionPane.ERROR_MESSAGE);
 		}
+		
 		//$hide<<$
 	}
 	private void removerDado() {
