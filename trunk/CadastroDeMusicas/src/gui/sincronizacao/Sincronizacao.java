@@ -207,7 +207,7 @@ public class Sincronizacao extends javax.swing.JFrame {
 			
 			for (Log l: logsListados) {
 				// se o objeto já foi processado, ele está inserido na lista dos objetos a ignorar
-				if (objetosIgnorar.indexOf(l.getChaveUnicaObjeto()) >= 0) continue;
+				if (objetosIgnorar.indexOf(l.getChaveUnicaObjeto()) >= 0 && l.getTipoOperacao() != TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) continue;
 				
 				// Operacao de cadastro: salvar o arquivo da música, mais os dados mais atuais da música
 				if (l.getTipoOperacao() == TipoOperacao.CADASTRO) {
@@ -336,7 +336,7 @@ public class Sincronizacao extends javax.swing.JFrame {
 					l.setObjeto(musica);
 					logs.add(l);
 					
-					objetosIgnorar.add(l.getChaveUnicaObjeto()); 
+					// objetosIgnorar.add(l.getChaveUnicaObjeto()); 
 				}
 			}
 			
