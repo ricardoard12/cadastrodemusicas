@@ -518,4 +518,14 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			throw new DataException("Não foi possivel ler a imagem da capa");
 		}
 	}
+
+	public Musica listarMusicasPorChaveUnica(String chaveUnica)
+			throws DataException {
+		String sql = "SELECT * FROM musica where chaveUnica LIKE '" + chaveUnica + "' ORDER BY nome";
+		
+		List<Musica> lista = listarMusicasPorConsulta(sql);
+		
+		if (lista.size() > 0) return lista.get(0);
+		else return null;
+	}
 }

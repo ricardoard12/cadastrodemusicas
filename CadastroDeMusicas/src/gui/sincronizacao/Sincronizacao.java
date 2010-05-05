@@ -337,8 +337,6 @@ public class Sincronizacao extends javax.swing.JFrame {
 					
 					l.setObjeto(musica);
 					logs.add(l);
-					
-					// objetosIgnorar.add(l.getChaveUnicaObjeto()); 
 				}
 			}
 			

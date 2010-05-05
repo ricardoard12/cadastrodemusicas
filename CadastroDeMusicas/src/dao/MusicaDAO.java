@@ -40,4 +40,5 @@ public interface MusicaDAO {
 	public List<Musica> listarMusicasSemChaveUnica() throws DataException;
 	public void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException;
 	public InputStream getCapaDiscoMusica(Musica m) throws DataException;
+	public Musica listarMusicasPorChaveUnica(String chaveUnica) throws DataException;
 }

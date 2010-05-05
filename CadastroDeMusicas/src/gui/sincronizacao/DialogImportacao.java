@@ -452,7 +452,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 				// preenchendo a área de texto dos dados locais (Observações)
 				// procurando a música correspondente
 				try {
-					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
+					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
 					String textoObservacoes = "";
 					if (musicaLocal != null) {
 						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
@@ -775,7 +775,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 			// removendo o arquivo antigo da musica
 			try {
 				File tempFile = File.createTempFile("colec", ".mp3");
-				Musica ma = Fachada.getMusica(m.getIdMusica());
+				Musica ma = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
 				File arquivoAntigo = new File(Util.getDiretorioBase() + File.separator + ma.getDiretorio() + File.separator + ma.getNomeArquivo());
 				// salvando o arquivo antigo para um arquivo temporario
 				if (Util.copyFile(arquivoAntigo.getAbsolutePath(), tempFile.getAbsolutePath())) {
@@ -783,9 +783,18 @@ public class DialogImportacao extends javax.swing.JDialog {
 					arquivoAntigo.delete();
 					
 					// copiando o arquivo novo para o destino
-					if (Util.copyFile(arquivoAntigo.getAbsolutePath(), arquivoCopiar.getAbsolutePath())) {
+					if (Util.copyFile(arquivoCopiar.getAbsolutePath(), arquivoAntigo.getAbsolutePath())) {
 						System.out.println("Arquivo copiado com sucesso.");
+						
+						// removendo o arquivo antigo temporário
+						tempFile.delete();
+					} else if (Util.copyFile(tempFile.getAbsolutePath(), arquivoAntigo.getAbsolutePath())) {
+						JOptionPane.showMessageDialog(this, "Erro ao Copiar o novo Arquivo.\n Os dados anteriores foram restaurados.", "Erro ao Copiar Arquivo.", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(this, "Erro ao Copiar o novo Arquivo.\n Os dados anteriores nao puderam ser restaurados.", "Erro ao Copiar Arquivo.", JOptionPane.ERROR_MESSAGE);
 					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Erro ao Copiar o novo Arquivo.\n Os dados anteriores foram mantidos.", "Erro ao Copiar Arquivo.", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

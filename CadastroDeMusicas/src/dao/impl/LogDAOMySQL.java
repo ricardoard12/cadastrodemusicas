@@ -91,6 +91,8 @@ public class LogDAOMySQL implements LogDAO {
 					tipoOperacao = Log.TipoOperacao.DELECAO;
 				} else if (tipoOp == Log.TipoOperacao.ADICAO_CANTOR_A_MUSICA.ordinal()) {
 					tipoOperacao = Log.TipoOperacao.ADICAO_CANTOR_A_MUSICA;
+				} else if (tipoOp == Log.TipoOperacao.ALTERACAO_ARQUIVO_MUSICA.ordinal()) {
+					tipoOperacao = Log.TipoOperacao.ALTERACAO_ARQUIVO_MUSICA;
 				}					
 				l.setTipoOperacao(tipoOperacao);
 				l.setClasseObjeto(r.getString("classeObjeto"));
