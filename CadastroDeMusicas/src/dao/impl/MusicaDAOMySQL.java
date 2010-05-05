@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import util.Util;
+
 import bd.BDUtil;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
@@ -527,5 +529,14 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		
 		if (lista.size() > 0) return lista.get(0);
 		else return null;
+	}
+	
+	public void exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
+		InputStream is = getCapaDiscoMusica(musica);
+		
+		if (is != null) {
+			File arquivo = new File(caminhoArquivo);
+			Util.copyFile(inFile, outFile)
+		}
 	}
 }
