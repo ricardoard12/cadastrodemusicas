@@ -268,6 +268,11 @@ public class Fachada {
 		return musicaDAO.listarMusicasOrdenarPorAssunto();
 	}
 	
+	public static Musica getMusicaPorChaveUnica(String chaveUnica) throws DataException {
+		MusicaDAO musicaDAO = new MusicaDAOMySQL();
+		return musicaDAO.listarMusicasPorChaveUnica(chaveUnica);
+	}
+	
 	public static List<Colecao> listarColecoes() throws DataException {
 		ColecaoDAO cDAO = new ColecaoDAOMySQL();
 		return cDAO.listarColecoes();
