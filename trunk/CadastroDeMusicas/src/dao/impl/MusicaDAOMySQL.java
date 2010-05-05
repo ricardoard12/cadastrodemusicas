@@ -536,7 +536,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		
 		if (is != null) {
 			File arquivo = new File(caminhoArquivo);
-			Util.copyFile(inFile, outFile)
+			// Util.copyFile(inFile, outFile)
 		}
 	}
 }
