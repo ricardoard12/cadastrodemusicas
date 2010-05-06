@@ -2,6 +2,7 @@ package util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -279,8 +280,15 @@ public class Util {
 	 * @return true se a cópia do arquivo for realizada com sucesso
 	 */
 	public static boolean copyFile(String inFile, String outFile) {
-		InputStream is = null;
-		return copyFile(is, outFile);
+		InputStream is;
+		try {
+			is = new FileInputStream(inFile);
+			return copyFile(is, outFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public static int getMusicasPorDisco() {
