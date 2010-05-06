@@ -243,21 +243,11 @@ public class Util {
 		System.exit(0);
 	}
 	
-	
-	
-	/**
-	 * Copia arquivos fisicamente
-	 * @param  inFile  Caminho completo do arquivo de origem
-	 * @param  outFile Caminho completo do arquivo de destino
-	 * @return true se a cópia do arquivo for realizada com sucesso
-	 */
-	public static boolean copyFile(String inFile, String outFile) {
-		InputStream is = null;
+	public static boolean copyFile(InputStream is, String outFile) {
 		OutputStream os = null;
 		byte[] buffer;
 		boolean success = true;
 		try {
-			is = new FileInputStream(inFile);
 			os = new FileOutputStream(outFile);
 			buffer = new byte[is.available()];
 			is.read(buffer);
@@ -278,6 +268,19 @@ public class Util {
 			}
 		}
 		return success;
+	}
+	
+	
+	
+	/**
+	 * Copia arquivos fisicamente
+	 * @param  inFile  Caminho completo do arquivo de origem
+	 * @param  outFile Caminho completo do arquivo de destino
+	 * @return true se a cópia do arquivo for realizada com sucesso
+	 */
+	public static boolean copyFile(String inFile, String outFile) {
+		InputStream is = null;
+		return copyFile(is, outFile);
 	}
 
 	public static int getMusicasPorDisco() {

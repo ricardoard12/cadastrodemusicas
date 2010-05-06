@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Log;
 import classesbasicas.Musica;
 import classesbasicas.Tipo;
@@ -563,6 +564,11 @@ public class DialogImportacao extends javax.swing.JDialog {
 			if (Util.copyFile(arquivoCopiar.getAbsolutePath(), teste.getAbsolutePath())) {
 				try {
 					Fachada.cadastrarMusica(m);
+					
+					// verificando se a música tem arquivo de capa de disco
+					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
+						Fachada.alterarCapaDiscoMusica(m, m.getNomeArquivoCapa(), diretorioArquivos.getPath() + File.separator + m.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
+					}
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -652,6 +658,10 @@ public class DialogImportacao extends javax.swing.JDialog {
 								
 				try {
 					Fachada.alterarMusica(m);
+					// verificando se a música tem arquivo de capa de disco
+					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
+						Fachada.alterarCapaDiscoMusica(m, m.getNomeArquivoCapa(), diretorioArquivos.getPath() + File.separator + m.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
+					}
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
