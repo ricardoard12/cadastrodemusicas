@@ -531,12 +531,17 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		else return null;
 	}
 	
-	public void exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
+	public int exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
 		InputStream is = getCapaDiscoMusica(musica);
 		
 		if (is != null) {
-			File arquivo = new File(caminhoArquivo);
-			// Util.copyFile(inFile, outFile)
+			if (Util.copyFile(is, caminhoArquivo)) {
+				return ARQUIVO_CAPA_COPIADO_OK;
+			} else {
+				return ARQUIVO_CAPA_ERRO_COPIA;
+			}
+		} else {
+			return ARQUIVO_CAPA_INEXISTENTE;
 		}
 	}
 }

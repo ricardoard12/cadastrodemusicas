@@ -10,6 +10,10 @@ import exceptions.DataException;
 
 public interface MusicaDAO {
 	
+	public static final int ARQUIVO_CAPA_INEXISTENTE = 1;
+	public static final int ARQUIVO_CAPA_COPIADO_OK = 2;
+	public static final int ARQUIVO_CAPA_ERRO_COPIA = 3;
+	
 	public int cadastrarMusica(Musica m) throws DataException;
 	public void alterarMusica(Musica m) throws DataException;
 	public void removerMusica(Musica m) throws DataException;
@@ -41,5 +45,5 @@ public interface MusicaDAO {
 	public void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException;
 	public InputStream getCapaDiscoMusica(Musica m) throws DataException;
 	public Musica listarMusicasPorChaveUnica(String chaveUnica) throws DataException;
-	public void exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException;
+	public int exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException;
 }

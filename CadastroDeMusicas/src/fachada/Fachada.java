@@ -607,6 +607,11 @@ public class Fachada {
 		pDAO.removerPlaylist(p);
 	}
 	
+	public static int exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
+		MusicaDAO mDAO = new MusicaDAOMySQL();
+		return mDAO.exportarArquivoCapa(musica, caminhoArquivo);
+	}
+	
 	// métodos de teste	
 	public static void criaRelatorioDeTeste() {
 		List<MusicaNaColecao> set = new ArrayList<MusicaNaColecao>();

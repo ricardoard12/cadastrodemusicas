@@ -40,6 +40,7 @@ import classesbasicas.Musica;
 import classesbasicas.Tipo;
 import classesbasicas.Log.TipoOperacao;
 import dao.LogDAO;
+import dao.MusicaDAO;
 import dao.impl.LogDAOMySQL;
 
 
@@ -225,6 +226,14 @@ public class Sincronizacao extends javax.swing.JFrame {
 						Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
 								, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
 						
+						// salvando o arquivo de imagem da capa do disco
+						if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
+							int tmp = Fachada.exportarArquivoCapa(musica, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica() + "CAPADISCO");
+							if (tmp != MusicaDAO.ARQUIVO_CAPA_COPIADO_OK && tmp != MusicaDAO.ARQUIVO_CAPA_INEXISTENTE) {
+								JOptionPane.showMessageDialog(this, "Erro ao exportar a imagem da capa do Disco da Música.", "Erro", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+												
 						l.setObjeto(musica);
 						logs.add(l);
 						
@@ -257,6 +266,14 @@ public class Sincronizacao extends javax.swing.JFrame {
 							// adicionar o objetos a lista de objetos a ignorar, assim se houver outro log referente ao mesmo objeto, ele nao sera processado
 							objetosIgnorar.add(l.getChaveUnicaObjeto());
 							continue;
+						}
+						
+						// salvando o arquivo de imagem da capa do disco
+						if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
+							int tmp = Fachada.exportarArquivoCapa(musica, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
+							if (tmp != MusicaDAO.ARQUIVO_CAPA_COPIADO_OK && tmp != MusicaDAO.ARQUIVO_CAPA_INEXISTENTE) {
+								JOptionPane.showMessageDialog(this, "Erro ao exportar a imagem da capa do Disco da Música.", "Erro", JOptionPane.ERROR_MESSAGE);
+							}
 						}
 						
 						l.setObjeto(musica);
