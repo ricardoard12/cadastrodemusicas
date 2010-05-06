@@ -287,7 +287,7 @@ public class Fachada {
 	// Métodos de cadastro
 	public static void cadastrarMusica(Musica m) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();		
-		m.gerarChaveUnica();		
+		if (m.getChaveUnica() == null || m.getChaveUnica().equals("")) m.gerarChaveUnica();		
 		musicaDAO.cadastrarMusica(m);
 	}
 	
