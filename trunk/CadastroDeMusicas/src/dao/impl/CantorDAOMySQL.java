@@ -140,6 +140,16 @@ public class CantorDAOMySQL implements CantorDAO {
 		String sql = "SELECT * FROM cantor WHERE nome LIKE '" + nome + "'";
 		return listarCantoresPorConsulta(sql);
 	}
+
+	public Cantor getCantorPorChaveUnica(String chaveUnica)
+			throws DataException {
+		String sql = "SELECT * FROM Cantor WHERE chaveUnica LIKE = '" + chaveUnica + "'";
+		
+		List<Cantor> lista = listarCantoresPorConsulta(sql);
+		
+		if (lista.size() == 0) return null;
+		else return lista.get(lista.size() - 1);
+	}
 	
 	
 

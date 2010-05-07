@@ -273,6 +273,21 @@ public class Fachada {
 		return musicaDAO.listarMusicasPorChaveUnica(chaveUnica);
 	}
 	
+	public static Cantor getCantorPorChaveUnica(String chaveUnica) throws DataException {
+		CantorDAO cantorDAO = new CantorDAOMySQL();
+		return cantorDAO.getCantorPorChaveUnica(chaveUnica);
+	}
+	
+	public static Assunto getAssuntoPorChaveUnica(String chaveUnica) throws DataException {
+		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+		return assuntoDAO.getAssuntoPorChaveUnica(chaveUnica);
+	}
+	
+	public static Tipo getTipoPorChaveUnica(String chaveUnica) throws DataException {
+		TipoDAO tipoDAO = new TipoDAOMySQL();
+		return tipoDAO.getTipoPorChaveUnica(chaveUnica);
+	}
+	
 	public static List<Colecao> listarColecoes() throws DataException {
 		ColecaoDAO cDAO = new ColecaoDAOMySQL();
 		return cDAO.listarColecoes();
