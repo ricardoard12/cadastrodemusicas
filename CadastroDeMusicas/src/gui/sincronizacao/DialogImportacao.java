@@ -206,11 +206,25 @@ public class DialogImportacao extends javax.swing.JDialog {
 				logString += m.getDescricaoCompleta();
 				textAreaLog.setText(logString);
 				
+				String textoObservacoes = "";
+				
+				// preenchendo a área de texto dos dados locais (Observações)
+				// procurando uma música com o mesmo nome da cadastrada
+				try {
+					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+					if (musicaLocal != null) {
+						textoObservacoes += "Foi encontrada uma música com a mesma Chave Única da Música do Log.\n\n"; 
+						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+					}
+				} catch (DataException e) {
+					e.printStackTrace();
+				}
+				
 				// preenchendo a área de texto dos dados locais (Observações)
 				// procurando uma música com o mesmo nome da cadastrada
 				try {
 					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1);
-					String textoObservacoes = "";
+					textoObservacoes = "";
 					if (musicasLocais != null && musicasLocais.size() > 0) {
 						 textoObservacoes += "Foram encontradas " + musicasLocais.size() + " músicas Locais com o mesmo nome da Música contida no Log.\n\n"; 
 						for (Musica musica: musicasLocais) {
@@ -219,10 +233,11 @@ public class DialogImportacao extends javax.swing.JDialog {
 					} else {
 						textoObservacoes += "Não foram encontradas músicas Locais com o mesmo nome da Música contida no Log.";
 					}
-					textAreaObservacoes.setText(textoObservacoes);
 				} catch (DataException e) {
 					e.printStackTrace();
 				}
+				
+				textAreaObservacoes.setText(textoObservacoes);
 				
 			} else if (l.getObjeto() instanceof Cantor) {
 				logString += "Log Ignorado.";
@@ -249,7 +264,16 @@ public class DialogImportacao extends javax.swing.JDialog {
 					Musica musicaLocal = Fachada.getMusica(m.getIdMusica());
 					String textoObservacoes = "";
 					if (musicaLocal != null) {
-						textoObservacoes += musicaLocal.getDescricaoCompleta(); 
+						if (!m.getChaveUnica().equals(musicaLocal.getChaveUnica())) {
+							textoObservacoes += "As Músicas com o mesmo id Não têm a mesma Chave Única. Procurando uma música no sistema com a mesma chave única.\n\n";
+							musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+							if (musicaLocal != null) {
+								textoObservacoes += musicaLocal.getDescricaoCompleta();	
+							}
+						}
+						Ajeitar aqui, ver como deve ser feito
+						textoObservacoes += musicaLocal.getDescricaoCompleta();	
+						
 					} else {
 						textoObservacoes += "Não foi encontrada a música local correspondente ao log.";
 					}
@@ -661,6 +685,8 @@ public class DialogImportacao extends javax.swing.JDialog {
 					// verificando se a música tem arquivo de capa de disco
 					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
 						Fachada.alterarCapaDiscoMusica(m, m.getNomeArquivoCapa(), diretorioArquivos.getPath() + File.separator + m.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
+					} else {
+						Fachada.alterarCapaDiscoMusica(m, null, null);
 					}
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
