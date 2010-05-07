@@ -129,4 +129,16 @@ public class TipoDAOMySQL implements TipoDAO {
 		return listarTiposPorConsulta(sql);
 	}
 
+	public Tipo getTipoPorChaveUnica(String chaveUnica) throws DataException {
+		String sql = "SELECT * FROM Tipo WHERE chaveUnica LIKE '" + chaveUnica + "'";
+		
+		List<Tipo> lista = listarTiposPorConsulta(sql);
+		
+		if (lista.size() <= 0) {
+			return null;
+		} else {
+			return lista.get(0);
+		}
+	}
+
 }

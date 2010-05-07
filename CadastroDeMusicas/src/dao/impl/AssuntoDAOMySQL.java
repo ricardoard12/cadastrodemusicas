@@ -125,4 +125,14 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 		return listarAssuntosPorConsulta(sql);
 	}
 
+	public Assunto getAssuntoPorChaveUnica(String chaveUnica)
+			throws DataException {
+		String sql = "SELECT * FROM Assunto WHERE chaveUnica LIKE '" + chaveUnica + "'";
+		
+		List<Assunto> lista = listarAssuntosPorConsulta(sql);
+		
+		if (lista.size() == 0) return null;
+		else return lista.get(lista.size() - 1);
+	}
+
 }
