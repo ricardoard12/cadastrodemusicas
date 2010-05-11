@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Tipo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9079019559572300528L;
 	private int idTipo; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
 	private String tipo;

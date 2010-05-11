@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Assunto implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4119343566531550514L;
 	private int idAssunto; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
 	private String assunto;
