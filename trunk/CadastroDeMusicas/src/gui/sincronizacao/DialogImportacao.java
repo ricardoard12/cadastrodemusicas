@@ -789,15 +789,20 @@ public class DialogImportacao extends javax.swing.JDialog {
 					List<Assunto> assuntosSalvarMusica = new ArrayList<Assunto>();
 					for (Assunto aLog: assuntos) {
 						try {
-							List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
-							if (assuntosSistema != null && assuntosSistema.size() > 0) {
-								assuntosSalvarMusica.add(assuntosSistema.get(0));
+							Assunto assuntoLocal = Fachada.getAssuntoPorChaveUnica(aLog.getChaveUnica());
+							if (assuntoLocal != null && assuntoLocal.getAssunto().equalsIgnoreCase(aLog.getAssunto())) {
+								assuntosSalvarMusica.add(assuntoLocal);
 							} else {
-								Assunto novoAssunto = new Assunto();
-								novoAssunto.setAssunto(aLog.getAssunto());
-								novoAssunto.setChaveUnica(aLog.getChaveUnica());
-								Fachada.cadastrarAssunto(novoAssunto);
-								assuntosSalvarMusica.add(novoAssunto);
+								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+								if (assuntosSistema != null && assuntosSistema.size() > 0) {
+									assuntosSalvarMusica.add(assuntosSistema.get(0));
+								} else {
+									Assunto novoAssunto = new Assunto();
+									novoAssunto.setAssunto(aLog.getAssunto());
+									novoAssunto.setChaveUnica(aLog.getChaveUnica());
+									Fachada.cadastrarAssunto(novoAssunto);
+									assuntosSalvarMusica.add(novoAssunto);
+								}	
 							}
 						} catch (DataException e) {
 							e.printStackTrace();
@@ -810,15 +815,20 @@ public class DialogImportacao extends javax.swing.JDialog {
 				if (m.getTipo() != null) {
 					Tipo tipoMusica = m.getTipo();
 					try {
-						List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
-						if (tiposSistema != null && tiposSistema.size() > 0) {
-							m.setTipo(tiposSistema.get(0));
+						Tipo tipoLocal = Fachada.getTipoPorChaveUnica(tipoMusica.getChaveUnica());
+						if (tipoLocal != null && tipoLocal.getTipo().equalsIgnoreCase(tipoMusica.getTipo())) {
+							m.setTipo(tipoLocal);
 						} else {
-							Tipo tipo = new Tipo();
-							tipo.setTipo(tipoMusica.getTipo());
-							tipo.setChaveUnica(tipoMusica.getChaveUnica());
-							Fachada.cadastrarTipo(tipo);
-							m.setTipo(tipo);
+							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+							if (tiposSistema != null && tiposSistema.size() > 0) {
+								m.setTipo(tiposSistema.get(0));
+							} else {
+								Tipo tipo = new Tipo();
+								tipo.setTipo(tipoMusica.getTipo());
+								tipo.setChaveUnica(tipoMusica.getChaveUnica());
+								Fachada.cadastrarTipo(tipo);
+								m.setTipo(tipo);
+							}	
 						}
 					} catch (DataException e) {
 						// TODO Auto-generated catch block
@@ -833,16 +843,21 @@ public class DialogImportacao extends javax.swing.JDialog {
 					
 					for (Cantor c: cantoresMusica) {
 						try {
-							List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
-							if (cantoresSistema != null && cantoresSistema.size() > 0) {
-								cantoresSalvarMusica.add(cantoresSistema.get(0));
+							Cantor cantorLocal = Fachada.getCantorPorChaveUnica(c.getChaveUnica());
+							if (cantorLocal != null && cantorLocal.getNome().equalsIgnoreCase(c.getNome())) {
+								cantoresSalvarMusica.add(cantorLocal);
 							} else {
-								Cantor novoCantor = new Cantor();
-								novoCantor.setNome(c.getNome());
-								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
-								novoCantor.setChaveUnica(c.getChaveUnica());
-								Fachada.cadastrarCantor(novoCantor);
-								cantoresSalvarMusica.add(novoCantor);
+								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+								if (cantoresSistema != null && cantoresSistema.size() > 0) {
+									cantoresSalvarMusica.add(cantoresSistema.get(0));
+								} else {
+									Cantor novoCantor = new Cantor();
+									novoCantor.setNome(c.getNome());
+									novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+									novoCantor.setChaveUnica(c.getChaveUnica());
+									Fachada.cadastrarCantor(novoCantor);
+									cantoresSalvarMusica.add(novoCantor);
+								}	
 							}
 						} catch (DataException e) {
 							// TODO Auto-generated catch block
@@ -1017,7 +1032,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 			}	
 		} else if (l.getTipoOperacao() == TipoOperacao.ADICAO_CANTOR_A_MUSICA) {
 			if (l.getObjeto() instanceof Musica) {
-				Musica m = (Musica) l.getObjeto();
+Musica m = (Musica) l.getObjeto();
 				
 				try {
 					// Procurando a música exata dentro do banco de dados a ser alterada
@@ -1067,15 +1082,20 @@ public class DialogImportacao extends javax.swing.JDialog {
 					List<Assunto> assuntosSalvarMusica = new ArrayList<Assunto>();
 					for (Assunto aLog: assuntos) {
 						try {
-							List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
-							if (assuntosSistema != null && assuntosSistema.size() > 0) {
-								assuntosSalvarMusica.add(assuntosSistema.get(0));
+							Assunto assuntoLocal = Fachada.getAssuntoPorChaveUnica(aLog.getChaveUnica());
+							if (assuntoLocal != null && assuntoLocal.getAssunto().equalsIgnoreCase(aLog.getAssunto())) {
+								assuntosSalvarMusica.add(assuntoLocal);
 							} else {
-								Assunto novoAssunto = new Assunto();
-								novoAssunto.setAssunto(aLog.getAssunto());
-								novoAssunto.setChaveUnica(aLog.getChaveUnica());
-								Fachada.cadastrarAssunto(novoAssunto);
-								assuntosSalvarMusica.add(novoAssunto);
+								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+								if (assuntosSistema != null && assuntosSistema.size() > 0) {
+									assuntosSalvarMusica.add(assuntosSistema.get(0));
+								} else {
+									Assunto novoAssunto = new Assunto();
+									novoAssunto.setAssunto(aLog.getAssunto());
+									novoAssunto.setChaveUnica(aLog.getChaveUnica());
+									Fachada.cadastrarAssunto(novoAssunto);
+									assuntosSalvarMusica.add(novoAssunto);
+								}	
 							}
 						} catch (DataException e) {
 							e.printStackTrace();
@@ -1088,15 +1108,20 @@ public class DialogImportacao extends javax.swing.JDialog {
 				if (m.getTipo() != null) {
 					Tipo tipoMusica = m.getTipo();
 					try {
-						List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
-						if (tiposSistema != null && tiposSistema.size() > 0) {
-							m.setTipo(tiposSistema.get(0));
+						Tipo tipoLocal = Fachada.getTipoPorChaveUnica(tipoMusica.getChaveUnica());
+						if (tipoLocal != null && tipoLocal.getTipo().equalsIgnoreCase(tipoMusica.getTipo())) {
+							m.setTipo(tipoLocal);
 						} else {
-							Tipo tipo = new Tipo();
-							tipo.setTipo(tipoMusica.getTipo());
-							tipo.setChaveUnica(tipoMusica.getChaveUnica());
-							Fachada.cadastrarTipo(tipo);
-							m.setTipo(tipo);
+							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+							if (tiposSistema != null && tiposSistema.size() > 0) {
+								m.setTipo(tiposSistema.get(0));
+							} else {
+								Tipo tipo = new Tipo();
+								tipo.setTipo(tipoMusica.getTipo());
+								tipo.setChaveUnica(tipoMusica.getChaveUnica());
+								Fachada.cadastrarTipo(tipo);
+								m.setTipo(tipo);
+							}	
 						}
 					} catch (DataException e) {
 						// TODO Auto-generated catch block
@@ -1111,16 +1136,21 @@ public class DialogImportacao extends javax.swing.JDialog {
 					
 					for (Cantor c: cantoresMusica) {
 						try {
-							List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
-							if (cantoresSistema != null && cantoresSistema.size() > 0) {
-								cantoresSalvarMusica.add(cantoresSistema.get(0));
+							Cantor cantorLocal = Fachada.getCantorPorChaveUnica(c.getChaveUnica());
+							if (cantorLocal != null && cantorLocal.getNome().equalsIgnoreCase(c.getNome())) {
+								cantoresSalvarMusica.add(cantorLocal);
 							} else {
-								Cantor novoCantor = new Cantor();
-								novoCantor.setNome(c.getNome());
-								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
-								novoCantor.setChaveUnica(c.getChaveUnica());
-								Fachada.cadastrarCantor(novoCantor);
-								cantoresSalvarMusica.add(novoCantor);
+								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+								if (cantoresSistema != null && cantoresSistema.size() > 0) {
+									cantoresSalvarMusica.add(cantoresSistema.get(0));
+								} else {
+									Cantor novoCantor = new Cantor();
+									novoCantor.setNome(c.getNome());
+									novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+									novoCantor.setChaveUnica(c.getChaveUnica());
+									Fachada.cadastrarCantor(novoCantor);
+									cantoresSalvarMusica.add(novoCantor);
+								}	
 							}
 						} catch (DataException e) {
 							// TODO Auto-generated catch block
