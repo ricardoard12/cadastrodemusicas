@@ -115,8 +115,15 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public void removerTipo(Tipo t) throws DataException {
-		// TODO Auto-generated method stub
-		
+		try {
+			String sql = "DELETE FROM tipo WHERE idTipo = " + t.getIdTipo();
+			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
+			stat.execute();
+			System.out.println("Tipo removido do sistema.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataException();
+		}
 	}
 
 	public List<Tipo> listarTiposSemChaveUnica() throws DataException {

@@ -118,8 +118,15 @@ public class CantorDAOMySQL implements CantorDAO {
 	}
 
 	public void removerCantor(Cantor c) throws DataException {
-		// TODO Auto-generated method stub
-		
+		try {
+			String sql = "DELETE FROM cantor WHERE idCantor = " + c.getIdCantor();
+			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
+			stat.execute();
+			System.out.println("Tipo removido do sistema.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataException();
+		}
 	}
 
 	public List<Cantor> listarCantoresPorDiversos(String nome, boolean naoListarPorNome,
