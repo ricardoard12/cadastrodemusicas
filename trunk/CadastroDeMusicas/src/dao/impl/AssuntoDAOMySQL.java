@@ -111,8 +111,15 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public void removerAssunto(Assunto a) throws DataException {
-		// TODO Auto-generated method stub
-		
+		try {
+			String sql = "DELETE FROM assunto WHERE idAssunto = " + a.getIdAssunto();
+			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
+			stat.execute();
+			System.out.println("Tipo removido do sistema.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataException();
+		}
 	}
 
 	public List<Assunto> listarAssuntosSemChaveUnica() throws DataException {
