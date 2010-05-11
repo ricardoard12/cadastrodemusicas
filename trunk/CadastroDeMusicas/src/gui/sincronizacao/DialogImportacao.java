@@ -640,6 +640,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						} else {
 							Assunto novoAssunto = new Assunto();
 							novoAssunto.setAssunto(aLog.getAssunto());
+							novoAssunto.setChaveUnica(aLog.getChaveUnica());
 							Fachada.cadastrarAssunto(novoAssunto);
 							assuntosSalvarMusica.add(novoAssunto);
 						}
@@ -660,6 +661,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 					} else {
 						Tipo tipo = new Tipo();
 						tipo.setTipo(tipoMusica.getTipo());
+						tipo.setChaveUnica(tipoMusica.getChaveUnica());
 						Fachada.cadastrarTipo(tipo);
 						m.setTipo(tipo);
 					}
@@ -683,6 +685,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 							Cantor novoCantor = new Cantor();
 							novoCantor.setNome(c.getNome());
 							novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+							novoCantor.setChaveUnica(c.getChaveUnica());
 							Fachada.cadastrarCantor(novoCantor);
 							cantoresSalvarMusica.add(novoCantor);
 						}
@@ -743,16 +746,28 @@ public class DialogImportacao extends javax.swing.JDialog {
 					// procurando primeiro pela chave única
 					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
 					if (musicaLocal == null) {
-						JOptionPane.showMessageDialog(this, "Erro. Não foi encontrada a música Local Correspondente.", "Erro", JOptionPane.ERROR_MESSAGE);
-						return;
+						musicaLocal = Fachada.getMusica(m.getIdMusica());
+						if (musicaLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrada nenhuma música Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;	
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrada uma música com a mesma chave única.\nDeseja alterar os dados da música com o mesmo id?\n" + musicaLocal.getDescricaoCompleta() + "\nEssa música deve ser alterada?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								m.setIdMusica(musicaLocal.getIdMusica());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
 					} else if (musicaLocal.getIdMusica() != m.getIdMusica()) {
-						int e = JOptionPane.showConfirmDialog(this, "Os ids das Músicas com a mesma Chave Única não coincidem. Alterar a música com a mesma chave Única?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						int e = JOptionPane.showConfirmDialog(this, "Os ids das Músicas com a mesma Chave Única não coincidem. Alterar a música com a mesma chave Única (" + musicaLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
 						if (e == JOptionPane.YES_OPTION) {
 							m.setIdMusica(musicaLocal.getIdMusica());
 						} else {
+							// procurando pelo id
 							musicaLocal = Fachada.getMusica(m.getIdMusica());
 							if (musicaLocal != null) {
-								e = JOptionPane.showConfirmDialog(this, "Existe uma música com o mesmo id (e chave única diferente). Essa música deve ser alterada?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								e = JOptionPane.showConfirmDialog(this, "Existe uma música com o mesmo id (e chave única diferente -> " + musicaLocal.getDescricaoCompleta() + "). Essa música deve ser alterada?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
 								if (e != JOptionPane.YES_OPTION) {
 									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
 									return;	
@@ -761,7 +776,6 @@ public class DialogImportacao extends javax.swing.JDialog {
 								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-							
 						}
 					}
 				} catch (DataException e1) {
@@ -781,6 +795,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 							} else {
 								Assunto novoAssunto = new Assunto();
 								novoAssunto.setAssunto(aLog.getAssunto());
+								novoAssunto.setChaveUnica(aLog.getChaveUnica());
 								Fachada.cadastrarAssunto(novoAssunto);
 								assuntosSalvarMusica.add(novoAssunto);
 							}
@@ -801,6 +816,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						} else {
 							Tipo tipo = new Tipo();
 							tipo.setTipo(tipoMusica.getTipo());
+							tipo.setChaveUnica(tipoMusica.getChaveUnica());
 							Fachada.cadastrarTipo(tipo);
 							m.setTipo(tipo);
 						}
@@ -824,6 +840,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 								Cantor novoCantor = new Cantor();
 								novoCantor.setNome(c.getNome());
 								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+								novoCantor.setChaveUnica(c.getChaveUnica());
 								Fachada.cadastrarCantor(novoCantor);
 								cantoresSalvarMusica.add(novoCantor);
 							}
@@ -834,7 +851,6 @@ public class DialogImportacao extends javax.swing.JDialog {
 					}
 					m.setCantores(cantoresSalvarMusica);
 				}
-				
 								
 				try {
 					Fachada.alterarMusica(m);
@@ -851,6 +867,48 @@ public class DialogImportacao extends javax.swing.JDialog {
 			} else if (l.getObjeto() instanceof Cantor) {
 				Cantor c = (Cantor) l.getObjeto();
 				try {
+					// Procurando o cantor exato do banco de dados que será alterado
+					// procurando primeiramente pela chave única
+					Cantor cantorLocal = Fachada.getCantorPorChaveUnica(c.getChaveUnica());					
+					if (cantorLocal == null) {
+						cantorLocal = Fachada.getCantor(c.getIdCantor());
+						if (cantorLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Cantor Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Cantor com a mesma chave única.\nDeseja alterar os dados do Cantor com o mesmo id?\n" + cantorLocal.getDescricaoCompleta() + "\nEsse Cantor deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								c.setIdCantor(cantorLocal.getIdCantor());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					} else if (cantorLocal.getIdCantor() != c.getIdCantor()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Cantores com a mesma Chave Única não coincidem. Alterar o Cantor com a mesma chave Única (" + cantorLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							c.setIdCantor(cantorLocal.getIdCantor());
+						} else {
+							// procurando pelo id
+							cantorLocal = Fachada.getCantor(c.getIdCantor());
+							if (cantorLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Cantor com o mesmo id (e chave única diferente -> " + cantorLocal.getDescricaoCompleta() + "). Esse Cantor deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				try {
 					Fachada.alterarCantor(c);
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
@@ -859,6 +917,47 @@ public class DialogImportacao extends javax.swing.JDialog {
 			} else if (l.getObjeto() instanceof Tipo) {
 				Tipo t = (Tipo) l.getObjeto();
 				try {
+					// Procurando o tipo exato dentro do banco de dados a ser alterado
+					// procurando primeiro pela chave única
+					Tipo tipoLocal = Fachada.getTipoPorChaveUnica(t.getChaveUnica());
+					if (tipoLocal == null) {
+						tipoLocal = Fachada.getTipo(t.getIdTipo());
+						if (tipoLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Ritmo Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Ritmo com a mesma chave única.\nDeseja alterar os dados do Ritmo com o mesmo id?\n" + tipoLocal.getDescricaoCompleta() + "\nEsse Ritmo deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								t.setIdTipo(tipoLocal.getIdTipo());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}	
+						}
+					} else if (tipoLocal.getIdTipo() != t.getIdTipo()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Ritmos com a mesma Chave Única não coincidem. Alterar o tipo com a mesma chave Única (" + tipoLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							t.setIdTipo(tipoLocal.getIdTipo());
+						} else {
+							// procurando pelo id
+							tipoLocal = Fachada.getTipo(t.getIdTipo());
+							if (tipoLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Ritmo com o mesmo id (e chave única diferente -> " + tipoLocal.getDescricaoCompleta() + "). Esse Ritmo deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
 					Fachada.alterarTipo(t);
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
@@ -866,6 +965,47 @@ public class DialogImportacao extends javax.swing.JDialog {
 				}
 			} else if (l.getObjeto() instanceof Assunto) {
 				Assunto a = (Assunto) l.getObjeto();
+				try {
+					// Procurando o Assunto exato dentro do banco de dados a ser alterado
+					// procurando primeiro pela chave única
+					Assunto assuntoLocal = Fachada.getAssuntoPorChaveUnica(a.getChaveUnica());
+					if (assuntoLocal == null) {
+						assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+						if (assuntoLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Assunto Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Assunto com a mesma chave única.\nDeseja alterar os dados do Assunto com o mesmo id?\n" + assuntoLocal.getDescricaoCompleta() + "\nEsse Assunto deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								a.setIdAssunto(assuntoLocal.getIdAssunto());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}	
+						}
+					} else if (assuntoLocal.getIdAssunto() != a.getIdAssunto()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Assuntos com a mesma Chave Única não coincidem. Alterar o assunto com a mesma chave Única (" + assuntoLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							a.setIdAssunto(assuntoLocal.getIdAssunto());
+						} else {
+							// procurando pelo id
+							assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+							if (assuntoLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Assunto com o mesmo id (e chave única diferente -> " + assuntoLocal.getDescricaoCompleta() + "). Esse Assunto deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					e1.printStackTrace();
+				}
+				
 				try {
 					Fachada.alterarAssunto(a);
 				} catch (DataException e) {
@@ -879,6 +1019,48 @@ public class DialogImportacao extends javax.swing.JDialog {
 			if (l.getObjeto() instanceof Musica) {
 				Musica m = (Musica) l.getObjeto();
 				
+				try {
+					// Procurando a música exata dentro do banco de dados a ser alterada
+					// procurando primeiro pela chave única
+					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+					if (musicaLocal == null) {
+						musicaLocal = Fachada.getMusica(m.getIdMusica());
+						if (musicaLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrada nenhuma música Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;	
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrada uma música com a mesma chave única.\nDeseja alterar os dados da música com o mesmo id?\n" + musicaLocal.getDescricaoCompleta() + "\nEssa música deve ser alterada?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								m.setIdMusica(musicaLocal.getIdMusica());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					} else if (musicaLocal.getIdMusica() != m.getIdMusica()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids das Músicas com a mesma Chave Única não coincidem. Alterar a música com a mesma chave Única (" + musicaLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							m.setIdMusica(musicaLocal.getIdMusica());
+						} else {
+							// procurando pelo id
+							musicaLocal = Fachada.getMusica(m.getIdMusica());
+							if (musicaLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe uma música com o mesmo id (e chave única diferente -> " + musicaLocal.getDescricaoCompleta() + "). Essa música deve ser alterada?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				// verificando se os assuntos da música estão cadastrados no sistema
 				if (m.getAssuntos() != null && m.getAssuntos().size() > 0) {
 					List<Assunto> assuntos = m.getAssuntos();
@@ -891,6 +1073,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 							} else {
 								Assunto novoAssunto = new Assunto();
 								novoAssunto.setAssunto(aLog.getAssunto());
+								novoAssunto.setChaveUnica(aLog.getChaveUnica());
 								Fachada.cadastrarAssunto(novoAssunto);
 								assuntosSalvarMusica.add(novoAssunto);
 							}
@@ -911,6 +1094,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						} else {
 							Tipo tipo = new Tipo();
 							tipo.setTipo(tipoMusica.getTipo());
+							tipo.setChaveUnica(tipoMusica.getChaveUnica());
 							Fachada.cadastrarTipo(tipo);
 							m.setTipo(tipo);
 						}
@@ -934,6 +1118,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 								Cantor novoCantor = new Cantor();
 								novoCantor.setNome(c.getNome());
 								novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
+								novoCantor.setChaveUnica(c.getChaveUnica());
 								Fachada.cadastrarCantor(novoCantor);
 								cantoresSalvarMusica.add(novoCantor);
 							}
@@ -947,6 +1132,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 								
 				try {
 					Fachada.alterarMusica(m);
+					// verificando se a música tem arquivo de capa de disco
+					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
+						Fachada.alterarCapaDiscoMusica(m, m.getNomeArquivoCapa(), diretorioArquivos.getPath() + File.separator + m.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
+					} else {
+						Fachada.alterarCapaDiscoMusica(m, null, null);
+					}
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -954,6 +1145,48 @@ public class DialogImportacao extends javax.swing.JDialog {
 			}
 		} else if (l.getTipoOperacao() == TipoOperacao.ALTERACAO_ARQUIVO_MUSICA) {
 			Musica m = (Musica) l.getObjeto();
+			
+			try {
+				// Procurando a música exata dentro do banco de dados a ser alterada
+				// procurando primeiro pela chave única
+				Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+				if (musicaLocal == null) {
+					musicaLocal = Fachada.getMusica(m.getIdMusica());
+					if (musicaLocal == null) {
+						JOptionPane.showMessageDialog(this, "Erro. Não foi encontrada nenhuma música Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+						return;	
+					} else {
+						int e = JOptionPane.showConfirmDialog(this, "Não foi encontrada uma música com a mesma chave única.\nDeseja alterar os dados da música com o mesmo id?\n" + musicaLocal.getDescricaoCompleta() + "\nEssa música deve ser alterada?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							m.setIdMusica(musicaLocal.getIdMusica());
+						} else {
+							JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				} else if (musicaLocal.getIdMusica() != m.getIdMusica()) {
+					int e = JOptionPane.showConfirmDialog(this, "Os ids das Músicas com a mesma Chave Única não coincidem. Alterar a música com a mesma chave Única (" + musicaLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+					if (e == JOptionPane.YES_OPTION) {
+						m.setIdMusica(musicaLocal.getIdMusica());
+					} else {
+						// procurando pelo id
+						musicaLocal = Fachada.getMusica(m.getIdMusica());
+						if (musicaLocal != null) {
+							e = JOptionPane.showConfirmDialog(this, "Existe uma música com o mesmo id (e chave única diferente -> " + musicaLocal.getDescricaoCompleta() + "). Essa música deve ser alterada?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+							if (e != JOptionPane.YES_OPTION) {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;	
+							}
+						} else {
+							JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				}
+			} catch (DataException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			// verificando o novo arquivo
 			File arquivoCopiar = new File(diretorioArquivos.getPath() + File.separator + m.getChaveUnica());
@@ -965,7 +1198,8 @@ public class DialogImportacao extends javax.swing.JDialog {
 			// removendo o arquivo antigo da musica
 			try {
 				File tempFile = File.createTempFile("colec", ".mp3");
-				Musica ma = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+				// como a música já foi setada antes, aqui pode-se procurar pelo id
+				Musica ma = Fachada.getMusica(m.getIdMusica());
 				File arquivoAntigo = new File(Util.getDiretorioBase() + File.separator + ma.getDiretorio() + File.separator + ma.getNomeArquivo());
 				// salvando o arquivo antigo para um arquivo temporario
 				if (Util.copyFile(arquivoAntigo.getAbsolutePath(), tempFile.getAbsolutePath())) {
@@ -999,9 +1233,215 @@ public class DialogImportacao extends javax.swing.JDialog {
 		
 		//$hide<<$
 	}
+	
 	private void removerDado() {
 		//$hide>>$
+		Log l = logs.get(indiceAtual);
 		
+		if (l.getTipoOperacao() == TipoOperacao.DELECAO) {
+			if (l.getObjeto() instanceof Musica) {				
+				Musica m = (Musica) l.getObjeto();
+				
+				try {
+					// Procurando a música exata dentro do banco de dados a ser alterada
+					// procurando primeiro pela chave única
+					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
+					if (musicaLocal == null) {
+						musicaLocal = Fachada.getMusica(m.getIdMusica());
+						if (musicaLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrada nenhuma música Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;	
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrada uma música com a mesma chave única.\nDeseja alterar os dados da música com o mesmo id?\n" + musicaLocal.getDescricaoCompleta() + "\nEssa música deve ser alterada?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								m.setIdMusica(musicaLocal.getIdMusica());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					} else if (musicaLocal.getIdMusica() != m.getIdMusica()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids das Músicas com a mesma Chave Única não coincidem. Alterar a música com a mesma chave Única (" + musicaLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							m.setIdMusica(musicaLocal.getIdMusica());
+						} else {
+							// procurando pelo id
+							musicaLocal = Fachada.getMusica(m.getIdMusica());
+							if (musicaLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe uma música com o mesmo id (e chave única diferente -> " + musicaLocal.getDescricaoCompleta() + "). Essa música deve ser alterada?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				try {
+					Fachada.excluirMusica(m);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Cantor) {
+				Cantor c = (Cantor) l.getObjeto();
+				try {
+					// Procurando o cantor exato do banco de dados que será alterado
+					// procurando primeiramente pela chave única
+					Cantor cantorLocal = Fachada.getCantorPorChaveUnica(c.getChaveUnica());					
+					if (cantorLocal == null) {
+						cantorLocal = Fachada.getCantor(c.getIdCantor());
+						if (cantorLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Cantor Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Cantor com a mesma chave única.\nDeseja alterar os dados do Cantor com o mesmo id?\n" + cantorLocal.getDescricaoCompleta() + "\nEsse Cantor deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								c.setIdCantor(cantorLocal.getIdCantor());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					} else if (cantorLocal.getIdCantor() != c.getIdCantor()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Cantores com a mesma Chave Única não coincidem. Alterar o Cantor com a mesma chave Única (" + cantorLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							c.setIdCantor(cantorLocal.getIdCantor());
+						} else {
+							// procurando pelo id
+							cantorLocal = Fachada.getCantor(c.getIdCantor());
+							if (cantorLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Cantor com o mesmo id (e chave única diferente -> " + cantorLocal.getDescricaoCompleta() + "). Esse Cantor deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				try {
+					Fachada.excluirCantor(c);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Tipo) {
+				Tipo t = (Tipo) l.getObjeto();
+				try {
+					// Procurando o tipo exato dentro do banco de dados a ser alterado
+					// procurando primeiro pela chave única
+					Tipo tipoLocal = Fachada.getTipoPorChaveUnica(t.getChaveUnica());
+					if (tipoLocal == null) {
+						tipoLocal = Fachada.getTipo(t.getIdTipo());
+						if (tipoLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Ritmo Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Ritmo com a mesma chave única.\nDeseja alterar os dados do Ritmo com o mesmo id?\n" + tipoLocal.getDescricaoCompleta() + "\nEsse Ritmo deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								t.setIdTipo(tipoLocal.getIdTipo());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}	
+						}
+					} else if (tipoLocal.getIdTipo() != t.getIdTipo()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Ritmos com a mesma Chave Única não coincidem. Alterar o tipo com a mesma chave Única (" + tipoLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							t.setIdTipo(tipoLocal.getIdTipo());
+						} else {
+							// procurando pelo id
+							tipoLocal = Fachada.getTipo(t.getIdTipo());
+							if (tipoLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Ritmo com o mesmo id (e chave única diferente -> " + tipoLocal.getDescricaoCompleta() + "). Esse Ritmo deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
+					Fachada.excluirTipo(t);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (l.getObjeto() instanceof Assunto) {
+				Assunto a = (Assunto) l.getObjeto();
+				try {
+					// Procurando o Assunto exato dentro do banco de dados a ser alterado
+					// procurando primeiro pela chave única
+					Assunto assuntoLocal = Fachada.getAssuntoPorChaveUnica(a.getChaveUnica());
+					if (assuntoLocal == null) {
+						assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+						if (assuntoLocal == null) {
+							JOptionPane.showMessageDialog(this, "Erro. Não foi encontrado nenhum Assunto Local correspondente (nem pelo id e nem pela chave única).", "Erro", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int e = JOptionPane.showConfirmDialog(this, "Não foi encontrado um Assunto com a mesma chave única.\nDeseja alterar os dados do Assunto com o mesmo id?\n" + assuntoLocal.getDescricaoCompleta() + "\nEsse Assunto deve ser alterado?", "Chaves únicas diferentes.", JOptionPane.YES_NO_OPTION);
+							if (e == JOptionPane.YES_OPTION) {
+								a.setIdAssunto(assuntoLocal.getIdAssunto());
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}	
+						}
+					} else if (assuntoLocal.getIdAssunto() != a.getIdAssunto()) {
+						int e = JOptionPane.showConfirmDialog(this, "Os ids dos Assuntos com a mesma Chave Única não coincidem. Alterar o assunto com a mesma chave Única (" + assuntoLocal.getDescricaoCompleta() + ")?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+						if (e == JOptionPane.YES_OPTION) {
+							a.setIdAssunto(assuntoLocal.getIdAssunto());
+						} else {
+							// procurando pelo id
+							assuntoLocal = Fachada.getAssunto(a.getIdAssunto());
+							if (assuntoLocal != null) {
+								e = JOptionPane.showConfirmDialog(this, "Existe um Assunto com o mesmo id (e chave única diferente -> " + assuntoLocal.getDescricaoCompleta() + "). Esse Assunto deve ser alterado?", "Ids não coincidem", JOptionPane.YES_NO_OPTION);
+								if (e != JOptionPane.YES_OPTION) {
+									JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+									return;	
+								}
+							} else {
+								JOptionPane.showMessageDialog(this, "Nenhuma alteração foi feita.", "Erro", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+					}
+				} catch (DataException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
+					Fachada.excluirAssunto(a);
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Objeto de Tipo Inesperado.", "Erro ao Importar.", JOptionPane.ERROR_MESSAGE);
+			}	
+		}
 		//$hide<<$
 	}
 	
