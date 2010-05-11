@@ -6,6 +6,10 @@ import java.util.Date;
 import util.Util;
 
 public class Cantor implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4000726230395472357L;
 	private int idCantor; // chave primária da tabela no banco de dados
 	private String chaveUnica = null;
 	private String nomeSemEspacos;

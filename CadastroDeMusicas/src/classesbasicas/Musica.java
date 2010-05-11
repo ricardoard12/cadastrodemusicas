@@ -30,7 +30,7 @@ public class Musica implements Serializable {
 	private Date created = null;
 	private Date modified = null;
 	
-	private static final long serialVersionUID = 6670383463558570605L;
+	private static final long serialVersionUID = -6046323901198312198L;;
 	
 	public String getDescricaoCompleta() {
 		String descricao = "Dados da Música\n";
@@ -38,7 +38,7 @@ public class Musica implements Serializable {
 		descricao += "Nome: " + nome + "\n";
 		descricao += "Cantor: " + (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "") + "\n";
 		descricao += "Duração: " + Util.formataDuracao(duracao) + "\n";
-		descricao += "Ritmo: " + tipo.getTipo() + "\n";
+		descricao += "Ritmo: " + (tipo != null ? tipo.getTipo() : "") + "\n";
 		String assuntosString = "";
 		if (assuntos != null && assuntos.size() > 0) {
 			for (int j = 0; j < assuntos.size(); j++) {
