@@ -1,2 +1,2 @@
-java -mx1024m -jar CadastroDeMusicas.jar
+java -Xms256m -Xmx512m -jar CadastroDeMusicas.jar
 pause
