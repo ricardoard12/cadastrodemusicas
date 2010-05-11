@@ -346,6 +346,21 @@ public class Fachada {
 		musicaDAO.removerMusica(m);
 	}
 	
+	public static void excluirAssunto(Assunto a) throws DataException {
+		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+		assuntoDAO.removerAssunto(a);
+	}
+
+	public static void excluirTipo(Tipo t) throws DataException {
+		TipoDAO tipoDAO = new TipoDAOMySQL();
+		tipoDAO.removerTipo(t);
+	}
+
+	public static void excluirCantor(Cantor c) throws DataException {
+		CantorDAO cantorDAO = new CantorDAOMySQL();
+		cantorDAO.removerCantor(c);
+	}
+	
 	public static void excluirColecao(Colecao c) throws DataException {
 		ColecaoDAO cDAO = new ColecaoDAOMySQL();
 		cDAO.removerColecao(c);
