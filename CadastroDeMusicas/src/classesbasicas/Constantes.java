@@ -33,6 +33,7 @@ public class Constantes {
 	public static final String nomeDiretorioTemp = "colec_temp";
 	
 	public static final String CONFIGURACAO_INTERVALO_ENTRE_MUSICAS = "intervalo_musicas";
+	public static final String CONFIGURACAO_DATA_RELEASE = "data_release";
 	
 	public static final String STRING_CAPA_DISCO = "CAPADISCO";
 }

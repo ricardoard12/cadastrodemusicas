@@ -178,7 +178,8 @@ public class BDUtil {
 									"UPDATE musica SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
 									"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
 									"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
-									"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1' WHERE `configuracoes`.`configuracao` =  'versao';"
+									"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1.1' WHERE `configuracoes`.`configuracao` =  'versao';",
+									"INSERT INTO configuracoes VALUES('data_release', '12/05/2010');"
 									};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
@@ -196,7 +197,7 @@ public class BDUtil {
 				rs = stat.executeQuery(sql);				
 				rs.next();
 				if (rs.getString("valor").equals("1.0")) {
-					System.out.println("Atualizando o Banco de Dados da Versão 1.0 para a 1.1");
+					System.out.println("Atualizando o Banco de Dados da Versão 1.0 para a 1.1.1");
 					String[] sqls = {"DROP TABLE `playlist` ;",
 							"CREATE TABLE `cadastrodemusicas`.`playlist` (`idPlaylist` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,`nome` VARCHAR( 160 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,`created` DATETIME NULL ,`modified` DATETIME NULL) ENGINE = InnoDB;",
 							"ALTER TABLE `playlist` CHANGE `idPlaylist` `idPlaylist` BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT ;",
@@ -219,7 +220,8 @@ public class BDUtil {
 							"UPDATE musica SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
 							"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
 							"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
-							"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1' WHERE `configuracoes`.`configuracao` =  'versao';"
+							"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.1.1' WHERE `configuracoes`.`configuracao` =  'versao';",
+							"INSERT INTO configuracoes VALUES('data_release', '12/05/2010');"
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {

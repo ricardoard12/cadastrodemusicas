@@ -868,6 +868,25 @@ public class DialogImportacao extends javax.swing.JDialog {
 				}
 								
 				try {
+					// verificando se o nome do arquivo foi alterado
+					Musica musicaAntiga = Fachada.getMusica(m.getIdMusica());
+					if (!musicaAntiga.getDiretorio().equals(m.getDiretorio()) || !musicaAntiga.getNomeArquivo().equals(m.getNomeArquivo())) {
+						m.setDiretorio(musicaAntiga.getDiretorio());
+						File arquivoMusicaAntiga = new File(Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() + File.separator + musicaAntiga.getNomeArquivo());
+						File arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo());
+						int cont = 0;
+						while (arquivoMusicaNova.exists()) {
+							cont++;
+							String nomeArquivoNovo =  m.getNome() + " #" + cont;
+							if (m.getCantores() != null && m.getCantores().size() > 0) {
+								nomeArquivoNovo += " - " + m.getCantores().get(0).getNomeSemEspacos(); 
+							}
+							arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + nomeArquivoNovo);
+							m.setNomeArquivo(nomeArquivoNovo);
+						}
+						arquivoMusicaAntiga.renameTo(arquivoMusicaNova);
+					}
+					
 					Fachada.alterarMusica(m);
 					// verificando se a música tem arquivo de capa de disco
 					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
@@ -1032,7 +1051,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 			}	
 		} else if (l.getTipoOperacao() == TipoOperacao.ADICAO_CANTOR_A_MUSICA) {
 			if (l.getObjeto() instanceof Musica) {
-Musica m = (Musica) l.getObjeto();
+				Musica m = (Musica) l.getObjeto();
 				
 				try {
 					// Procurando a música exata dentro do banco de dados a ser alterada
@@ -1161,6 +1180,25 @@ Musica m = (Musica) l.getObjeto();
 				}
 								
 				try {
+					// verificando se o nome do arquivo foi alterado
+					Musica musicaAntiga = Fachada.getMusica(m.getIdMusica());
+					if (!musicaAntiga.getDiretorio().equals(m.getDiretorio()) || !musicaAntiga.getNomeArquivo().equals(m.getNomeArquivo())) {
+						m.setDiretorio(musicaAntiga.getDiretorio());
+						File arquivoMusicaAntiga = new File(Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() + File.separator + musicaAntiga.getNomeArquivo());
+						File arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo());
+						int cont = 0;
+						while (arquivoMusicaNova.exists()) {
+							cont++;
+							String nomeArquivoNovo =  m.getNome() + " #" + cont;
+							if (m.getCantores() != null && m.getCantores().size() > 0) {
+								nomeArquivoNovo += " - " + m.getCantores().get(0).getNomeSemEspacos(); 
+							}
+							arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + nomeArquivoNovo);
+							m.setNomeArquivo(nomeArquivoNovo);
+						}
+						arquivoMusicaAntiga.renameTo(arquivoMusicaNova);
+					}
+					
 					Fachada.alterarMusica(m);
 					// verificando se a música tem arquivo de capa de disco
 					if (m.getNomeArquivoCapa() != null && !m.getNomeArquivoCapa().equals("")) {
