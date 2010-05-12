@@ -150,7 +150,7 @@ public class CantorDAOMySQL implements CantorDAO {
 
 	public Cantor getCantorPorChaveUnica(String chaveUnica)
 			throws DataException {
-		String sql = "SELECT * FROM Cantor WHERE chaveUnica LIKE = '" + chaveUnica + "'";
+		String sql = "SELECT * FROM Cantor WHERE chaveUnica LIKE '" + chaveUnica + "'";
 		
 		List<Cantor> lista = listarCantoresPorConsulta(sql);
 		
