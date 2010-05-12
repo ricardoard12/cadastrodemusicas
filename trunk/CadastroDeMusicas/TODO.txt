@@ -1,7 +1,3 @@
-Verificar melhor a procura pelos dados antes de adicionar alguma coisa na hora da sincronização
-Por exemplo, pode-se pesquisar primeiro pela chave unica, e depois pelo nome
-
-
 fazer com que as alterações nas músicas se reflitam no player
 Se recuperar de erro com o bd na inicialização (tentar matar o processo e iniciar novamente, ou se não conseguir matar, iniciar em outra porta)
 
