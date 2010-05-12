@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.MatteBorder;
 
+import classesbasicas.Constantes;
+
 import exceptions.ConfiguracaoInexistenteException;
 import exceptions.DataException;
 
@@ -73,7 +75,17 @@ public class AboutPanel extends JPanel implements ActionListener
     String desenvolvidoPor = "Desenvolvido por: Fábio Delicato";
     String fones = "Fones: (81)9174-9666 / (81)3429-6414";
     String email = "E-Mail: fabiodfmelo@gmail.com";
-    String dataRelease = "19/04/2010";
+    String dataRelease = "Data Release";
+    try {
+		dataRelease = BDUtil.getConfiguracao(Constantes.CONFIGURACAO_DATA_RELEASE);
+	} catch (ConfiguracaoInexistenteException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (DataException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    
     graph.drawString(programa, (MaxX - fonte.stringWidth(fones) - 6),(24));
     graph.drawString(versao, (MaxX - fonte.stringWidth(fones) - 6),(38));
     
