@@ -765,7 +765,7 @@ public class CadastroDeMusicas extends JFrame {
 			}
 		});
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(new Rectangle(0, 0, 800, 600));
+		this.setBounds(new Rectangle(0, 0, 920, 600));
 		
 		// posiciona a janela no centro da tela
 		Toolkit kit = Toolkit.getDefaultToolkit();

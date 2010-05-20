@@ -2474,6 +2474,7 @@ public class EditarMusicasPanel extends JPanel {
 	}
 	
 	private void alterarCapaDisco() {
+		//$hide>>$
 		if (nomeArquivoCapaSelecionada == null && getCapaLabel().getIcon() == null) {
 			escolherNovaCapa();
 		} else {
@@ -2494,9 +2495,11 @@ public class EditarMusicasPanel extends JPanel {
 				escolherNovaCapa();
 			}
 		}
+		//$hide<<$
 	}
 	
 	private void escolherNovaCapa() {
+		//$hide>>$
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);					
 		chooser.setFileFilter(new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "bmp", "jpeg", "wbmp", "png", "gif"));
@@ -2518,13 +2521,16 @@ public class EditarMusicasPanel extends JPanel {
 				e.printStackTrace();
 			}
 		}
+		//$hide<<$
 	}
 	
 	private void apagarCapaTemporaria() {
+		//$hide>>$
 		if (caminhoImagemCapaSelecionada != null) {
 			File arquivo = new File(caminhoImagemCapaSelecionada);
 			arquivo.delete();
 		}
+		//$hide<<$
 	}
 	
 	private JPanel getCapaControlePanel() {
@@ -2559,7 +2565,9 @@ public class EditarMusicasPanel extends JPanel {
 			alterarCapaButton.setPreferredSize(new java.awt.Dimension(50, 15));
 			alterarCapaButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
+					//$hide>>$
 					alterarCapaDisco();
+					//$hide<<$
 				}
 			});
 			alterarCapaButton.setEnabled(false);
