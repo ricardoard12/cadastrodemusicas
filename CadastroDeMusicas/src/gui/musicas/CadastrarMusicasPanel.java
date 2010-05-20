@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
@@ -27,9 +28,12 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,11 +41,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -121,6 +128,11 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JLabel tipoLabel = null;
 	private JComboBox tipoComboBox = null;
 	private JLabel duracaoLabel = null;
+	private JRadioButton radioButtonMensagem;
+	private JRadioButton radioButtonInstrumental;
+	private JRadioButton radioButtonCantada;
+	private JPanel panelTipoMusica;
+	private ButtonGroup buttonGroupTipoMusica;
 	private JTextField anoTextField;
 	private JLabel anoLabel;
 	private JTextField duracaoTextField = null;
@@ -200,7 +212,9 @@ public class CadastrarMusicasPanel extends JPanel {
 	public CadastrarMusicasPanel() {
 		super();
 		initialize();
+		//$hide>>$
 		desativarCampos();
+		//$hide<<$
 	}
 
 	/**
@@ -342,12 +356,13 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints2.gridx = 0;
 			nomeDaMusicaLabel = new JLabel();
 			nomeDaMusicaLabel.setText("Nome");			
-			nomeDaMusicaLabel.setBounds(new Rectangle(0, 9, 33, 16));
+			nomeDaMusicaLabel.setBounds(0, 6, 43, 16);
 			dadosPrincipaisPanel = new JPanel();						
 			dadosPrincipaisPanel.setLayout(new GridBagLayout());
 			dadosPrincipaisPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Dados Principais", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-			dadosPrincipaisPanel.add(getNomeTextField(), gridBagConstraints2);
-			dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+			dadosPrincipaisPanel.setPreferredSize(new java.awt.Dimension(524, 275));
+			dadosPrincipaisPanel.add(getNomeTextField(), new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 100, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 100, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getTipoComboBox(), gridBagConstraints9);
 			dadosPrincipaisPanel.add(duracaoLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 1, 1, 0), 0, 0));
 			dadosPrincipaisPanel.add(getDuracaoTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 4, 50), 0, 0));
@@ -356,15 +371,16 @@ public class CadastrarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.add(getLetraScrollPane(), new GridBagConstraints(0, 7, 2, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(spacer8Label, gridBagConstraints34);
 			dadosPrincipaisPanel.add(spacer10Label, gridBagConstraints30);
-			dadosPrincipaisPanel.add(getRitmoPanel(), gridBagConstraints42);
-			dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), gridBagConstraints44);
-			dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getRitmoPanel(), new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 100, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 100, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getControle1Panel(), new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(spacerLabel, gridBagConstraints28);
 			dadosPrincipaisPanel.add(getCapaLabel(), new GridBagConstraints(2, 7, 1, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 16, 0, 12), 0, 0));
 			dadosPrincipaisPanel.add(getCapaControlePanel(), new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 14, 0, 10), 0, 0));
 			dadosPrincipaisPanel.add(getAnoLabel(), new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 111, 1, 0), 0, 0));
-			dadosPrincipaisPanel.add(getAnoTextField(), new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 110, 4, 0), 0, 0));
+			dadosPrincipaisPanel.add(getAnoTextField(), new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.HORIZONTAL, new Insets(0, 110, 4, 0), 0, 0));
+			dadosPrincipaisPanel.add(getPanelTipoMusica(), new GridBagConstraints(0, 1, 1, 5, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 			getCapaLabel().setMinimumSize(getCapaLabel().getSize());
 			getCapaLabel().setMaximumSize(getCapaLabel().getSize());
 		}
@@ -1021,9 +1037,17 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints5.insets = new Insets(8, 0, 0, 0);
 			gridBagConstraints5.gridx = 0;
 			ritmoPanel = new JPanel();
-			ritmoPanel.setLayout(new GridBagLayout());
-			ritmoPanel.add(tipoLabel, gridBagConstraints5);
-			ritmoPanel.add(getNovoRitmoButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0, 57, 0, 0), 0, 0));
+			GroupLayout ritmoPanelLayout = new GroupLayout((JComponent)ritmoPanel);
+			ritmoPanel.setLayout(ritmoPanelLayout);
+			ritmoPanelLayout.setHorizontalGroup(ritmoPanelLayout.createSequentialGroup()
+				.addComponent(tipoLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+				.addGap(67)
+				.addComponent(getNovoRitmoButton(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE));
+			ritmoPanelLayout.setVerticalGroup(ritmoPanelLayout.createSequentialGroup()
+				.addGap(6)
+				.addGroup(ritmoPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				    .addComponent(getNovoRitmoButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(tipoLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)));
 		}
 		return ritmoPanel;
 	}
@@ -1038,7 +1062,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			novoRitmoButton = new JButton();
 			novoRitmoButton.setFocusable(false);
 			novoRitmoButton.setText("Novo");
-			novoRitmoButton.setPreferredSize(new Dimension(60, 16));
 			novoRitmoButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			novoRitmoButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1093,8 +1116,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarNomeButton = new JButton();
 			alterarNomeButton.setFocusable(false);
 			alterarNomeButton.setText("Alterar");
-			alterarNomeButton.setPreferredSize(new Dimension(67, 16));
-			alterarNomeButton.setBounds(new Rectangle(124, 8, 67, 16));
+			alterarNomeButton.setBounds(124, 7, 67, 16);
 			alterarNomeButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			alterarNomeButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1122,9 +1144,17 @@ public class CadastrarMusicasPanel extends JPanel {
 			GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
 			gridBagConstraints6.insets = new Insets(8, 0, 0, 0);
 			cantorPanel = new JPanel();
-			cantorPanel.setLayout(new GridBagLayout());
-			cantorPanel.add(cantorLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(8, 0, 0, 26), 0, 0));
-			cantorPanel.add(getAlterarCantorButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0, 21, 0, 0), 0, 0));
+			GroupLayout cantorPanelLayout = new GroupLayout((JComponent)cantorPanel);
+			cantorPanel.setLayout(cantorPanelLayout);
+			cantorPanelLayout.setVerticalGroup(cantorPanelLayout.createSequentialGroup()
+				.addContainerGap(6, 6)
+				.addGroup(cantorPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				    .addComponent(getAlterarCantorButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(cantorLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
+			cantorPanelLayout.setHorizontalGroup(cantorPanelLayout.createSequentialGroup()
+				.addComponent(cantorLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGap(47)
+				.addComponent(getAlterarCantorButton(), GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE));
 		}
 		return cantorPanel;
 	}
@@ -1271,10 +1301,9 @@ public class CadastrarMusicasPanel extends JPanel {
 			playButton = new JButton();
 			playButton.setFocusable(false);
 			playButton.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_play_green.png")));
-			playButton.setBounds(new Rectangle(198, 2, 26, 22));
+			playButton.setBounds(197, 2, 26, 22);
 			playButton.setMnemonic(KeyEvent.VK_UNDEFINED);
 			playButton.setToolTipText("Toca a música que está selecionada para ser salva");
-			playButton.setPreferredSize(new Dimension(26, 16));
 			playButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1296,8 +1325,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			stopButton = new JButton();
 			stopButton.setFocusable(false);
 			stopButton.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_stop_red.png")));
-			stopButton.setBounds(new Rectangle(224, 2, 26, 22));
-			stopButton.setPreferredSize(new Dimension(26, 16));
+			stopButton.setBounds(224, 2, 26, 22);
 			stopButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1748,7 +1776,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	public void atualizaNomeArquivoDaMusica() {
-		//$hide<<$
+		//$hide>>$
 		if (musica != null) {
 			musica.setNomeArquivo(Util.compoeNomeArquivo(musica));
 			
@@ -2382,6 +2410,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	private void alterarCapaDisco() {
+		//$hide>>$
 		if (nomeArquivoCapaSelecionada == null) {
 			escolherNovaCapa();
 		} else {
@@ -2402,9 +2431,11 @@ public class CadastrarMusicasPanel extends JPanel {
 				escolherNovaCapa();
 			}
 		}
+		//$hide<<$
 	}
 	
 	private void escolherNovaCapa() {
+		//$hide>>$
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);					
 		chooser.setFileFilter(new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "bmp", "jpeg", "wbmp", "png", "gif"));
@@ -2426,13 +2457,16 @@ public class CadastrarMusicasPanel extends JPanel {
 				e.printStackTrace();
 			}
 		}
+		//$hide<<$
 	}
 	
 	private void apagarCapaTemporaria() {
+		//$hide>>$
 		if (caminhoImagemCapaSelecionada != null) {
 			File arquivo = new File(caminhoImagemCapaSelecionada);
 			arquivo.delete();
 		}
+		//$hide<<$
 	}
 	
 	private JPanel getCapaControlePanel() {
@@ -2466,7 +2500,9 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarCapaButton.setPreferredSize(new java.awt.Dimension(50, 15));
 			alterarCapaButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
+					//$hide>>$
 					alterarCapaDisco();
+					//$hide<<$
 				}
 			});
 			alterarCapaButton.setEnabled(false);
@@ -2487,6 +2523,67 @@ public class CadastrarMusicasPanel extends JPanel {
 			anoTextField = new JTextField();
 		}
 		return anoTextField;
+	}
+	
+	private ButtonGroup getButtonGroupTipoMusica() {
+		if(buttonGroupTipoMusica == null) {
+			buttonGroupTipoMusica = new ButtonGroup();
+		}
+		return buttonGroupTipoMusica;
+	}
+	
+	private JPanel getPanelTipoMusica() {
+		if(panelTipoMusica == null) {
+			panelTipoMusica = new JPanel();
+			GridLayout panelTipoMusicaLayout = new GridLayout(3, 1);
+			panelTipoMusicaLayout.setHgap(5);
+			panelTipoMusicaLayout.setVgap(5);
+			panelTipoMusicaLayout.setColumns(1);
+			panelTipoMusicaLayout.setRows(3);
+			panelTipoMusica.setLayout(panelTipoMusicaLayout);
+			panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION));
+			panelTipoMusica.setPreferredSize(new java.awt.Dimension(98, 60));
+			panelTipoMusica.setSize(98, 56);
+			panelTipoMusica.add(getRadioButtonCantada());
+			panelTipoMusica.add(getRadioButtonInstrumental());
+			panelTipoMusica.add(getRadioButtonMensagem());
+		}
+		return panelTipoMusica;
+	}
+	
+	private JRadioButton getRadioButtonCantada() {
+		if(radioButtonCantada == null) {
+			radioButtonCantada = new JRadioButton();
+			radioButtonCantada.setText("Cantada");
+			radioButtonCantada.setPreferredSize(new java.awt.Dimension(86, 18));
+			radioButtonCantada.setSize(86, 18);
+			radioButtonCantada.setFocusable(false);
+			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonCantada.setMinimumSize(new java.awt.Dimension(21, 19));
+		}
+		return radioButtonCantada;
+	}
+	
+	private JRadioButton getRadioButtonInstrumental() {
+		if(radioButtonInstrumental == null) {
+			radioButtonInstrumental = new JRadioButton();
+			radioButtonInstrumental.setText("Instrumental");
+			radioButtonInstrumental.setPreferredSize(new java.awt.Dimension(86, 18));
+			radioButtonInstrumental.setSize(86, 18);
+			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonInstrumental;
+	}
+	
+	private JRadioButton getRadioButtonMensagem() {
+		if(radioButtonMensagem == null) {
+			radioButtonMensagem = new JRadioButton();
+			radioButtonMensagem.setText("Mensagem");
+			radioButtonMensagem.setPreferredSize(new java.awt.Dimension(86, 18));
+			radioButtonMensagem.setSize(86, 18);
+			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonMensagem;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="0,10"
