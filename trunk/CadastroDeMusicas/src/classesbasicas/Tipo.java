@@ -14,6 +14,8 @@ public class Tipo implements Serializable {
 	private Date created = null;
 	private Date modified = null;
 	
+	private int tipoArquivo;
+	
 	public int getIdTipo() {
 		return idTipo;
 	}
@@ -100,6 +102,14 @@ public class Tipo implements Serializable {
 		return ((this.idTipo == castedObj.idTipo) 
 				&& (this.tipo == null ? castedObj.tipo == null : this.tipo.equals(castedObj.tipo))
 				&& this.chaveUnica == null ? castedObj.chaveUnica == null : this.chaveUnica.equals(castedObj.chaveUnica));
+	}
+
+	public void setTipoArquivo(int tipoArquivo) {
+		this.tipoArquivo = tipoArquivo;
+	}
+	
+	public int getTipoArquivo() {
+		return tipoArquivo;
 	}
 	
 }

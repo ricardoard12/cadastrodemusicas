@@ -39,8 +39,8 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public int cadastrarTipo(Tipo t) throws DataException {
-		String sql = "INSERT INTO tipo (tipo, chaveUnica, created, modified) "
-			+ "VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO tipo (tipo, chaveUnica, created, modified, tipoarquivo) "
+			+ "VALUES (?, ?, ?, ?, ?)";
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -50,6 +50,7 @@ public class TipoDAOMySQL implements TipoDAO {
 			Date data = new Date();
 			ps.setTimestamp(3, new Timestamp(data.getTime()));
 			ps.setTimestamp(4, new Timestamp(data.getTime()));
+			ps.setInt(5, t.getTipoArquivo());
 			
 			ps.execute();
 

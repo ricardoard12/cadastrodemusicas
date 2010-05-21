@@ -38,8 +38,8 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public int cadastrarAssunto(Assunto a) throws DataException {
-		String sql = "INSERT INTO assunto (assunto, chaveUnica, created, modified) "
-			+ "VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO assunto (assunto, chaveUnica, created, modified, tipoarquivo) "
+			+ "VALUES (?, ?, ?, ?, ?)";
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -49,6 +49,7 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			Date data = new Date();
 			ps.setTimestamp(3, new Timestamp(data.getTime()));
 			ps.setTimestamp(4, new Timestamp(data.getTime()));
+			ps.setInt(5, a.getTipoArquivo());
 			
 			ps.execute();
 

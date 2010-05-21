@@ -36,5 +36,13 @@ public class Constantes {
 	public static final String CONFIGURACAO_DATA_RELEASE = "data_release";
 	
 	public static final String STRING_CAPA_DISCO = "CAPADISCO";
+	
+	public static final int TIPO_ARQUIVO_MUSICA_CANTADA = 1;
+	public static final int TIPO_ARQUIVO_MUSICA_INSTRUMENTAL = 2;
+	public static final int TIPO_ARQUIVO_MENSAGEM = 3;
+	public static final int TIPO_ARQUIVO_TODOS = -1;
+	public static final String TIPO_MUSICA_CANTADA_STRING = "Cantada";
+	public static final String TIPO_MUSICA_INSTRUMENTAL_STRING = "Instrumental";
+	public static final String TIPO_MUSICA_MENSAGEM_STRING = "Mensagem";
 }
 

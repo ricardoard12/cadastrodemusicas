@@ -57,6 +57,7 @@ import util.GlobalPlayer;
 import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
@@ -1587,8 +1588,8 @@ public class CadastrarMusicasPanel extends JPanel {
 		
 		musica.setNome(getNomeTextField().getText());
 		if (musica.getNome() == null || musica.getNome().equals("")) {
-			JOptionPane.showMessageDialog(CadastrarMusicasPanel.this, "Por favor, indique um nome válido para a música.",
-					"Nome da música inválido", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(CadastrarMusicasPanel.this, "Por favor, indique um nome válido para a música/mensagem.",
+					"Nome inválido", JOptionPane.ERROR_MESSAGE);
 			return;
 		}	
 		
@@ -1645,6 +1646,13 @@ public class CadastrarMusicasPanel extends JPanel {
 					}
 					musica.setAssuntos(lista);
 				}
+
+				int tipoArquivo;
+				if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+				else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+				else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+				else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+				musica.setTipoArquivo(tipoArquivo);
 				
 				Fachada.cadastrarMusica(musica);				
 				// salvar a imagem da capa do disco
@@ -1669,6 +1677,8 @@ public class CadastrarMusicasPanel extends JPanel {
 						} else {
 							cantor.setNome(cantor.getNomeSemEspacos());
 						}
+						
+						cantor.setTipoArquivo(tipoArquivo);
 						
 						Fachada.cadastrarCantor(cantor);
 						Fachada.adicionarCantorAMusica(musica, cantor);
@@ -2031,6 +2041,13 @@ public class CadastrarMusicasPanel extends JPanel {
 			Tipo t = new Tipo();
 			t.setTipo(tipo);
 			
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			t.setTipoArquivo(tipoArquivo);
+			
 			try {
 				Fachada.cadastrarTipo(t);
 				getTipoComboBox().removeAllItems();
@@ -2080,6 +2097,13 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (assunto != null && !assunto.equals("")) {
 			Assunto a = new Assunto();
 			a.setAssunto(assunto);
+			
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			a.setTipoArquivo(tipoArquivo);
 			
 			try {
 				Fachada.cadastrarAssunto(a);

@@ -130,8 +130,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	}
 
 	public int cadastrarMusica(Musica m) throws DataException {
-		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, nomearquivo, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, nomearquivo, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified, tipoarquivo) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -170,6 +170,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			Date data = new Date();
 			ps.setTimestamp(11, new Timestamp(data.getTime()));
 			ps.setTimestamp(12, new Timestamp(data.getTime()));
+			
+			ps.setInt(13, m.getTipoArquivo());
 			
 			ps.execute();
 

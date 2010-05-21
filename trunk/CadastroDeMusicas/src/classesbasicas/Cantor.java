@@ -3,8 +3,6 @@ package classesbasicas;
 import java.io.Serializable;
 import java.util.Date;
 
-import util.Util;
-
 public class Cantor implements Serializable {
 	/**
 	 * 
@@ -16,6 +14,8 @@ public class Cantor implements Serializable {
 	private String nome;
 	private Date created = null;
 	private Date modified = null;
+	
+	private int tipoArquivo;
 	
 	public int getIdCantor() {
 		return idCantor;
@@ -116,5 +116,13 @@ public class Cantor implements Serializable {
 			&& (this.nome == null ? castedObj.nome == null : this.nome.equals(castedObj.nome))
 			&& (this.chaveUnica == null ? castedObj.chaveUnica == null : this.chaveUnica.equals(castedObj.chaveUnica))
 		);
-	}	
+	}
+	
+	public void setTipoArquivo(int tipoArquivo) {
+		this.tipoArquivo = tipoArquivo;
+	}
+	
+	public int getTipoArquivo() {
+		return tipoArquivo;
+	}
 }

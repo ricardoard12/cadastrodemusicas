@@ -41,8 +41,8 @@ public class CantorDAOMySQL implements CantorDAO {
 	}
 
 	public int cadastrarCantor(Cantor c) throws DataException {
-		String sql = "INSERT INTO Cantor (nomesemespacos, nome, chaveUnica, created, modified) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Cantor (nomesemespacos, nome, chaveUnica, created, modified, tipoarquivo) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -53,6 +53,7 @@ public class CantorDAOMySQL implements CantorDAO {
 			Date data = new Date();
 			ps.setTimestamp(4, new Timestamp(data.getTime()));
 			ps.setTimestamp(5, new Timestamp(data.getTime()));
+			ps.setInt(6, c.getTipoArquivo());
 			
 			ps.execute();
 
