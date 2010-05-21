@@ -30,6 +30,8 @@ public class Musica implements Serializable {
 	private Date created = null;
 	private Date modified = null;
 	
+	private int tipoArquivo;
+	
 	private static final long serialVersionUID = -6046323901198312198L;;
 	
 	public String getDescricaoCompleta() {
@@ -290,5 +292,18 @@ public class Musica implements Serializable {
 		hashCode = 31 * hashCode + (assuntos == null ? 0 : assuntos.hashCode());
 		return hashCode;
 	}
+
+	public void setTipoArquivo(int tipoArquivo) {
+		this.tipoArquivo = tipoArquivo;
+	}
+	
+	public int getTipoArquivo() {
+		return tipoArquivo;
+	}
 	
 }
+
+
+
+
+

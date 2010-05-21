@@ -13,6 +13,8 @@ public class Assunto implements Serializable {
 	private String assunto;
 	private Date created = null;
 	private Date modified = null;
+	
+	private int tipoArquivo;
 
 	public String getAssunto() {
 		return assunto;
@@ -99,5 +101,13 @@ public class Assunto implements Serializable {
 		return ((this.idAssunto == castedObj.idAssunto) 
 				&& (this.assunto == null ? castedObj.assunto == null : this.assunto.equals(castedObj.assunto))
 				&& this.chaveUnica == null ? castedObj.chaveUnica == null : this.chaveUnica.equals(castedObj.chaveUnica));
+	}
+
+	public void setTipoArquivo(int tipoArquivo) {
+		this.tipoArquivo = tipoArquivo;
+	}
+	
+	public int getTipoArquivo() {
+		return tipoArquivo;
 	}
 }
