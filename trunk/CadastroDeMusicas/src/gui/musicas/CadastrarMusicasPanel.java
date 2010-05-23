@@ -50,6 +50,8 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -362,8 +364,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.setLayout(new GridBagLayout());
 			dadosPrincipaisPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Dados Principais", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			dadosPrincipaisPanel.setPreferredSize(new java.awt.Dimension(524, 275));
-			dadosPrincipaisPanel.add(getNomeTextField(), new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 100, 0, 0), 0, 0));
-			dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 100, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getNomeTextField(), new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 96, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 96, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getTipoComboBox(), gridBagConstraints9);
 			dadosPrincipaisPanel.add(duracaoLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 1, 1, 0), 0, 0));
 			dadosPrincipaisPanel.add(getDuracaoTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 4, 50), 0, 0));
@@ -373,8 +375,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.add(spacer8Label, gridBagConstraints34);
 			dadosPrincipaisPanel.add(spacer10Label, gridBagConstraints30);
 			dadosPrincipaisPanel.add(getRitmoPanel(), new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 100, 0, 0), 0, 0));
-			dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 100, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 96, 0, 0), 0, 0));
+			dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 96, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getControle1Panel(), new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(spacerLabel, gridBagConstraints28);
 			dadosPrincipaisPanel.add(getCapaLabel(), new GridBagConstraints(2, 7, 1, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 16, 0, 12), 0, 0));
@@ -1465,6 +1467,10 @@ public class CadastrarMusicasPanel extends JPanel {
 		getAlterarCantorButton().setEnabled(true);
 		getTipoComboBox().setEnabled(true);
 		
+		getRadioButtonCantada().setEnabled(true);
+		getRadioButtonInstrumental().setEnabled(true);
+		getRadioButtonMensagem().setEnabled(true);
+		
 		// getCantorTextField().setEditable(true);
 		// getDuracaoTextField().setEditable(true);
 		getAnoTextField().setEditable(true);
@@ -1497,6 +1503,10 @@ public class CadastrarMusicasPanel extends JPanel {
 		getAlterarNomeButton().setEnabled(false);
 		getPlayButton().setEnabled(false);
 		getStopButton().setEnabled(false);
+		
+		getRadioButtonCantada().setEnabled(false);
+		getRadioButtonInstrumental().setEnabled(false);
+		getRadioButtonMensagem().setEnabled(false);
 		
 		getNovoRitmoButton().setEnabled(false);
 		getTipoComboBox().setEnabled(false);
@@ -2565,9 +2575,9 @@ public class CadastrarMusicasPanel extends JPanel {
 			panelTipoMusicaLayout.setColumns(1);
 			panelTipoMusicaLayout.setRows(3);
 			panelTipoMusica.setLayout(panelTipoMusicaLayout);
-			panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION));
 			panelTipoMusica.setPreferredSize(new java.awt.Dimension(98, 60));
 			panelTipoMusica.setSize(98, 56);
+			panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
 			panelTipoMusica.add(getRadioButtonCantada());
 			panelTipoMusica.add(getRadioButtonInstrumental());
 			panelTipoMusica.add(getRadioButtonMensagem());
@@ -2584,6 +2594,16 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonCantada.setFocusable(false);
 			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonCantada.setMinimumSize(new java.awt.Dimension(21, 19));
+			radioButtonCantada.setSelected(true);
+			radioButtonCantada.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent evt) {
+					if (radioButtonCantada.isSelected()) {
+						configurarCadastroMusicasCantadas();
+					}
+				}
+			});
+			radioButtonCantada.setEnabled(false);
+			getButtonGroupTipoMusica().add(radioButtonCantada);
 		}
 		return radioButtonCantada;
 	}
@@ -2595,6 +2615,16 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonInstrumental.setPreferredSize(new java.awt.Dimension(86, 18));
 			radioButtonInstrumental.setSize(86, 18);
 			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonInstrumental.setFocusable(false);
+			radioButtonInstrumental.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent evt) {
+					if (radioButtonInstrumental.isSelected()) {
+						configurarCadastroMusicasInstrumentais();
+					}
+				}
+			});
+			radioButtonInstrumental.setEnabled(false);
+			getButtonGroupTipoMusica().add(radioButtonInstrumental);
 		}
 		return radioButtonInstrumental;
 	}
@@ -2606,8 +2636,89 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonMensagem.setPreferredSize(new java.awt.Dimension(86, 18));
 			radioButtonMensagem.setSize(86, 18);
 			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonMensagem.setFocusable(false);
+			radioButtonMensagem.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent evt) {
+					if (radioButtonMensagem.isSelected()) {
+						configurarCadastroMensagens();
+					}
+				}
+			});
+			radioButtonMensagem.setEnabled(false);
+			getButtonGroupTipoMusica().add(radioButtonMensagem);
 		}
 		return radioButtonMensagem;
+	}
+	
+	private void configurarCadastroMusicasCantadas() {
+		//$hide>>$
+		if (nomeDaMusicaLabel != null) nomeDaMusicaLabel.setText("Nome");
+		if (cantorLabel != null) cantorLabel.setText("Cantor (Nome Sem Espaços)");
+		if (tipoLabel != null) {
+			tipoLabel.setText("Ritmo");
+			tipoLabel.setEnabled(true);
+		}
+		getNovoAssuntoButton().setEnabled(true);
+		getTipoComboBox().setEnabled(true);
+		if (letraLabel != null) letraLabel.setText("Letra");
+		if (assuntosLabel != null) assuntosLabel.setText("Assuntos");
+		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
+		tb.setTitle("Cantores");
+		if (letraLabel != null) letraLabel.setEnabled(true);
+		getLetraTextArea().setEnabled(true);
+		if (letraLabel != null) letraLabel.setText("Letra");
+		
+		if (assuntosLabel != null) assuntosLabel.setEnabled(true);
+		if (novoAssuntoButton != null) novoAssuntoButton.setEnabled(true);
+		getAssuntosList().setEnabled(true);
+		getLimparSelecaoAssuntosButton().setEnabled(true);
+		//$hide<<$
+	}
+	
+	private void configurarCadastroMusicasInstrumentais() {
+		//$hide>>$
+		nomeDaMusicaLabel.setText("Nome");
+		cantorLabel.setText("Intérprete (Nome Sem Espaços)");
+		tipoLabel.setText("Estilo");
+		tipoLabel.setEnabled(true);
+		getNovoAssuntoButton().setEnabled(true);
+		getTipoComboBox().setEnabled(true);
+		anoLabel.setText("Ano");
+		assuntosLabel.setText("Instrumentos");
+		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
+		tb.setTitle("Intérpretes");
+		letraLabel.setEnabled(false);
+		getLetraTextArea().setEnabled(false);
+		// letraLabel.setText("Texto");
+		
+		assuntosLabel.setEnabled(true);
+		novoAssuntoButton.setEnabled(true);
+		getAssuntosList().setEnabled(true);
+		getLimparSelecaoAssuntosButton().setEnabled(true);
+		//$hide<<$
+	}
+	
+	private void configurarCadastroMensagens() {
+		//$hide>>$
+		nomeDaMusicaLabel.setText("Nome");
+		cantorLabel.setText("Intérprete (Nome Sem Espaços)");
+		// tipoLabel.setText("Estilo");
+		tipoLabel.setEnabled(false);
+		getNovoAssuntoButton().setEnabled(false);
+		getTipoComboBox().setEnabled(false);
+		anoLabel.setText("Ano");
+		assuntosLabel.setText("Instrumentos");
+		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
+		tb.setTitle("Intérpretes");
+		letraLabel.setEnabled(true);
+		getLetraTextArea().setEnabled(true);
+		letraLabel.setText("Texto");
+		
+		assuntosLabel.setEnabled(false);
+		novoAssuntoButton.setEnabled(false);
+		getAssuntosList().setEnabled(false);
+		getLimparSelecaoAssuntosButton().setEnabled(false);
+		//$hide<<$
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="0,10"
