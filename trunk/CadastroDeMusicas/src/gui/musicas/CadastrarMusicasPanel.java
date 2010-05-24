@@ -351,6 +351,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints7.gridx = 0;
 			cantorLabel = new JLabel();
 			cantorLabel.setText("Cantor (Nome Sem Espaços)");
+			cantorLabel.setPreferredSize(new Dimension(168, 14));
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.fill = GridBagConstraints.BOTH;
 			gridBagConstraints2.gridy = 2;
@@ -585,6 +586,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints24.gridx = 4;
 			assuntosLabel = new JLabel();
 			assuntosLabel.setText("Assuntos");
+			assuntosLabel.setSize(70, 14);
 			GridBagConstraints gridBagConstraints22 = new GridBagConstraints();
 			gridBagConstraints22.gridy = 1;
 			gridBagConstraints22.fill = GridBagConstraints.BOTH;
@@ -695,6 +697,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			qualidadeComboBox = new JComboBox(getQualidadesString());
 			qualidadeComboBox.setMinimumSize(new Dimension(1, 1));
 			qualidadeComboBox.setPreferredSize(new Dimension(120, 25));
+			qualidadeComboBox.setSize(120, 25);
 		}
 		return qualidadeComboBox;
 	}
@@ -707,6 +710,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JScrollPane getAssuntosScrollPane() {
 		if (assuntosScrollPane == null) {
 			assuntosScrollPane = new JScrollPane();
+			assuntosScrollPane.setSize(2, 2);
 			assuntosScrollPane.setViewportView(getAssuntosList());
 		}
 		return assuntosScrollPane;
@@ -722,6 +726,8 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (assuntosList == null) {
 			assuntosList = new JList(getAssuntosString());
 			assuntosList.setVisibleRowCount(6);
+			assuntosList.setPreferredSize(new java.awt.Dimension(105, 111));
+			assuntosList.setSize(105, 111);
 		}
 		return assuntosList;
 	}
@@ -1149,15 +1155,15 @@ public class CadastrarMusicasPanel extends JPanel {
 			cantorPanel = new JPanel();
 			GroupLayout cantorPanelLayout = new GroupLayout((JComponent)cantorPanel);
 			cantorPanel.setLayout(cantorPanelLayout);
+			cantorPanelLayout.setHorizontalGroup(cantorPanelLayout.createSequentialGroup()
+				.addComponent(cantorLabel, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+				.addGap(15)
+				.addComponent(getAlterarCantorButton(), GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE));
 			cantorPanelLayout.setVerticalGroup(cantorPanelLayout.createSequentialGroup()
-				.addContainerGap(6, 6)
+				.addContainerGap()
 				.addGroup(cantorPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 				    .addComponent(getAlterarCantorButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-				    .addComponent(cantorLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
-			cantorPanelLayout.setHorizontalGroup(cantorPanelLayout.createSequentialGroup()
-				.addComponent(cantorLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(47)
-				.addComponent(getAlterarCantorButton(), GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE));
+				    .addComponent(cantorLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)));
 		}
 		return cantorPanel;
 	}
@@ -1172,7 +1178,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarCantorButton = new JButton();
 			alterarCantorButton.setFocusable(false);
 			alterarCantorButton.setText("Alterar");
-			alterarCantorButton.setPreferredSize(new Dimension(67, 16));
 			alterarCantorButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			alterarCantorButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1227,9 +1232,19 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints23.insets = new Insets(8, 0, 0, 0);
 			gridBagConstraints23.gridx = 0;
 			assuntosPanel = new JPanel();
-			assuntosPanel.setLayout(new GridBagLayout());
-			assuntosPanel.add(assuntosLabel, gridBagConstraints23);
-			assuntosPanel.add(getNovoAssuntoButton(), gridBagConstraints52);
+			GroupLayout assuntosPanelLayout = new GroupLayout((JComponent)assuntosPanel);
+			assuntosPanel.setLayout(assuntosPanelLayout);
+			assuntosPanel.setSize(10, 10);
+			assuntosPanelLayout.setHorizontalGroup(assuntosPanelLayout.createSequentialGroup()
+				.addComponent(assuntosLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+				.addGap(27)
+				.addComponent(getNovoAssuntoButton(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(101, Short.MAX_VALUE));
+			assuntosPanelLayout.setVerticalGroup(assuntosPanelLayout.createSequentialGroup()
+				.addContainerGap()
+				.addGroup(assuntosPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				    .addComponent(getNovoAssuntoButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(assuntosLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)));
 		}
 		return assuntosPanel;
 	}
@@ -1244,7 +1259,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			novoAssuntoButton = new JButton();
 			novoAssuntoButton.setFocusable(false);
 			novoAssuntoButton.setText("Novo");
-			novoAssuntoButton.setPreferredSize(new Dimension(60, 18));
 			novoAssuntoButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			novoAssuntoButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1270,6 +1284,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			limparSelecaoAssuntosButton.setFocusable(false);
 			limparSelecaoAssuntosButton.setText("Limpar Seleção");
 			limparSelecaoAssuntosButton.setFont(new Font("Dialog", Font.BOLD, 10));
+			limparSelecaoAssuntosButton.setSize(33, 23);
 			limparSelecaoAssuntosButton
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
