@@ -83,6 +83,7 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 				a.setChaveUnica(r.getString("chaveUnica"));
 				a.setCreated(r.getDate("created"));
 				a.setModified(r.getDate("modified"));
+				a.setTipoArquivo(r.getInt("tipoarquivo"));
 								
 				lista.add(a);
 			}
@@ -141,6 +142,11 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 		
 		if (lista.size() == 0) return null;
 		else return lista.get(lista.size() - 1);
+	}
+
+	public List<Assunto> listarAssuntos(int tipoArquivo) throws DataException {
+		String sql = "SELECT * FROM assunto WHERE tipoarquivo = " + tipoArquivo;
+		return listarAssuntosPorConsulta(sql);
 	}
 
 }

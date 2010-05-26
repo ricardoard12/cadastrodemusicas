@@ -54,7 +54,7 @@ public class Fachada {
 	
 	// Métodos de listagem	
 	public static List<Musica> listarMusicasPorDiversos(String nome, String nomeCantor, String ritmo, String assunto, String observacao,
-			String qualidade, String letra, Colecao colecao, int ano) throws DataException {
+			String qualidade, String letra, Colecao colecao, int ano, int tipoArquivo) throws DataException {
 		boolean naoListarPorNome = false;
 		boolean naoListarPorNomeCantor = false;
 		boolean naoListarPorRitmo = false;
@@ -63,6 +63,7 @@ public class Fachada {
 		boolean naoListarPorQualidade = false;
 		boolean naoListarPorLetra = false;
 		boolean naoListarPorAno = false;
+		boolean naoListarPorTipoArquivo = false;
 		
 		if (nome == null || nome.trim().equals("")) {
 			naoListarPorNome = true;
@@ -108,6 +109,10 @@ public class Fachada {
 		
 		if (ano <= 0) {
 			naoListarPorAno = true;
+		}
+		
+		if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS) {
+			naoListarPorTipoArquivo = true;
 		}
 
 		if (naoListarPorNome && naoListarPorNomeCantor && naoListarPorRitmo && naoListarPorAssunto && naoListarPorObservacao
@@ -174,6 +179,11 @@ public class Fachada {
 		return tipoDAO.listarTipos();
 	}
 	
+	public static List<Tipo> listarTipos(int tipoArquivo) throws DataException {
+		TipoDAO tipoDAO = new TipoDAOMySQL();
+		return tipoDAO.listarTipos(tipoArquivo);
+	}
+	
 	public static List<Tipo> listarTipos(String tipo) throws DataException {
 		TipoDAO tipoDAO = new TipoDAOMySQL();
 		return tipoDAO.listarTipos(tipo);
@@ -187,8 +197,12 @@ public class Fachada {
 	
 	public static List<Assunto> listarAssuntos() throws DataException {
 		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
-		
 		return assuntoDAO.listarAssuntos();
+	}
+	
+	public static List<Assunto> listarAssuntos(int tipoArquivo) throws DataException {
+		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+		return assuntoDAO.listarAssuntos(tipoArquivo);
 	}
 	
 	public static List<Assunto> listarAssuntos(String assunto) throws DataException {
@@ -198,7 +212,7 @@ public class Fachada {
 	
 	
 	
-	public static List<Cantor> listarCantoresPorDiversos(String nome, String nomeSemEspacos) throws DataException {
+	public static List<Cantor> listarCantoresPorDiversos(String nome, String nomeSemEspacos, int tipoArquivo) throws DataException {
 		boolean naoListarPorNome = false;
 		boolean naoListarPorNomeSemEspacos = false;
 		
