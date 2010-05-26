@@ -14,6 +14,7 @@ public interface AssuntoDAO {
 	public List<Assunto> listarAssuntos() throws DataException;
 	public List<Assunto> listarAssuntosSemChaveUnica() throws DataException;
 	public List<Assunto> listarAssuntos(String assunto) throws DataException;
+	public List<Assunto> listarAssuntos(int tipoArquivo) throws DataException;
 	public Assunto getAssuntoPorChaveUnica(String chaveUnica) throws DataException;
 	
 }

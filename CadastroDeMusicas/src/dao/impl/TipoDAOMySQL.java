@@ -96,6 +96,7 @@ public class TipoDAOMySQL implements TipoDAO {
 				t.setChaveUnica(r.getString("chaveUnica"));
 				t.setCreated(r.getDate("created"));
 				t.setModified(r.getDate("modified"));
+				t.setTipoArquivo(r.getInt("tipoarquivo"));
 								
 				lista.add(t);
 			}
@@ -147,6 +148,11 @@ public class TipoDAOMySQL implements TipoDAO {
 		} else {
 			return lista.get(0);
 		}
+	}
+
+	public List<Tipo> listarTipos(int tipoArquivo) throws DataException {
+		String sql = "SELECT * FROM tipo WHERE tipoarquivo = " + tipoArquivo;
+		return listarTiposPorConsulta(sql);
 	}
 
 }

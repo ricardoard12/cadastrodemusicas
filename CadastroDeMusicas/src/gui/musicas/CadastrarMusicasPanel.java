@@ -250,7 +250,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		this.setBounds(new Rectangle(0, 0, 800, 497));
 		this.add(getDadosPrincipaisPanel(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		this.add(getDadosDoCadastroPanel(), gridBagConstraints21);
+		this.add(getDadosDoCadastroPanel(), new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		this.add(getBotoesPanel(), gridBagConstraints31);
 		this.add(getCantoresPanel(), gridBagConstraints32);
 		this.add(getMusicasPanel(), gridBagConstraints51);
@@ -625,6 +625,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			dadosDoCadastroPanel = new JPanel();
 			dadosDoCadastroPanel.setLayout(new GridBagLayout());
 			dadosDoCadastroPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Dados da Coleção", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			dadosDoCadastroPanel.setSize(10, 10);
+			dadosDoCadastroPanel.setPreferredSize(new java.awt.Dimension(190, 275));
 			dadosDoCadastroPanel.add(nomeArquivoLabel, gridBagConstraints16);
 			dadosDoCadastroPanel.add(getNomeArquivoTextField(), gridBagConstraints17);
 			dadosDoCadastroPanel.add(observacaoLabel, gridBagConstraints18);
@@ -655,6 +657,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			nomeArquivoTextField = new JTextField();
 			nomeArquivoTextField.setColumns(20);
 			nomeArquivoTextField.setEditable(false);
+			nomeArquivoTextField.setSize(2, 20);
 		}
 		return nomeArquivoTextField;
 	}
@@ -683,6 +686,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			observacaoTextArea.setColumns(24);
 			observacaoTextArea.setRows(6);
 			observacaoTextArea.setLineWrap(true);
+			observacaoTextArea.setSize(100, 135);
 		}
 		return observacaoTextArea;
 	}
@@ -696,8 +700,8 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (qualidadeComboBox == null) {
 			qualidadeComboBox = new JComboBox(getQualidadesString());
 			qualidadeComboBox.setMinimumSize(new Dimension(1, 1));
-			qualidadeComboBox.setPreferredSize(new Dimension(120, 25));
-			qualidadeComboBox.setSize(120, 25);
+			qualidadeComboBox.setPreferredSize(new java.awt.Dimension(2, 25));
+			qualidadeComboBox.setSize(2, 25);
 		}
 		return qualidadeComboBox;
 	}
@@ -711,6 +715,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (assuntosScrollPane == null) {
 			assuntosScrollPane = new JScrollPane();
 			assuntosScrollPane.setSize(2, 2);
+			assuntosScrollPane.setPreferredSize(new java.awt.Dimension(164, 113));
 			assuntosScrollPane.setViewportView(getAssuntosList());
 		}
 		return assuntosScrollPane;
@@ -756,6 +761,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints25.gridy = 0;
 			botoesPanel = new JPanel();
 			botoesPanel.setLayout(new GridBagLayout());
+			botoesPanel.setSize(102, 23);
 			botoesPanel.add(getCadastrarMusicaButton(), gridBagConstraints26);
 			botoesPanel.add(getCancelarButton(), gridBagConstraints25);
 			botoesPanel.add(getAbrirArquivoButton(), gridBagConstraints27);
@@ -850,6 +856,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			cantoresPanel = new JPanel();
 			cantoresPanel.setLayout(new GridBagLayout());
 			cantoresPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Cantores", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			cantoresPanel.setSize(10, 10);
+			cantoresPanel.setPreferredSize(new java.awt.Dimension(360, 469));
 			cantoresPanel.add(getCantoresScrollPane(), gridBagConstraints38);
 			cantoresPanel.add(spacer14Label, gridBagConstraints39);
 		}
@@ -908,6 +916,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JScrollPane getCantoresScrollPane() {
 		if (cantoresScrollPane == null) {
 			cantoresScrollPane = new JScrollPane();
+			cantoresScrollPane.setSize(10, 10);
 			cantoresScrollPane.setViewportView(getCantoresTable());
 		}
 		return cantoresScrollPane;
@@ -1125,7 +1134,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarNomeButton = new JButton();
 			alterarNomeButton.setFocusable(false);
 			alterarNomeButton.setText("Alterar");
-			alterarNomeButton.setBounds(124, 7, 67, 16);
+			alterarNomeButton.setBounds(124, 6, 67, 16);
 			alterarNomeButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			alterarNomeButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1236,10 +1245,11 @@ public class CadastrarMusicasPanel extends JPanel {
 			assuntosPanel.setLayout(assuntosPanelLayout);
 			assuntosPanel.setSize(10, 10);
 			assuntosPanelLayout.setHorizontalGroup(assuntosPanelLayout.createSequentialGroup()
+				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addComponent(assuntosLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-				.addGap(27)
+				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addComponent(getNovoAssuntoButton(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(101, Short.MAX_VALUE));
+				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE));
 			assuntosPanelLayout.setVerticalGroup(assuntosPanelLayout.createSequentialGroup()
 				.addContainerGap()
 				.addGroup(assuntosPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -1319,7 +1329,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			playButton = new JButton();
 			playButton.setFocusable(false);
 			playButton.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_play_green.png")));
-			playButton.setBounds(197, 2, 26, 22);
+			playButton.setBounds(197, 0, 26, 22);
 			playButton.setMnemonic(KeyEvent.VK_UNDEFINED);
 			playButton.setToolTipText("Toca a música que está selecionada para ser salva");
 			playButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1343,7 +1353,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			stopButton = new JButton();
 			stopButton.setFocusable(false);
 			stopButton.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_stop_red.png")));
-			stopButton.setBounds(224, 2, 26, 22);
+			stopButton.setBounds(224, 0, 26, 22);
 			stopButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1398,8 +1408,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			play1Button = new JButton();
 			play1Button.setFocusable(false);
 			play1Button.setText("");
-			play1Button.setPreferredSize(new Dimension(22, 22));
-			play1Button.setBounds(new Rectangle(358, 0, 26, 22));
+			play1Button.setBounds(460, 0, 26, 22);
 			play1Button.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_play_green.png")));
 			play1Button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1422,8 +1431,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			stop1Button = new JButton();
 			stop1Button.setFocusable(false);
 			stop1Button.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_stop_red.png")));
-			stop1Button.setBounds(new Rectangle(383, 0, 26, 22));
-			stop1Button.setPreferredSize(new Dimension(26, 22));
+			stop1Button.setBounds(485, 0, 26, 22);
 			stop1Button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1444,7 +1452,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (controlePanel == null) {
 			controlePanel = new JPanel();
 			controlePanel.setLayout(new BorderLayout());
-			controlePanel.setBounds(new Rectangle(0, 0, 359, 21));
+			controlePanel.setBounds(0, 0, 458, 21);
 			controlePanel.setBackground(Color.lightGray);
 		}
 		return controlePanel;
@@ -1472,7 +1480,12 @@ public class CadastrarMusicasPanel extends JPanel {
 		return voltarCamposButton;
 	}
 	
-	private void ativarCampos() {
+	private void ativarCampos() {		
+		getPanelTipoMusica().setEnabled(true);
+		TitledBorder tb = (TitledBorder) panelTipoMusica.getBorder();
+		tb.setTitleColor(Color.black);
+		
+		if (nomeDaMusicaLabel != null) nomeDaMusicaLabel.setEnabled(true);
 		// getNomeTextField().setEditable(true);
 		getAlterarNomeButton().setEnabled(true);
 		getPlayButton().setEnabled(true);
@@ -1486,16 +1499,33 @@ public class CadastrarMusicasPanel extends JPanel {
 		getRadioButtonInstrumental().setEnabled(true);
 		getRadioButtonMensagem().setEnabled(true);
 		
+		if (cantorLabel != null) cantorLabel.setEnabled(true);
 		// getCantorTextField().setEditable(true);
 		// getDuracaoTextField().setEditable(true);
 		getAnoTextField().setEditable(true);
 		getLetraTextArea().setEditable(true);
+		getLetraTextArea().setEnabled(true);
+		getLetraTextArea().setBackground(Color.white);
 		
+		if (tipoLabel != null) tipoLabel.setEnabled(true);
+		if (anoLabel != null) anoLabel.setEnabled(true);
+		if (duracaoLabel != null) duracaoLabel.setEnabled(true);
+		if (capaLabelLabel != null) capaLabelLabel.setEnabled(true);
+		if (letraLabel != null) letraLabel.setEnabled(true);
+		if (diretorioLabel != null) diretorioLabel.setEnabled(true);
+		if (nomeArquivoLabel != null) nomeArquivoLabel.setEnabled(true);
+		if (observacaoLabel != null) observacaoLabel.setEnabled(true);
+		if (assuntosLabel != null) assuntosLabel.setEnabled(true);
+		if (qualidadeLabel != null) qualidadeLabel.setEnabled(true);
+				
 		getQualidadeComboBox().setEnabled(true);
 		
 		getObservacaoTextArea().setEditable(true);
+		getObservacaoTextArea().setEnabled(true);
+		getObservacaoTextArea().setBackground(Color.white);
 		getNovoAssuntoButton().setEnabled(true);
 		getAssuntosList().setEnabled(true);
+		getAssuntosList().setBackground(Color.white);
 		getLimparSelecaoAssuntosButton().setEnabled(true);
 		
 		getCapaLabel().setEnabled(true);
@@ -1514,6 +1544,11 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	private void desativarCampos() {
+		getPanelTipoMusica().setEnabled(false);
+		TitledBorder tb = (TitledBorder) panelTipoMusica.getBorder();
+		tb.setTitleColor(Color.gray);
+		
+		if (nomeDaMusicaLabel != null) nomeDaMusicaLabel.setEnabled(false);
 		getNomeTextField().setEditable(false);
 		getAlterarNomeButton().setEnabled(false);
 		getPlayButton().setEnabled(false);
@@ -1526,17 +1561,34 @@ public class CadastrarMusicasPanel extends JPanel {
 		getNovoRitmoButton().setEnabled(false);
 		getTipoComboBox().setEnabled(false);
 		
+		if (cantorLabel != null) cantorLabel.setEnabled(false);
 		getCantorTextField().setEditable(false);
 		getAlterarCantorButton().setEnabled(false);
 		getDuracaoTextField().setEditable(false);
 		getAnoTextField().setEditable(false);
 		getLetraTextArea().setEditable(false);
+		getLetraTextArea().setEnabled(false);
+		getLetraTextArea().setBackground(new Color(238, 238, 238));
+
+		if (tipoLabel != null) tipoLabel.setEnabled(false);
+		if (anoLabel != null) anoLabel.setEnabled(false);
+		if (duracaoLabel != null) duracaoLabel.setEnabled(false);
+		if (capaLabelLabel != null) capaLabelLabel.setEnabled(false);
+		if (letraLabel != null) letraLabel.setEnabled(false);
+		if (diretorioLabel != null) diretorioLabel.setEnabled(false);
+		if (nomeArquivoLabel != null) nomeArquivoLabel.setEnabled(false);
+		if (observacaoLabel != null) observacaoLabel.setEnabled(false);
+		if (assuntosLabel != null) assuntosLabel.setEnabled(false);
+		if (qualidadeLabel != null) qualidadeLabel.setEnabled(false);
 		
 		getQualidadeComboBox().setEnabled(false);
 		
 		getObservacaoTextArea().setEditable(false);
+		getObservacaoTextArea().setEnabled(false);
+		getObservacaoTextArea().setBackground(new Color(238, 238, 238));
 		getNovoAssuntoButton().setEnabled(false);
 		getAssuntosList().setEnabled(false);
+		getAssuntosList().setBackground(new Color(238, 238, 238));
 		getLimparSelecaoAssuntosButton().setEnabled(false);
 		
 		getCapaLabel().setEnabled(false);
@@ -1949,8 +2001,14 @@ public class CadastrarMusicasPanel extends JPanel {
 					nomeSemEspacos = getCantorTextField().getText().trim().replaceAll(" ", "").toUpperCase();
 				}
 			}
+			
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
 				
-			cantores = Fachada.listarCantoresPorDiversos(null, nomeSemEspacos);
+			cantores = Fachada.listarCantoresPorDiversos(null, nomeSemEspacos, tipoArquivo);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2023,7 +2081,13 @@ public class CadastrarMusicasPanel extends JPanel {
 				nome = musica.getNome();
 			}
 			
-			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0);
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			
+			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, tipoArquivo);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2145,7 +2209,13 @@ public class CadastrarMusicasPanel extends JPanel {
 	private List<Assunto> getAssuntos() {
 		//$hide>>$
 		try {
-			assuntos = Fachada.listarAssuntos();
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			
+			assuntos = Fachada.listarAssuntos(tipoArquivo);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2169,7 +2239,13 @@ public class CadastrarMusicasPanel extends JPanel {
 	private List<Tipo> getTipos() {
 		//$hide>>$
 		try {
-			tipos = Fachada.listarTipos();
+			int tipoArquivo;
+			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			
+			tipos = Fachada.listarTipos(tipoArquivo);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2593,6 +2669,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			panelTipoMusica.setPreferredSize(new java.awt.Dimension(98, 60));
 			panelTipoMusica.setSize(98, 56);
 			panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
+			panelTipoMusica.setEnabled(false);
 			panelTipoMusica.add(getRadioButtonCantada());
 			panelTipoMusica.add(getRadioButtonInstrumental());
 			panelTipoMusica.add(getRadioButtonMensagem());
@@ -2681,12 +2758,22 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitle("Cantores");
 		if (letraLabel != null) letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
+		getLetraTextArea().setBackground(Color.white);
 		if (letraLabel != null) letraLabel.setText("Letra");
 		
 		if (assuntosLabel != null) assuntosLabel.setEnabled(true);
 		if (novoAssuntoButton != null) novoAssuntoButton.setEnabled(true);
 		getAssuntosList().setEnabled(true);
+		getAssuntosList().setBackground(Color.white);
+		
 		getLimparSelecaoAssuntosButton().setEnabled(true);
+		
+		// atualizando as listas de Ritmos e de Assuntos
+		getAssuntosList().setListData(getAssuntosString());
+		getTipoComboBox().removeAllItems();
+		for (String s: getTiposString()) {
+			getTipoComboBox().addItem(s);
+		}
 		//$hide<<$
 	}
 	
@@ -2704,12 +2791,21 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitle("Intérpretes");
 		letraLabel.setEnabled(false);
 		getLetraTextArea().setEnabled(false);
+		getLetraTextArea().setBackground(new Color(238, 238, 238));
 		// letraLabel.setText("Texto");
 		
 		assuntosLabel.setEnabled(true);
 		novoAssuntoButton.setEnabled(true);
 		getAssuntosList().setEnabled(true);
+		getAssuntosList().setBackground(Color.white);
 		getLimparSelecaoAssuntosButton().setEnabled(true);
+		
+		// atualizando as listas de Ritmos e de Assuntos
+		getAssuntosList().setListData(getAssuntosString());
+		getTipoComboBox().removeAllItems();
+		for (String s: getTiposString()) {
+			getTipoComboBox().addItem(s);
+		}
 		//$hide<<$
 	}
 	
@@ -2727,12 +2823,21 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitle("Intérpretes");
 		letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
+		getLetraTextArea().setBackground(Color.white);
 		letraLabel.setText("Texto");
 		
 		assuntosLabel.setEnabled(false);
 		novoAssuntoButton.setEnabled(false);
 		getAssuntosList().setEnabled(false);
+		getAssuntosList().setBackground(Color.white);
 		getLimparSelecaoAssuntosButton().setEnabled(false);
+		
+		// atualizando as listas de Ritmos e de Assuntos
+		getAssuntosList().setListData(getAssuntosString());
+		getTipoComboBox().removeAllItems();
+		for (String s: getTiposString()) {
+			getTipoComboBox().addItem(s);
+		}
 		//$hide<<$
 	}
 

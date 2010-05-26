@@ -88,6 +88,7 @@ public class CantorDAOMySQL implements CantorDAO {
 				c.setChaveUnica(r.getString("chaveUnica"));
 				c.setCreated(r.getDate("created"));
 				c.setModified(r.getDate("modified"));
+				c.setTipoArquivo(r.getInt("tipoarquivo"));
 				
 				lista.add(c);
 			}

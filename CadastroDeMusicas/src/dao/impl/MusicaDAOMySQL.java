@@ -244,6 +244,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				m.setNomeArquivoCapa(r.getString("nomeArquivoCapa"));
 				m.setCreated(r.getDate("created"));
 				m.setModified(r.getDate("modified"));
+				m.setTipoArquivo(r.getInt("tipoarquivo"));
 				
 				m.setCantores(new ArrayList<Cantor>());
 				
