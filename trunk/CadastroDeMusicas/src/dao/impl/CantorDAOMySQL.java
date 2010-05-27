@@ -132,9 +132,11 @@ public class CantorDAOMySQL implements CantorDAO {
 	}
 
 	public List<Cantor> listarCantoresPorDiversos(String nome, boolean naoListarPorNome,
-			String nomeSemEspacos, boolean naoListarPorNomeSemEspacos) throws DataException {
+			String nomeSemEspacos, boolean naoListarPorNomeSemEspacos,
+			int tipoArquivo, boolean naoListarPorTipoArquivo) throws DataException {
 		String sql = "select * from cantor where (nome like '%" + nome + "%' or '" + naoListarPorNome + "' like 'true')" +
 				" and (nomeSemEspacos like '%" + nomeSemEspacos + "%' or '" + naoListarPorNomeSemEspacos + "' like 'true') " +
+				" and (tipoarquivo = " + tipoArquivo + " or '" + naoListarPorTipoArquivo + "' like 'true') " +
 						"order by cantor.nome";
 		
 		return listarCantoresPorConsulta(sql);

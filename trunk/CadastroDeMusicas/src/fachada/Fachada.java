@@ -111,12 +111,12 @@ public class Fachada {
 			naoListarPorAno = true;
 		}
 		
-		if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS) {
+		if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS || tipoArquivo == Constantes.TIPO_ARQUIVO_NAO_LISTAR) {
 			naoListarPorTipoArquivo = true;
 		}
 
 		if (naoListarPorNome && naoListarPorNomeCantor && naoListarPorRitmo && naoListarPorAssunto && naoListarPorObservacao
-				&& naoListarPorQualidade && naoListarPorLetra) {
+				&& naoListarPorQualidade && naoListarPorLetra && naoListarPorTipoArquivo) {
 			return new ArrayList<Musica>();
 		} else {
 			MusicaDAO musicaDAO = new MusicaDAOMySQL();
@@ -129,7 +129,7 @@ public class Fachada {
 						assunto, naoListarPorAssunto,
 						observacao, naoListarPorObservacao,
 						qualidade, naoListarPorQualidade,
-						letra, naoListarPorLetra, ano, naoListarPorAno, colecao);	
+						letra, naoListarPorLetra, ano, naoListarPorAno, tipoArquivo, naoListarPorTipoArquivo, colecao);	
 			} else {
 				return musicaDAO.listarMusicasPorDiversos(
 						nome, naoListarPorNome,
@@ -138,7 +138,7 @@ public class Fachada {
 						assunto, naoListarPorAssunto,
 						observacao, naoListarPorObservacao,
 						qualidade, naoListarPorQualidade,
-						letra, naoListarPorLetra, ano, naoListarPorAno);	
+						letra, naoListarPorLetra, ano, naoListarPorAno, tipoArquivo, naoListarPorTipoArquivo);	
 			}
 		}
 	}
@@ -215,6 +215,7 @@ public class Fachada {
 	public static List<Cantor> listarCantoresPorDiversos(String nome, String nomeSemEspacos, int tipoArquivo) throws DataException {
 		boolean naoListarPorNome = false;
 		boolean naoListarPorNomeSemEspacos = false;
+		boolean naoListarPorTipoArquivo = false;
 		
 		if (nome == null || nome.trim().equals("")) {
 			naoListarPorNome = true;
@@ -227,13 +228,16 @@ public class Fachada {
 		} else {
 			nomeSemEspacos = nomeSemEspacos.trim();
 		}
+		
+		if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS || tipoArquivo == Constantes.TIPO_ARQUIVO_NAO_LISTAR) {
+			naoListarPorTipoArquivo = true;
+		}
 			
-			
-		if (naoListarPorNome && naoListarPorNomeSemEspacos) {	
+		if (naoListarPorNome && naoListarPorNomeSemEspacos && naoListarPorTipoArquivo) {	
 			return new ArrayList<Cantor>();
 		} else {
 			CantorDAO cantorDAO = new CantorDAOMySQL();
-			return cantorDAO.listarCantoresPorDiversos(nome, naoListarPorNome, nomeSemEspacos, naoListarPorNomeSemEspacos);
+			return cantorDAO.listarCantoresPorDiversos(nome, naoListarPorNome, nomeSemEspacos, naoListarPorNomeSemEspacos, tipoArquivo, naoListarPorTipoArquivo);
 		}
 	}
 	

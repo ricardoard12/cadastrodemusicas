@@ -43,6 +43,7 @@ import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
 import classesbasicas.Colecao;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
@@ -702,7 +703,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		musicas = new ArrayList<Musica>();
 		
 		try {
-			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano);
+			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano, Constantes.TIPO_ARQUIVO_TODOS);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
