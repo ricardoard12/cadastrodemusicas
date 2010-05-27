@@ -16,6 +16,7 @@ import java.util.List;
 
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Tipo;
 
@@ -183,7 +184,11 @@ public class BDUtil {
 									"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 									"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 									"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
-									"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );"
+									"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );",
+									"UPDATE assunto SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+									"UPDATE cantor SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+									"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+									"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
 									};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
@@ -229,7 +234,11 @@ public class BDUtil {
 							"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 							"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 							"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
-							"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );"
+							"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );",
+							"UPDATE assunto SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+							"UPDATE cantor SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+							"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+							"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
@@ -250,7 +259,11 @@ public class BDUtil {
 								"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
-								"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );"
+								"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );",
+								"UPDATE assunto SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE cantor SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
@@ -269,7 +282,11 @@ public class BDUtil {
 								"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
-								"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );"
+								"ALTER TABLE `tipo` ADD `tipoarquivo` INT( 10 );",
+								"UPDATE assunto SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE cantor SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
+								"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
