@@ -49,6 +49,7 @@ import util.GlobalPlayer;
 import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
@@ -1801,7 +1802,7 @@ public class EditarMusicasPanel extends JPanel {
 				}
 			}
 				
-			cantores = Fachada.listarCantoresPorDiversos(null, nomeSemEspacos);
+			cantores = Fachada.listarCantoresPorDiversos(null, nomeSemEspacos, Constantes.TIPO_ARQUIVO_TODOS);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1871,7 +1872,7 @@ public class EditarMusicasPanel extends JPanel {
 				nome = musica.getNome();
 			}
 			
-			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0);
+			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, Constantes.TIPO_ARQUIVO_TODOS);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

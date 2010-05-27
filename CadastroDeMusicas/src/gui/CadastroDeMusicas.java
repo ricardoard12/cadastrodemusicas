@@ -45,6 +45,7 @@ import util.GlobalPlayer;
 import util.Util;
 import bd.BDUtil;
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 
 
@@ -995,7 +996,7 @@ public class CadastroDeMusicas extends JFrame {
 				// testar se tem o nome do cantor
 				if (cantor != null & !cantor.equals("")) {
 					// verificar se o cantor já está cadastrado
-					List<Cantor> cantores = Fachada.listarCantoresPorDiversos(null, cantor);
+					List<Cantor> cantores = Fachada.listarCantoresPorDiversos(null, cantor, Constantes.TIPO_ARQUIVO_TODOS);
 					
 					Cantor c = null;
 					

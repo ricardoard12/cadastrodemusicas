@@ -372,7 +372,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			String observacao, boolean naoListarPorObservacao,
 			String qualidade, boolean naoListarPorQualidade,
 			String letra, boolean naoListarPorLetra,
-			int ano, boolean naoListarPorAno) throws DataException {
+			int ano, boolean naoListarPorAno,
+			int tipoArquivo, boolean naoListarPorTipoArquivo) throws DataException {
 		
 		String sql = "select * from	((((((musica left join musicacantor on musica.idMusica = musicacantor.idMusica) " + 
 			"left join cantor on musicacantor.idcantor = cantor.idcantor) " +
@@ -383,7 +384,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			"where (musica.nome like '%" + nome + "%' or '" + naoListarPorNome + "' like 'true') and " +
 					"(musica.observacao like '%" + observacao + "%' or '" + naoListarPorObservacao + "' like 'true') and " +
 					"(musica.letra like '%" + letra + "%' or '" + naoListarPorLetra + "' like 'true') and " +
-					"(musica.ano = " + ano + " or '" + naoListarPorAno + "' like 'true') ";
+					"(musica.ano = " + ano + " or '" + naoListarPorAno + "' like 'true') and " +
+					"(musica.tipoarquivo = " + tipoArquivo + " or '" + naoListarPorTipoArquivo + "' like 'true') ";
 						
 		if (!naoListarPorNomeCantor) {
 			sql += "and (cantor.nome like '%" + nomeCantor + "%') ";
@@ -436,7 +438,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			boolean naoListarPorAssunto, String observacao,
 			boolean naoListarPorObservacao, String qualidade,
 			boolean naoListarPorQualidade, String letra,
-			boolean naoListarPorLetra, int ano, boolean naoListarPorAno, Colecao colecao) throws DataException {
+			boolean naoListarPorLetra, int ano, boolean naoListarPorAno, 
+			int tipoArquivo, boolean naoListarPorTipoArquivo, Colecao colecao) throws DataException {
 		if (colecao == null) return null;
 		else {
 			String sql = "select * from	(((((((musica left join musicacantor on musica.idMusica = musicacantor.idMusica) " +
@@ -449,7 +452,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			"where (musica.nome like '%" + nome + "%' or '" + naoListarPorNome + "' like 'true') and " +
 					"(musica.observacao like '%" + observacao + "%' or '" + naoListarPorObservacao + "' like 'true') and " +
 					"(musica.letra like '%" + letra + "%' or '" + naoListarPorLetra + "' like 'true') and " +
-					"(musica.ano = " + ano + " or '" + naoListarPorAno + "' like 'true') ";
+					"(musica.ano = " + ano + " or '" + naoListarPorAno + "' like 'true') and " + 
+					"(musica.tipoarquivo = " + tipoArquivo + " or '" + naoListarPorTipoArquivo + "' like 'true') ";
 						
 		if (!naoListarPorNomeCantor) {
 			sql += "and (cantor.nome like '%" + nomeCantor + "%') ";

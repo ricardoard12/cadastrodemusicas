@@ -231,7 +231,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						textoObservacoes += musicaLocal.getDescricaoCompleta();
 					}
 					
-					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1);
+					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1, Constantes.TIPO_ARQUIVO_TODOS);
 					if (musicasLocais != null && musicasLocais.size() > 0) {
 						textoObservacoes += "\n\nForam encontradas " + musicasLocais.size() + " músicas Locais com o mesmo nome da Música contida no Log.\n\n"; 
 						for (Musica musica: musicasLocais) {

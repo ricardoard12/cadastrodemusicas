@@ -30,7 +30,8 @@ public interface MusicaDAO {
 			String observacao, boolean naoListarPorObservacao,
 			String qualidade, boolean naoListarPorQualidade,
 			String letra, boolean naoListarPorLetra,
-			int ano, boolean naoListarPorAno) throws DataException;
+			int ano, boolean naoListarPorAno,
+			int tipoArquivo, boolean naoListarPorTipoArquivo) throws DataException;
 	public List<Musica> listarMusicasDaColecaoPorDiversos(
 			String nome, boolean naoListarPorNome,
 			String nomeCantor, boolean naoListarPorNomeCantor,
@@ -40,6 +41,7 @@ public interface MusicaDAO {
 			String qualidade, boolean naoListarPorQualidade,
 			String letra, boolean naoListarPorLetra,
 			int ano, boolean naoListarPorAno,
+			int tipoArquivo, boolean naoListarPorTipoArquivo,
 			Colecao colecao) throws DataException;
 	public List<Musica> listarMusicasSemChaveUnica() throws DataException;
 	public void alterarCapaDiscoMusica(Musica m, String nomeArquivo, String caminhoArquivoImagem) throws DataException;

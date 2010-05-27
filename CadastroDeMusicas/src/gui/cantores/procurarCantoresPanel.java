@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import classesbasicas.Cantor;
+import classesbasicas.Constantes;
 import exceptions.DataException;
 import fachada.Fachada;
 
@@ -270,7 +271,7 @@ public class procurarCantoresPanel extends JPanel {
 		String nomeSemEspacos = getNomeSemEspacosTextField().getText();
 		
 		try {
-			cantores = Fachada.listarCantoresPorDiversos(nome, nomeSemEspacos);
+			cantores = Fachada.listarCantoresPorDiversos(nome, nomeSemEspacos, Constantes.TIPO_ARQUIVO_TODOS);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
