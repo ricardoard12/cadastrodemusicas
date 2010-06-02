@@ -15,6 +15,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -1481,6 +1483,12 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	private void ativarCampos() {		
+		int tipoArquivo;
+		if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+		else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+		else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+		else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+		
 		getPanelTipoMusica().setEnabled(true);
 		TitledBorder tb = (TitledBorder) panelTipoMusica.getBorder();
 		tb.setTitleColor(Color.black);
@@ -1491,9 +1499,12 @@ public class CadastrarMusicasPanel extends JPanel {
 		getPlayButton().setEnabled(true);
 		getStopButton().setEnabled(true);
 		
-		getNovoRitmoButton().setEnabled(true);
+		if (tipoArquivo != Constantes.TIPO_ARQUIVO_MENSAGEM) {
+			getNovoRitmoButton().setEnabled(true);
+			getTipoComboBox().setEnabled(true);	
+		}
+				
 		getAlterarCantorButton().setEnabled(true);
-		getTipoComboBox().setEnabled(true);
 		
 		getRadioButtonCantada().setEnabled(true);
 		getRadioButtonInstrumental().setEnabled(true);
@@ -1503,9 +1514,13 @@ public class CadastrarMusicasPanel extends JPanel {
 		// getCantorTextField().setEditable(true);
 		// getDuracaoTextField().setEditable(true);
 		getAnoTextField().setEditable(true);
-		getLetraTextArea().setEditable(true);
-		getLetraTextArea().setEnabled(true);
-		getLetraTextArea().setBackground(Color.white);
+		
+		if (tipoArquivo != Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
+			getLetraTextArea().setEditable(true);
+			getLetraTextArea().setEnabled(true);
+			getLetraTextArea().setBackground(Color.white);	
+		}
+		
 		
 		if (tipoLabel != null) tipoLabel.setEnabled(true);
 		if (anoLabel != null) anoLabel.setEnabled(true);
@@ -1549,6 +1564,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitleColor(Color.gray);
 		
 		if (nomeDaMusicaLabel != null) nomeDaMusicaLabel.setEnabled(false);
+		getNomeTextField().setText("");
 		getNomeTextField().setEditable(false);
 		getAlterarNomeButton().setEnabled(false);
 		getPlayButton().setEnabled(false);
@@ -1559,13 +1575,18 @@ public class CadastrarMusicasPanel extends JPanel {
 		getRadioButtonMensagem().setEnabled(false);
 		
 		getNovoRitmoButton().setEnabled(false);
+		getTipoComboBox().setSelectedIndex(0);
 		getTipoComboBox().setEnabled(false);
 		
 		if (cantorLabel != null) cantorLabel.setEnabled(false);
+		getCantorTextField().setText("");
 		getCantorTextField().setEditable(false);
 		getAlterarCantorButton().setEnabled(false);
+		getDuracaoTextField().setText("");
 		getDuracaoTextField().setEditable(false);
+		getAnoTextField().setText("");
 		getAnoTextField().setEditable(false);
+		getLetraTextArea().setText("");
 		getLetraTextArea().setEditable(false);
 		getLetraTextArea().setEnabled(false);
 		getLetraTextArea().setBackground(new Color(238, 238, 238));
@@ -1581,12 +1602,15 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (assuntosLabel != null) assuntosLabel.setEnabled(false);
 		if (qualidadeLabel != null) qualidadeLabel.setEnabled(false);
 		
+		getQualidadeComboBox().setSelectedIndex(0);
 		getQualidadeComboBox().setEnabled(false);
 		
+		getObservacaoTextArea().setText("");
 		getObservacaoTextArea().setEditable(false);
 		getObservacaoTextArea().setEnabled(false);
 		getObservacaoTextArea().setBackground(new Color(238, 238, 238));
 		getNovoAssuntoButton().setEnabled(false);
+		getAssuntosList().clearSelection();
 		getAssuntosList().setEnabled(false);
 		getAssuntosList().setBackground(new Color(238, 238, 238));
 		getLimparSelecaoAssuntosButton().setEnabled(false);
@@ -2691,8 +2715,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonCantada.setMinimumSize(new java.awt.Dimension(21, 19));
 			radioButtonCantada.setSelected(true);
-			radioButtonCantada.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent evt) {
+			radioButtonCantada.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonCantada.isSelected()) {
 						configurarCadastroMusicasCantadas();
 					}
@@ -2712,8 +2736,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonInstrumental.setSize(86, 18);
 			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonInstrumental.setFocusable(false);
-			radioButtonInstrumental.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent evt) {
+			radioButtonInstrumental.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonInstrumental.isSelected()) {
 						configurarCadastroMusicasInstrumentais();
 					}
@@ -2733,8 +2757,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			radioButtonMensagem.setSize(86, 18);
 			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonMensagem.setFocusable(false);
-			radioButtonMensagem.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent evt) {
+			radioButtonMensagem.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonMensagem.isSelected()) {
 						configurarCadastroMensagens();
 					}
@@ -2755,6 +2779,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			tipoLabel.setEnabled(true);
 		}
 		getNovoAssuntoButton().setEnabled(true);
+		getNovoRitmoButton().setEnabled(true);
 		getTipoComboBox().setEnabled(true);
 		if (letraLabel != null) letraLabel.setText("Letra");
 		if (assuntosLabel != null) assuntosLabel.setText("Assuntos");
@@ -2762,6 +2787,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitle("Cantores");
 		if (letraLabel != null) letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
+		getLetraTextArea().setEditable(true);
 		getLetraTextArea().setBackground(Color.white);
 		if (letraLabel != null) letraLabel.setText("Letra");
 		
@@ -2791,6 +2817,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		tipoLabel.setText("Estilo");
 		tipoLabel.setEnabled(true);
 		getNovoAssuntoButton().setEnabled(true);
+		getNovoRitmoButton().setEnabled(true);
 		getTipoComboBox().setEnabled(true);
 		anoLabel.setText("Ano");
 		assuntosLabel.setText("Instrumentos");
@@ -2798,6 +2825,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		tb.setTitle("Intérpretes");
 		letraLabel.setEnabled(false);
 		getLetraTextArea().setEnabled(false);
+		getLetraTextArea().setEditable(false);
 		getLetraTextArea().setBackground(new Color(238, 238, 238));
 		// letraLabel.setText("Texto");
 		
@@ -2826,21 +2854,23 @@ public class CadastrarMusicasPanel extends JPanel {
 		// tipoLabel.setText("Estilo");
 		tipoLabel.setEnabled(false);
 		getNovoAssuntoButton().setEnabled(false);
+		getNovoRitmoButton().setEnabled(false);
 		getTipoComboBox().setEnabled(false);
 		anoLabel.setText("Ano");
-		assuntosLabel.setText("Instrumentos");
+		assuntosLabel.setText("Assuntos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Intérpretes");
 		letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
+		getLetraTextArea().setEditable(true);
 		getLetraTextArea().setBackground(Color.white);
 		letraLabel.setText("Texto");
 		
-		assuntosLabel.setEnabled(false);
-		novoAssuntoButton.setEnabled(false);
-		getAssuntosList().setEnabled(false);
+		assuntosLabel.setEnabled(true);
+		novoAssuntoButton.setEnabled(true);
+		getAssuntosList().setEnabled(true);
 		getAssuntosList().setBackground(Color.white);
-		getLimparSelecaoAssuntosButton().setEnabled(false);
+		getLimparSelecaoAssuntosButton().setEnabled(true);
 		
 		// atualizando as listas de Ritmos e de Assuntos
 		getAssuntosList().setListData(getAssuntosString());
