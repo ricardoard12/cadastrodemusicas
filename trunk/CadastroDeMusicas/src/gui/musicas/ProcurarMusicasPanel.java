@@ -24,6 +24,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -33,9 +36,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import util.GlobalPlayer;
@@ -80,6 +86,12 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JPanel tabelaPanel = null;
 	private JScrollPane tabelaScrollPane = null;
 	private JLabel colecaoBuscaLabel;
+	private JRadioButton radioButtonMensagem;
+	private JRadioButton radioButtonTodos;
+	private JRadioButton radioButtonInstrumental;
+	private JRadioButton radioButtonCantada;
+	private ButtonGroup buttonGroupTipoArquivo;
+	private JPanel panelTipoArquivo;
 	private JTextField anoTextField;
 	private JLabel anoLabel;
 	private JComboBox colecaoBuscaComboBox;
@@ -158,11 +170,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		gridBagConstraints4.ipadx = 0;
 		gridBagConstraints4.gridy = 3;
 		this.setLayout(new GridBagLayout());
-		this.setSize(780, 550);
+		this.setPreferredSize(new java.awt.Dimension(891, 550));
 		this.add(getDadosDaProcuraPanel(), gridBagConstraints6);
 		this.add(getTabelaPanel(), gridBagConstraints4);
 		this.add(getBotoesPanel(), new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 14, 0, 0), 0, 0));
 		this.add(getControlesPanel(), gridBagConstraints14);
+		this.add(getPanelTipoArquivo(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 17, 5, 3), 0, 0));
 	}
 
 	/**
@@ -263,7 +276,13 @@ public class ProcurarMusicasPanel extends JPanel {
 			nomeLabel = new JLabel();
 			nomeLabel.setText("Nome");
 			dadosDaProcuraPanel = new JPanel();
-			dadosDaProcuraPanel.setLayout(new GridBagLayout());
+			GridBagLayout dadosDaProcuraPanelLayout = new GridBagLayout();
+			dadosDaProcuraPanel.setLayout(dadosDaProcuraPanelLayout);
+			dadosDaProcuraPanelLayout.rowWeights = new double[] {0.1, 0.1, 0.1, 0.1};
+			dadosDaProcuraPanelLayout.rowHeights = new int[] {7, 7, 7, 7};
+			dadosDaProcuraPanelLayout.columnWeights = new double[] {0.2, 0.2, 0.6};
+			dadosDaProcuraPanelLayout.columnWidths = new int[] {7, 7, 14};
+			dadosDaProcuraPanel.setPreferredSize(new java.awt.Dimension(630, 102));
 			dadosDaProcuraPanel.add(getLetraTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(letraLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(nomeLabel, gridBagConstraints1);
@@ -279,11 +298,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			dadosDaProcuraPanel.add(observacaoLabel, gridBagConstraints32);
 			dadosDaProcuraPanel.add(getObservacaoTextField(), gridBagConstraints42);
 			dadosDaProcuraPanel.add(qualidadeLabel, gridBagConstraints21);
-			dadosDaProcuraPanel.add(getQualidadeComboBox(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 120), 0, 0));
+			dadosDaProcuraPanel.add(getQualidadeComboBox(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 144), 0, 0));
 			dadosDaProcuraPanel.add(getColecaoBuscaLabel(), new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(getColecaoBuscaComboBox(), new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
-			dadosDaProcuraPanel.add(getAnoLabel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 157, 0, 0), 0, 0));
-			dadosDaProcuraPanel.add(getAnoTextField(), new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 156, 0, 0), 0, 0));
+			dadosDaProcuraPanel.add(getAnoLabel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 183, 0, 0), 0, 0));
+			dadosDaProcuraPanel.add(getAnoTextField(), new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 183, 0, 0), 0, 0));
 			atualizarQualidades();
 		}
 		return dadosDaProcuraPanel;
@@ -307,6 +326,8 @@ public class ProcurarMusicasPanel extends JPanel {
 				
 			});
 			nomeTextField.setColumns(10);
+			nomeTextField.setPreferredSize(new java.awt.Dimension(291, 20));
+			nomeTextField.setSize(291, 20);
 		}
 		return nomeTextField;
 	}
@@ -324,8 +345,10 @@ public class ProcurarMusicasPanel extends JPanel {
 			gridBagConstraints5.insets = new Insets(0, 0, 0, 0);
 			gridBagConstraints5.ipady = 312;
 			tabelaPanel = new JPanel();
-			tabelaPanel.setLayout(new GridBagLayout());
-			tabelaPanel.add(getTabelaScrollPane(), gridBagConstraints5);
+			BorderLayout tabelaPanelLayout = new BorderLayout();
+			tabelaPanel.setLayout(tabelaPanelLayout);
+			tabelaPanel.setPreferredSize(new java.awt.Dimension(686, 339));
+			tabelaPanel.add(getTabelaScrollPane(), BorderLayout.CENTER);
 		}
 		return tabelaPanel;
 	}
@@ -779,6 +802,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JComboBox getRitmoComboBox() {
 		if (ritmoComboBox == null) {
 			ritmoComboBox = new JComboBox();
+			ritmoComboBox.setPreferredSize(new java.awt.Dimension(110, 20));
+			ritmoComboBox.setSize(110, 20);
 			ritmoComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -824,6 +849,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (observacaoTextField == null) {
 			observacaoTextField = new JTextField();
 			observacaoTextField.setColumns(10);
+			observacaoTextField.setPreferredSize(new java.awt.Dimension(197, 20));
 			observacaoTextField.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -844,6 +870,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (letraTextField == null) {
 			letraTextField = new JTextField();
 			letraTextField.setColumns(10);
+			letraTextField.setPreferredSize(new java.awt.Dimension(197, 20));
 			letraTextField.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -863,6 +890,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JComboBox getQualidadeComboBox() {
 		if (qualidadeComboBox == null) {
 			qualidadeComboBox = new JComboBox();
+			qualidadeComboBox.setSize(80, 20);
 			qualidadeComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1299,6 +1327,64 @@ public class ProcurarMusicasPanel extends JPanel {
 	public void novaColecaoCadastrada() {
 		System.out.println("Nova coleção Cadastrada.");
 		atualizarColecoes();
+	}
+	
+	private JPanel getPanelTipoArquivo() {
+		if(panelTipoArquivo == null) {
+			panelTipoArquivo = new JPanel();
+			BoxLayout panelTipoArquivoLayout = new BoxLayout(panelTipoArquivo, javax.swing.BoxLayout.Y_AXIS);
+			panelTipoArquivo.setLayout(panelTipoArquivoLayout);
+			panelTipoArquivo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
+			panelTipoArquivo.add(getRadioButtonCantada());
+			panelTipoArquivo.add(getRadioButtonMensagem());
+			panelTipoArquivo.add(getRadioButtonInstrumental());
+			panelTipoArquivo.add(getRadioButtonTodos());
+		}
+		return panelTipoArquivo;
+	}
+	
+	private ButtonGroup getButtonGroupTipoArquivo() {
+		if(buttonGroupTipoArquivo == null) {
+			buttonGroupTipoArquivo = new ButtonGroup();
+		}
+		return buttonGroupTipoArquivo;
+	}
+	
+	private JRadioButton getRadioButtonCantada() {
+		if(radioButtonCantada == null) {
+			radioButtonCantada = new JRadioButton();
+			radioButtonCantada.setText("Cantada");
+			radioButtonCantada.setPreferredSize(new java.awt.Dimension(107, 23));
+			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonCantada;
+	}
+	
+	private JRadioButton getRadioButtonInstrumental() {
+		if(radioButtonInstrumental == null) {
+			radioButtonInstrumental = new JRadioButton();
+			radioButtonInstrumental.setText("Instrumental");
+			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonInstrumental;
+	}
+	
+	private JRadioButton getRadioButtonMensagem() {
+		if(radioButtonMensagem == null) {
+			radioButtonMensagem = new JRadioButton();
+			radioButtonMensagem.setText("Mensagem");
+			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonMensagem;
+	}
+	
+	private JRadioButton getRadioButtonTodos() {
+		if(radioButtonTodos == null) {
+			radioButtonTodos = new JRadioButton();
+			radioButtonTodos.setText("Todos");
+			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		}
+		return radioButtonTodos;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

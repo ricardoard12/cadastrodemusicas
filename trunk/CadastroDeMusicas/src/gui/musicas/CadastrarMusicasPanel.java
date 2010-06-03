@@ -948,6 +948,8 @@ public class CadastrarMusicasPanel extends JPanel {
 					if (cantores != null) {
 						int row = cantoresTable.rowAtPoint(e.getPoint());
 						if (row >= 0 && row < cantores.size() && cantores.get(row) != null) {
+							getCantorTextField().setEnabled(true);
+							getCantorTextField().setEditable(true);
 							getCantorTextField().setText(cantores.get(row).getNomeSemEspacos());
 							mudouNomeCantor();
 							
@@ -1920,7 +1922,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		//$hide>>$
 		if (musica == null) return;
 		
-		// procurando se já existe o cantor cadastrado, se já exixtir, setar a
+		// procurando se já existe o cantor cadastrado, se já existir, setar a
 		// lista de cantores da música
 		// usando o vetor de cantores diretamente, para não precisar fazer nova
 		// pesquisa no BD
