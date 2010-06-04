@@ -1335,6 +1335,12 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonCantada.setText("Cantada");
 			radioButtonCantada.setPreferredSize(new java.awt.Dimension(107, 23));
 			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonCantada.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
+					configurarProcuraMusicasCantadas();
+				}
+			
+			});
 			getButtonGroupTipoArquivo().add(radioButtonCantada);
 		}
 		return radioButtonCantada;
@@ -1345,6 +1351,12 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonInstrumental = new JRadioButton();
 			radioButtonInstrumental.setText("Instrumental");
 			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonInstrumental.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
+					configurarProcuraMusicasInstrumentais();
+				}
+
+			});
 			getButtonGroupTipoArquivo().add(radioButtonInstrumental);
 		}
 		return radioButtonInstrumental;
@@ -1355,6 +1367,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonMensagem = new JRadioButton();
 			radioButtonMensagem.setText("Mensagem");
 			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonMensagem.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
+					configurarProcuraMensagens();
+				}
+			});
 			getButtonGroupTipoArquivo().add(radioButtonMensagem);
 		}
 		return radioButtonMensagem;
@@ -1365,9 +1382,34 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonTodos = new JRadioButton();
 			radioButtonTodos.setText("Todos");
 			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonTodos.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent evt) {
+					configurarProcuraTodas();
+				}
+			});
 			getButtonGroupTipoArquivo().add(radioButtonTodos);
 		}
 		return radioButtonTodos;
+	}
+	
+	private void configurarProcuraMusicasCantadas() {
+		
+		
+	}
+	
+	private void configurarProcuraMusicasInstrumentais() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void configurarProcuraMensagens() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void configurarProcuraTodas() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
