@@ -145,6 +145,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	private void initialize() {
 		letraLabel = new JLabel();
 		letraLabel.setText("Letra");
+		letraLabel.setPreferredSize(new java.awt.Dimension(183, 14));
 		GridBagConstraints gridBagConstraints14 = new GridBagConstraints();
 		gridBagConstraints14.gridx = 0;
 		gridBagConstraints14.fill = GridBagConstraints.HORIZONTAL;
@@ -237,14 +238,14 @@ public class ProcurarMusicasPanel extends JPanel {
 			gridBagConstraints31.insets = new Insets(0, 16, 0, 0);
 			gridBagConstraints31.gridy = 2;
 			assuntoLabel = new JLabel();
-			assuntoLabel.setText("Assunto");
+			assuntoLabel.setText("Assunto / Instrumentos");
 			GridBagConstraints gridBagConstraints12 = new GridBagConstraints();
 			gridBagConstraints12.gridx = 0;
 			gridBagConstraints12.anchor = GridBagConstraints.SOUTHWEST;
 			gridBagConstraints12.fill = GridBagConstraints.NONE;
 			gridBagConstraints12.gridy = 2;
 			ritmoLabel = new JLabel();
-			ritmoLabel.setText("Ritmo");
+			ritmoLabel.setText("Ritmo / Estilo");
 			GridBagConstraints gridBagConstraints41 = new GridBagConstraints();
 			gridBagConstraints41.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints41.gridy = 1;
@@ -258,7 +259,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			gridBagConstraints3.insets = new Insets(0, 12, 0, 0);
 			gridBagConstraints3.gridy = 0;
 			cantorLabel = new JLabel();
-			cantorLabel.setText("Cantor");
+			cantorLabel.setText("Cantor / Intérprete");
 			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 			gridBagConstraints1.anchor = GridBagConstraints.SOUTHWEST;
 			gridBagConstraints1.gridwidth = 2;
@@ -297,8 +298,8 @@ public class ProcurarMusicasPanel extends JPanel {
 			dadosDaProcuraPanel.add(getQualidadeComboBox(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 144), 0, 0));
 			dadosDaProcuraPanel.add(getColecaoBuscaLabel(), new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(getColecaoBuscaComboBox(), new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
-			dadosDaProcuraPanel.add(getAnoLabel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 183, 0, 0), 0, 0));
-			dadosDaProcuraPanel.add(getAnoTextField(), new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 183, 0, 0), 0, 0));
+			dadosDaProcuraPanel.add(getAnoLabel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 121, 0, 0), 0, 0));
+			dadosDaProcuraPanel.add(getAnoTextField(), new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 			atualizarQualidades();
 		}
 		return dadosDaProcuraPanel;
@@ -322,7 +323,7 @@ public class ProcurarMusicasPanel extends JPanel {
 				
 			});
 			nomeTextField.setColumns(10);
-			nomeTextField.setPreferredSize(new java.awt.Dimension(507, 20));
+			nomeTextField.setPreferredSize(new java.awt.Dimension(403, 20));
 			nomeTextField.setSize(291, 20);
 		}
 		return nomeTextField;
@@ -615,7 +616,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (cantorTextField == null) {
 			cantorTextField = new JTextField();
 			cantorTextField.setColumns(10);
-			cantorTextField.setPreferredSize(new java.awt.Dimension(288, 20));
+			cantorTextField.setPreferredSize(new java.awt.Dimension(321, 20));
 			cantorTextField.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -747,6 +748,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			} else {
 				temp.add("");
 			}
+			if (m.getTipoArquivo() >= Constantes.TIPO_ARQUIVO_MUSICA_CANTADA && m.getTipoArquivo() <= Constantes.TIPO_ARQUIVO_MENSAGEM) {
+				temp.add(Constantes.TIPO_MUSICA_NOMES_TIPOS[m.getTipoArquivo()]);
+			} else {
+				temp.add("");
+			}
 			
 			musicasDados.add(temp);
 			
@@ -764,6 +770,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			nomesCampos.add("Cantores");
 			nomesCampos.add("Ritmo");
 			nomesCampos.add("Duração");
+			nomesCampos.add("Tipo");
 		}		
 		
 		return nomesCampos;
@@ -783,8 +790,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JComboBox getRitmoComboBox() {
 		if (ritmoComboBox == null) {
 			ritmoComboBox = new JComboBox();
-			ritmoComboBox.setPreferredSize(new java.awt.Dimension(44, 20));
-			ritmoComboBox.setSize(110, 20);
+			ritmoComboBox.setPreferredSize(new java.awt.Dimension(60, 18));
+			ritmoComboBox.setSize(80, 20);
 			ritmoComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -831,7 +838,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (observacaoTextField == null) {
 			observacaoTextField = new JTextField();
 			observacaoTextField.setColumns(10);
-			observacaoTextField.setPreferredSize(new java.awt.Dimension(288, 20));
+			observacaoTextField.setPreferredSize(new java.awt.Dimension(381, 20));
 			observacaoTextField.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -852,7 +859,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (letraTextField == null) {
 			letraTextField = new JTextField();
 			letraTextField.setColumns(10);
-			letraTextField.setPreferredSize(new java.awt.Dimension(288, 20));
+			letraTextField.setPreferredSize(new java.awt.Dimension(324, 20));
 			letraTextField.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -873,6 +880,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (qualidadeComboBox == null) {
 			qualidadeComboBox = new JComboBox();
 			qualidadeComboBox.setSize(80, 20);
+			qualidadeComboBox.setPreferredSize(new java.awt.Dimension(64, 20));
 			qualidadeComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1251,6 +1259,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JComboBox getColecaoBuscaComboBox() {
 		if(colecaoBuscaComboBox == null) { 
 			colecaoBuscaComboBox = new JComboBox();
+			colecaoBuscaComboBox.setPreferredSize(new java.awt.Dimension(169, 20));
 			colecaoBuscaComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1279,6 +1288,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JTextField getAnoTextField() {
 		if(anoTextField == null) {
 			anoTextField = new JTextField();
+			anoTextField.setPreferredSize(new java.awt.Dimension(122, 20));
+			anoTextField.setSize(169, 20);
 			anoTextField.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent arg0) {
@@ -1324,6 +1335,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonCantada.setText("Cantada");
 			radioButtonCantada.setPreferredSize(new java.awt.Dimension(107, 23));
 			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			getButtonGroupTipoArquivo().add(radioButtonCantada);
 		}
 		return radioButtonCantada;
 	}
@@ -1333,6 +1345,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonInstrumental = new JRadioButton();
 			radioButtonInstrumental.setText("Instrumental");
 			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			getButtonGroupTipoArquivo().add(radioButtonInstrumental);
 		}
 		return radioButtonInstrumental;
 	}
@@ -1342,6 +1355,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonMensagem = new JRadioButton();
 			radioButtonMensagem.setText("Mensagem");
 			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			getButtonGroupTipoArquivo().add(radioButtonMensagem);
 		}
 		return radioButtonMensagem;
 	}
@@ -1351,6 +1365,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonTodos = new JRadioButton();
 			radioButtonTodos.setText("Todos");
 			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			getButtonGroupTipoArquivo().add(radioButtonTodos);
 		}
 		return radioButtonTodos;
 	}

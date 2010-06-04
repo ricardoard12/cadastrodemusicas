@@ -46,5 +46,11 @@ public class Constantes {
 	public static final String TIPO_MUSICA_CANTADA_STRING = "Cantada";
 	public static final String TIPO_MUSICA_INSTRUMENTAL_STRING = "Instrumental";
 	public static final String TIPO_MUSICA_MENSAGEM_STRING = "Mensagem";
+	public static final String[] TIPO_MUSICA_NOMES_TIPOS = {
+		"",
+		"Cantada",
+		"Instrumental",
+		"Mensagem"
+	};
 }
 
