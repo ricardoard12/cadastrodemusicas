@@ -1,3 +1,4 @@
+Salvar o último tipo de arquivo utilizado na tela de procura (e de cadastro)
 fazer com que as alterações nas músicas se reflitam no player
 Se recuperar de erro com o bd na inicialização (tentar matar o processo e iniciar novamente, ou se não conseguir matar, iniciar em outra porta)
 
