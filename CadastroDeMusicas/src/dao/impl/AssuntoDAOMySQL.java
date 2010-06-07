@@ -11,6 +11,7 @@ import java.util.List;
 
 import bd.BDUtil;
 import classesbasicas.Assunto;
+import classesbasicas.Constantes;
 import dao.AssuntoDAO;
 import exceptions.DataException;
 
@@ -145,7 +146,7 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public List<Assunto> listarAssuntos(int tipoArquivo) throws DataException {
-		String sql = "SELECT * FROM assunto WHERE tipoarquivo = " + tipoArquivo;
+		String sql = "SELECT * FROM assunto WHERE tipoarquivo = " + tipoArquivo + " OR " + tipoArquivo + " = " + Constantes.TIPO_ARQUIVO_TODOS + " ORDER BY assunto";
 		return listarAssuntosPorConsulta(sql);
 	}
 

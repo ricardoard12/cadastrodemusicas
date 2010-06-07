@@ -11,6 +11,7 @@ import java.util.List;
 
 import bd.BDUtil;
 
+import classesbasicas.Constantes;
 import classesbasicas.Tipo;
 import dao.TipoDAO;
 import exceptions.DataException;
@@ -151,7 +152,7 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public List<Tipo> listarTipos(int tipoArquivo) throws DataException {
-		String sql = "SELECT * FROM tipo WHERE tipoarquivo = " + tipoArquivo;
+		String sql = "SELECT * FROM tipo WHERE tipoarquivo = " + tipoArquivo + " OR " + tipoArquivo + " = " + Constantes.TIPO_ARQUIVO_TODOS +  " ORDER BY tipo";
 		return listarTiposPorConsulta(sql);
 	}
 
