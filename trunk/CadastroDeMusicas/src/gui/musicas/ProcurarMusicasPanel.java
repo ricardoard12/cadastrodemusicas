@@ -5,12 +5,10 @@ import fachada.Fachada;
 import gui.colecaodiscos.GerarColecaoDiscosDialog;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -24,10 +22,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -44,7 +42,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import util.GlobalPlayer;
 import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
@@ -685,6 +682,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		String observacao = getObservacaoTextField().getText();
 		String qualidade = (String) getQualidadeComboBox().getSelectedItem();
 		String letra = getLetraTextField().getText();
+		int tipoArquivo = getTipoArquivo();
 		Colecao colecao = null;
 		int ano = 0;
 		
@@ -702,19 +700,36 @@ public class ProcurarMusicasPanel extends JPanel {
 				getAnoTextField().setText("");
 			}
 		}
+		
+		if ( (nome == null || nome.trim().equals("")) && (nomeCantor == null || nomeCantor.trim().equals("")) && 
+			 (ritmo == null || ritmo.trim().equals("")) && (assunto == null || assunto.trim().equals("")) &&
+			 (observacao == null || observacao.trim().equals("")) && (qualidade == null || qualidade.trim().equals("")) &&
+			 (letra == null || letra.trim().equals("")) && ano == 0) {
+			tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
+		}
 
 		//$hide>>$
 		// só pra garantir...
 		musicas = new ArrayList<Musica>();
 		
 		try {
-			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano, Constantes.TIPO_ARQUIVO_TODOS);
+			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano, tipoArquivo);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//$hide<<$
 		return musicas;		
+	}
+
+	private int getTipoArquivo() {
+		int tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
+		if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+		else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+		else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+		else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+		
+		return tipoArquivo;
 	}
 
 	private Vector<Vector<String>> getMusicasDados() {
@@ -898,7 +913,9 @@ public class ProcurarMusicasPanel extends JPanel {
 	public void atualizarRitmos() {
 		//$hide>>$
 		try {
-			List<Tipo> tipos = Fachada.listarTipos();
+			int tipoArquivo = getTipoArquivo();
+			
+			List<Tipo> tipos = Fachada.listarTipos(tipoArquivo);
 			
 			String s = (String) getRitmoComboBox().getSelectedItem();
 			
@@ -922,7 +939,9 @@ public class ProcurarMusicasPanel extends JPanel {
 	public void atualizarAssuntos() {
 		//$hide>>$
 		try {
-			List<Assunto> assuntos = Fachada.listarAssuntos();
+			int tipoArquivo = getTipoArquivo();
+			
+			List<Assunto> assuntos = Fachada.listarAssuntos(tipoArquivo);
 			
 			String s = (String) getAssuntoComboBox().getSelectedItem();
 			
@@ -1315,8 +1334,8 @@ public class ProcurarMusicasPanel extends JPanel {
 			panelTipoArquivo.setLayout(panelTipoArquivoLayout);
 			panelTipoArquivo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
 			panelTipoArquivo.add(getRadioButtonCantada());
-			panelTipoArquivo.add(getRadioButtonMensagem());
 			panelTipoArquivo.add(getRadioButtonInstrumental());
+			panelTipoArquivo.add(getRadioButtonMensagem());
 			panelTipoArquivo.add(getRadioButtonTodos());
 		}
 		return panelTipoArquivo;
@@ -1337,7 +1356,9 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonCantada.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonCantada.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
-					configurarProcuraMusicasCantadas();
+					if (radioButtonCantada.isSelected()) {
+						configurarProcuraMusicasCantadas();	
+					}
 				}
 			
 			});
@@ -1353,7 +1374,9 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonInstrumental.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonInstrumental.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
-					configurarProcuraMusicasInstrumentais();
+					if (radioButtonInstrumental.isSelected()) {
+						configurarProcuraMusicasInstrumentais();	
+					}
 				}
 
 			});
@@ -1369,7 +1392,9 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonMensagem.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonMensagem.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
-					configurarProcuraMensagens();
+					if (radioButtonMensagem.isSelected()) {
+						configurarProcuraMensagens();	
+					}
 				}
 			});
 			getButtonGroupTipoArquivo().add(radioButtonMensagem);
@@ -1384,7 +1409,9 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			radioButtonTodos.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
-					configurarProcuraTodas();
+					if (radioButtonTodos.isSelected()) {
+						configurarProcuraTodas();	
+					}
 				}
 			});
 			getButtonGroupTipoArquivo().add(radioButtonTodos);
@@ -1393,23 +1420,79 @@ public class ProcurarMusicasPanel extends JPanel {
 	}
 	
 	private void configurarProcuraMusicasCantadas() {
+		cantorLabel.setText("Cantor");
 		
+		ritmoLabel.setText("Ritmo");
+		ritmoLabel.setEnabled(true);
+		getRitmoComboBox().setEnabled(true);
 		
+		assuntoLabel.setText("Assunto");
+		getAssuntoComboBox().setEnabled(true);
+		
+		letraLabel.setText("Letra");
+		letraLabel.setEnabled(true);
+		getLetraTextField().setEnabled(true);
+		
+		procurarMusicas();
+		atualizarRitmos();
+		atualizarAssuntos();
 	}
 	
 	private void configurarProcuraMusicasInstrumentais() {
-		// TODO Auto-generated method stub
+		cantorLabel.setText("Intérprete");
 		
+		ritmoLabel.setText("Estilo");
+		ritmoLabel.setEnabled(true);
+		getRitmoComboBox().setEnabled(true);
+		
+		assuntoLabel.setText("Instrumentos");
+		getAssuntoComboBox().setEnabled(true);
+		
+		// letraLabel.setText("Letra");
+		letraLabel.setEnabled(false);
+		getLetraTextField().setEnabled(false);
+		
+		procurarMusicas();
+		atualizarRitmos();
+		atualizarAssuntos();
 	}
 	
 	private void configurarProcuraMensagens() {
-		// TODO Auto-generated method stub
+		cantorLabel.setText("Intérprete");
 		
+		// ritmoLabel.setText("Ritmo");
+		ritmoLabel.setEnabled(false);
+		getRitmoComboBox().setEnabled(false);
+		
+		assuntoLabel.setText("Assunto");
+		getAssuntoComboBox().setEnabled(true);
+		
+		letraLabel.setText("Texto");
+		letraLabel.setEnabled(true);
+		getLetraTextField().setEnabled(true);
+		
+		procurarMusicas();
+		atualizarRitmos();
+		atualizarAssuntos();
 	}
 	
 	private void configurarProcuraTodas() {
-		// TODO Auto-generated method stub
+		cantorLabel.setText("Cantor / Intérprete");
 		
+		ritmoLabel.setText("Ritmo / Estilo");
+		ritmoLabel.setEnabled(true);
+		getRitmoComboBox().setEnabled(true);
+		
+		assuntoLabel.setText("Assunto / Instrumentos");
+		getAssuntoComboBox().setEnabled(true);
+		
+		letraLabel.setText("Letra / Texto");
+		letraLabel.setEnabled(true);
+		getLetraTextField().setEnabled(true);
+		
+		procurarMusicas();
+		atualizarRitmos();
+		atualizarAssuntos();
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
