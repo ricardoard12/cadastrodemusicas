@@ -121,7 +121,7 @@ public class VerificarArquivosPanel extends JPanel {
 		gridBagConstraints3.anchor = GridBagConstraints.SOUTHWEST;
 		gridBagConstraints3.gridy = 0;
 		musicaLabel = new JLabel();
-		musicaLabel.setText("Música Atual");
+		musicaLabel.setText("Arquivo Atual");
 		GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 		gridBagConstraints1.gridx = 0;
 		gridBagConstraints1.gridwidth = 3;

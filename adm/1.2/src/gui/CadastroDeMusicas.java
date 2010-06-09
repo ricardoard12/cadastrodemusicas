@@ -197,8 +197,8 @@ public class CadastroDeMusicas extends JFrame {
 			cadastroMenu = new JMenu();
 			cadastroMenu.setText("Cadastro");
 			cadastroMenu.add(getCadastrarMusicaMenuItem());
-			cadastroMenu.add(getCadastrarRitmoMenuItem());
-			cadastroMenu.add(getCadastrarAssuntoMenuItem());
+			// cadastroMenu.add(getCadastrarRitmoMenuItem());
+			// cadastroMenu.add(getCadastrarAssuntoMenuItem());
 		}
 		return cadastroMenu;
 	}
@@ -282,7 +282,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getRelatorioMusicasPorCantorMenuItem() {
 		if (relatorioMusicasPorCantorMenuItem == null) {
 			relatorioMusicasPorCantorMenuItem = new JMenuItem();
-			relatorioMusicasPorCantorMenuItem.setText("Por Cantor");
+			relatorioMusicasPorCantorMenuItem.setText("Por Orador");
 			relatorioMusicasPorCantorMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -330,8 +330,8 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getCadastrarMusicaMenuItem() {
 		if (cadastrarMusicaMenuItem == null) {
 			cadastrarMusicaMenuItem = new JMenuItem();
-			cadastrarMusicaMenuItem.setText("Músicas");
-			cadastrarMusicaMenuItem.setActionCommand("Músicas");
+			cadastrarMusicaMenuItem.setText("Arquivos de Áudio");
+			cadastrarMusicaMenuItem.setActionCommand("Arquivos de Áudio");
 			cadastrarMusicaMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -456,7 +456,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getBuscarMusicaMenuItem() {
 		if (buscarMusicaMenuItem == null) {
 			buscarMusicaMenuItem = new JMenuItem();
-			buscarMusicaMenuItem.setText("Músicas");
+			buscarMusicaMenuItem.setText("Arquivos de Áudio");
 			buscarMusicaMenuItem.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (internalFrame != null) {
@@ -490,7 +490,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getBuscarCantorMenuItem() {
 		if (buscarCantorMenuItem == null) {
 			buscarCantorMenuItem = new JMenuItem();
-			buscarCantorMenuItem.setText("Cantores");
+			buscarCantorMenuItem.setText("Oradores");
 			buscarCantorMenuItem.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (internalFrame != null) {
@@ -567,7 +567,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenu getTodasAsMusicasMenu() {
 		if (todasAsMusicasMenu == null) {
 			todasAsMusicasMenu = new JMenu();
-			todasAsMusicasMenu.setText("Todas as Músicas");
+			todasAsMusicasMenu.setText("Todos os Arquivos");
 			todasAsMusicasMenu.add(getRelatorioMusicaOrdemAlfabeticaMenuItem());
 			todasAsMusicasMenu.add(getRelatorioMusicasPorCantorMenuItem());
 		}
@@ -623,7 +623,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenu getRelatoriosCantoresMenu() {
 		if (relatoriosCantoresMenu == null) {
 			relatoriosCantoresMenu = new JMenu();
-			relatoriosCantoresMenu.setText("Cantores");
+			relatoriosCantoresMenu.setText("Oradores");
 			relatoriosCantoresMenu.add(getCantoresComNumeroDeMusicasMenuItem());
 		}
 		return relatoriosCantoresMenu;
@@ -637,7 +637,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getCantoresComNumeroDeMusicasMenuItem() {
 		if (cantoresComNumeroDeMusicasMenuItem == null) {
 			cantoresComNumeroDeMusicasMenuItem = new JMenuItem();
-			cantoresComNumeroDeMusicasMenuItem.setText("Com Número de Músicas");
+			cantoresComNumeroDeMusicasMenuItem.setText("Com Número de Arquivos");
 			cantoresComNumeroDeMusicasMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -751,7 +751,7 @@ public class CadastroDeMusicas extends JFrame {
 	private void initialize() {
 		this.setJMenuBar(getBarraDeMenuPrincipalJMenuBar());
 		this.setContentPane(getJContentPane());
-		this.setTitle("Sistema de Cadastro de Músicas");
+		this.setTitle("DMD - Sistema de Cadastro de Arquivos de Áudio (MP3)");
 		this.setResizable(false);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/figuras/icones/star_grey.png")));
 		this.addWindowListener(new WindowAdapter() {

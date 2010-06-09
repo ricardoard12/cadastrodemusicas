@@ -61,7 +61,7 @@ public class AboutPanel extends JPanel implements ActionListener
     MaxX = (int)this.getSize().getWidth();
     MaxY = (int)this.getSize().getHeight();
 
-    String programa = "Sistema de Cadastro de Músicas (MP3)";
+    String programa = "DMD - Sistema de Cadastro de Arquivos de Áudio (MP3)";
     String versao = "";
     try {
 		 versao = "Versão " + BDUtil.getConfiguracao("versao");
@@ -86,12 +86,12 @@ public class AboutPanel extends JPanel implements ActionListener
 		e.printStackTrace();
 	}
     
-    graph.drawString(programa, (MaxX - fonte.stringWidth(fones) - 6),(24));
-    graph.drawString(versao, (MaxX - fonte.stringWidth(fones) - 6),(38));
+    graph.drawString(programa, (MaxX - fonte.stringWidth(programa) - 6),(24));
+    graph.drawString(versao, (MaxX - fonte.stringWidth(programa) - 6),(38));
     
-    graph.drawString(desenvolvidoPor, (MaxX - fonte.stringWidth(fones) - 6),(66));
-    graph.drawString(fones, (MaxX - fonte.stringWidth(fones) - 6),(80));
-    graph.drawString(email, (MaxX - fonte.stringWidth(fones) - 6),(94));
+    graph.drawString(desenvolvidoPor, (MaxX - fonte.stringWidth(programa) - 6),(66));
+    graph.drawString(fones, (MaxX - fonte.stringWidth(programa) - 6),(80));
+    graph.drawString(email, (MaxX - fonte.stringWidth(programa) - 6),(94));
     graph.drawString(dataRelease, (MaxX - fonte.stringWidth(dataRelease) - 6), MaxY - 6);
 
     graph = graph.create( (MaxX - width) / 2, 120, width, MaxY - 160);

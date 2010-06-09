@@ -42,7 +42,7 @@ public class MusicasInternalFrame extends JInternalFrame {
 		this.setSize(645, 402);
 		this.setFrameIcon(new ImageIcon(getClass().getResource("/figuras/icones/music.png")));
 		this.setClosable(true);
-		this.setTitle("Músicas");
+		this.setTitle("Arquivos de Áudio");
 		this.setContentPane(getJContentPane());
 	}
 
@@ -68,9 +68,9 @@ public class MusicasInternalFrame extends JInternalFrame {
 	public JTabbedPane getTabbedPane() {
 		if (tabbedPane == null) {
 			tabbedPane = new JTabbedPane();
-			tabbedPane.addTab("Cadastrar Músicas", null, getCadastrarMusicasPanel(), null);
-			tabbedPane.addTab("Procurar Músicas", null, getProcurarMusicasPanel(), null);
-			tabbedPane.addTab("Editar Música", null, getEditarMusicasPanel(), null);
+			tabbedPane.addTab("Cadastrar Arquivos", null, getCadastrarMusicasPanel(), null);
+			tabbedPane.addTab("Procurar Arquivos", null, getProcurarMusicasPanel(), null);
+			tabbedPane.addTab("Editar Arquivo", null, getEditarMusicasPanel(), null);
 		}
 		return tabbedPane;
 	}
