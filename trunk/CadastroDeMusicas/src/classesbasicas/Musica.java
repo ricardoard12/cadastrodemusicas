@@ -218,6 +218,7 @@ public class Musica implements Serializable {
 			}
 		}	
 		inst.chaveUnica = this.chaveUnica;
+		inst.tipoArquivo = this.tipoArquivo;
 		return inst;
 	}
 	/**
@@ -262,7 +263,8 @@ public class Musica implements Serializable {
 				: this.cantores.equals(castedObj.cantores)) && (this.assuntos == null
 			? castedObj.assuntos == null
 			: this.assuntos.equals(castedObj.assuntos))
-			&& this.chaveUnica == null ? castedObj.chaveUnica == null : this.chaveUnica.equals(castedObj.chaveUnica));
+			&& this.chaveUnica == null ? castedObj.chaveUnica == null : this.chaveUnica.equals(castedObj.chaveUnica)
+			&& this.tipoArquivo == castedObj.tipoArquivo);
 	}
 	/**
 	 * Override hashCode.
@@ -290,6 +292,7 @@ public class Musica implements Serializable {
 			+ (diretorio == null ? 0 : diretorio.hashCode());
 		hashCode = 31 * hashCode + (cantores == null ? 0 : cantores.hashCode());
 		hashCode = 31 * hashCode + (assuntos == null ? 0 : assuntos.hashCode());
+		hashCode = 31 * hashCode + tipoArquivo;
 		return hashCode;
 	}
 
