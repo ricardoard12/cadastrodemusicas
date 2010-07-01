@@ -285,7 +285,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			dadosDaProcuraPanel.add(getCantorTextField(), gridBagConstraints41);
 			dadosDaProcuraPanel.add(ritmoLabel, gridBagConstraints12);
 			dadosDaProcuraPanel.add(assuntoLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 12, 0, 0), 0, 0));
-			dadosDaProcuraPanel.add(getRitmoComboBox(), gridBagConstraints15);
+			dadosDaProcuraPanel.add(getRitmoComboBox(), new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			atualizarRitmos();
 			dadosDaProcuraPanel.add(getAssuntoComboBox(), new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
 			atualizarAssuntos();
@@ -1407,6 +1407,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonTodos = new JRadioButton();
 			radioButtonTodos.setText("Todos");
 			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			radioButtonTodos.setSelected(true);
 			radioButtonTodos.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonTodos.isSelected()) {
