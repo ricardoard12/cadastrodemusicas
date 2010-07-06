@@ -180,7 +180,7 @@ public class BDUtil {
 									"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
 									"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
 									"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.3' WHERE `configuracoes`.`configuracao` =  'versao';",
-									"INSERT INTO configuracoes VALUES('data_release', 'XX/XX/2010');",
+									"INSERT INTO configuracoes VALUES('data_release', '05/07/2010');",
 									"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 									"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 									"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
@@ -230,7 +230,7 @@ public class BDUtil {
 							"ALTER TABLE `tipo` ADD `created` DATETIME NULL DEFAULT NULL ,ADD `modified` DATETIME NULL DEFAULT NULL ;",
 							"UPDATE tipo SET created = NOW(), modified = NOW() WHERE created IS NULL OR modified IS NULL;",
 							"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.3' WHERE `configuracoes`.`configuracao` =  'versao';",
-							"INSERT INTO configuracoes VALUES('data_release', 'XX/XX/2010');",
+							"INSERT INTO configuracoes VALUES('data_release', '05/07/2010');",
 							"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 							"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 							"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
@@ -255,7 +255,7 @@ public class BDUtil {
 					System.out.println("Atualizando o Banco de Dados da Versão 1.1 para a 1.3");
 					String[] sqls = {
 								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.3' WHERE `configuracoes`.`configuracao` =  'versao';",
-								"INSERT INTO configuracoes VALUES('data_release', 'XX/XX/2010');",
+								"INSERT INTO configuracoes VALUES('data_release', '05/07/2010');",
 								"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
@@ -278,7 +278,7 @@ public class BDUtil {
 					System.out.println("Atualizando o Banco de Dados da Versão 1.2 para a 1.3");
 					String[] sqls = {
 								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.3' WHERE `configuracoes`.`configuracao` =  'versao';",
-								"INSERT INTO configuracoes VALUES('data_release', 'XX/XX/2010');",
+								"INSERT INTO configuracoes VALUES('data_release', '05/07/2010');",
 								"ALTER TABLE `assunto` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `cantor` ADD `tipoarquivo` INT( 10 );",
 								"ALTER TABLE `musica` ADD `tipoarquivo` INT( 10 );",
@@ -286,7 +286,7 @@ public class BDUtil {
 								"UPDATE assunto SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
 								"UPDATE cantor SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
 								"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
-								"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
+								"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
