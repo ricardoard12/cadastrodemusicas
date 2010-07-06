@@ -716,8 +716,6 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JScrollPane getAssuntosScrollPane() {
 		if (assuntosScrollPane == null) {
 			assuntosScrollPane = new JScrollPane();
-			assuntosScrollPane.setSize(2, 2);
-			assuntosScrollPane.setPreferredSize(new java.awt.Dimension(164, 113));
 			assuntosScrollPane.setViewportView(getAssuntosList());
 		}
 		return assuntosScrollPane;
@@ -732,8 +730,8 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JList getAssuntosList() {
 		if (assuntosList == null) {
 			assuntosList = new JList(getAssuntosString());
-			assuntosList.setVisibleRowCount(6);
-			assuntosList.setPreferredSize(new java.awt.Dimension(105, 111));
+			// assuntosList.setVisibleRowCount(6);
+			// assuntosList.setPreferredSize(new java.awt.Dimension(105, 111));
 			assuntosList.setSize(105, 111);
 		}
 		return assuntosList;
