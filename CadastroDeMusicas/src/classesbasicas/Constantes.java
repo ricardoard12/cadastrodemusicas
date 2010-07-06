@@ -43,6 +43,11 @@ public class Constantes {
 	public static final int TIPO_ARQUIVO_TODOS = -1;
 	public static final int TIPO_ARQUIVO_NAO_LISTAR = -2;
 	
+	public static final String QUALIDADE_RUIM = "Ruim";
+	public static final String QUALIDADE_NORMAL = "Normal";
+	public static final String QUALIDADE_BOA = "Boa";
+	public static final String QUALIDADE_OTIMA = "Ótima";
+	
 	public static final String TIPO_MUSICA_CANTADA_STRING = "Cantada";
 	public static final String TIPO_MUSICA_INSTRUMENTAL_STRING = "Instrumental";
 	public static final String TIPO_MUSICA_MENSAGEM_STRING = "Mensagem";
