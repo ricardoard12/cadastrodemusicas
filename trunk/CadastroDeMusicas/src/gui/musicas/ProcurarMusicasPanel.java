@@ -5,6 +5,8 @@ import fachada.Fachada;
 import gui.colecaodiscos.GerarColecaoDiscosDialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,6 +43,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import util.Util;
 import classesbasicas.Assunto;
@@ -597,6 +600,8 @@ public class ProcurarMusicasPanel extends JPanel {
 				public boolean isCellEditable(int row, int column) {
 					return false;
 				}
+				
+				
 			};
 			musicasTableModel.setDataVector(getMusicasDados(), getNomesCampos());
 			getNumeroRegistrosTextField().setText("" + musicasDados.size());
@@ -1495,5 +1500,44 @@ public class ProcurarMusicasPanel extends JPanel {
 		atualizarRitmos();
 		atualizarAssuntos();
 	}
+	
+	//$hide>>$
+	class ColorRenderer extends JLabel implements TableCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private String columnName;
+
+		public ColorRenderer(String column) {
+			this.columnName = column;
+			setOpaque(true);
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			Object columnValue = table.getValueAt(row, table.getColumnModel()
+					.getColumnIndex(columnName));
+
+			if (value != null)
+				setText(value.toString());
+			if (isSelected) {
+				setBackground(table.getSelectionBackground());
+				setForeground(table.getSelectionForeground());
+			} else {
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
+				
+				if (musicas != null) {
+					if (musicas.get(row - 1).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
+						setBackground(Color.gray);
+					}
+				}
+			}
+			return this;
+		}
+	}
+	//$hide<<$
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
+
