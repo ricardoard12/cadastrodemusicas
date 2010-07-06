@@ -395,10 +395,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			});
 		}
 		
-		musicasTable.getColumn(musicasTable.getColumnName(0)).setPreferredWidth(130);
-		musicasTable.getColumn(musicasTable.getColumnName(1)).setPreferredWidth(90);
-		musicasTable.getColumn(musicasTable.getColumnName(2)).setPreferredWidth(30);
+		musicasTable.getColumn(musicasTable.getColumnName(0)).setPreferredWidth(115);
+		musicasTable.getColumn(musicasTable.getColumnName(1)).setPreferredWidth(85);
+		musicasTable.getColumn(musicasTable.getColumnName(2)).setPreferredWidth(20);
 		musicasTable.getColumn(musicasTable.getColumnName(3)).setPreferredWidth(15);
+		musicasTable.getColumn(musicasTable.getColumnName(4)).setPreferredWidth(100);
 		
 		return musicasTable;
 	}
@@ -633,6 +634,13 @@ public class ProcurarMusicasPanel extends JPanel {
 	public void procurarMusicas() {
 		getMusicasTableModel().setDataVector(getMusicasDados(), 
 				getNomesCampos());
+		
+		ColorRenderer cr = new ColorRenderer();
+		
+		for (int j = 0; j < musicasTable.getColumnCount(); j++) {
+			musicasTable.getColumn(getNomesCampos().get(j)).setCellRenderer(cr);
+		}
+		
 		getMusicasTable();
 		
 		getNumeroRegistrosTextField().setText("" + musicasDados.size());
@@ -739,12 +747,19 @@ public class ProcurarMusicasPanel extends JPanel {
 
 	private Vector<Vector<String>> getMusicasDados() {
 		musicasDados = new Vector<Vector<String>>();
+		int tipoArquivo = getTipoArquivo();
 		
 		//$hide>>$
 		for (Musica m: getMusicas()) {
 			Vector<String> temp = new Vector<String>();
+
+			if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS) {
+				String adicionar = "[" + Constantes.TIPO_MUSICA_NOMES_TIPOS[m.getTipoArquivo()].charAt(0) + "] ";
+				temp.add(adicionar + m.getNome());
+			} else {
+				temp.add(m.getNome());	
+			}
 			
-			temp.add(m.getNome());
 			if (m.getCantores() != null && m.getCantores().size() > 0) {
 				String cantores = "";
 				for (Cantor c: m.getCantores()) {
@@ -768,8 +783,17 @@ public class ProcurarMusicasPanel extends JPanel {
 			} else {
 				temp.add("");
 			}
-			if (m.getTipoArquivo() >= Constantes.TIPO_ARQUIVO_MUSICA_CANTADA && m.getTipoArquivo() <= Constantes.TIPO_ARQUIVO_MENSAGEM) {
+			/*if (m.getTipoArquivo() >= Constantes.TIPO_ARQUIVO_MUSICA_CANTADA && m.getTipoArquivo() <= Constantes.TIPO_ARQUIVO_MENSAGEM) {
 				temp.add(Constantes.TIPO_MUSICA_NOMES_TIPOS[m.getTipoArquivo()]);
+			} else {
+				temp.add("");
+			}*/
+			if (m.getAssuntos() != null && m.getAssuntos().size() > 0) {
+				String assuntos = m.getAssuntos().get(0).getAssunto(); 
+				for (int j = 1; j < m.getAssuntos().size(); j++) {
+					assuntos += ", " + m.getAssuntos().get(j).getAssunto();
+				}
+				temp.add(assuntos);
 			} else {
 				temp.add("");
 			}
@@ -790,7 +814,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			nomesCampos.add("Cantores");
 			nomesCampos.add("Ritmo");
 			nomesCampos.add("Duração");
-			nomesCampos.add("Tipo");
+			nomesCampos.add("Assuntos");
 		}		
 		
 		return nomesCampos;
@@ -1507,18 +1531,13 @@ public class ProcurarMusicasPanel extends JPanel {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private String columnName;
 
-		public ColorRenderer(String column) {
-			this.columnName = column;
+		public ColorRenderer() {
 			setOpaque(true);
 		}
 
 		public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
-			Object columnValue = table.getValueAt(row, table.getColumnModel()
-					.getColumnIndex(columnName));
-
 			if (value != null)
 				setText(value.toString());
 			if (isSelected) {
@@ -1529,8 +1548,12 @@ public class ProcurarMusicasPanel extends JPanel {
 				setForeground(table.getForeground());
 				
 				if (musicas != null) {
-					if (musicas.get(row - 1).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
-						setBackground(Color.gray);
+					if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
+						setBackground(new Color(255, 239, 234));
+					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
+						setBackground(new Color(238, 243, 255));
+					}  else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
+						setBackground(new Color(219, 224, 255));
 					}
 				}
 			}
