@@ -299,6 +299,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 										int indice = playListList.getSelectedIndex();
 										if (indice >= 0 && indice < playlist.getItens().size()) {
 											tocar(indice);
+										} else {
+											tocar(0);
 										}
 									}
 								}
@@ -650,6 +652,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 				e.printStackTrace();
 			}
 			tocar(0);
+			
+			playListList.setSelectedIndex(0);
 		} else {
 			indiceAtual = -1;
 		}
@@ -698,7 +702,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
 		//$hide<<$
-		
 	}
 	
 	private void apagarArquivosTemporarios() {
