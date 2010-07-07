@@ -41,6 +41,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -53,6 +54,8 @@ import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
+
+import com.lowagie.text.Font;
 
 
 /**
@@ -1531,40 +1534,50 @@ public class ProcurarMusicasPanel extends JPanel {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+		private Border bordaPadrao;
 
 		public ColorRenderer() {
 			setOpaque(true);
+			bordaPadrao = getBorder();
 		}
 
 		public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			if (value != null)
 				setText(value.toString());
-			if (isSelected) {
-				setBackground(table.getSelectionBackground());
-				setForeground(table.getSelectionForeground());
-			} else {
-				setBackground(new Color(244, 244, 244));
-				setForeground(table.getForeground());
-				
-				System.out.println(row);
-				
-				if (musicas != null) {
-					if (musicas.get(row).getQualidade() != null) {
-						if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
-							setBackground(new Color(255, 225, 220));
-						}/* else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_NORMAL)) {
-							setBackground(new Color(236, 236, 255));
-						} */else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
-							setBackground(new Color(216, 216, 255));
-						} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
-							setBackground(new Color(160, 160, 255));
-						}	
-					} else {
-						setBackground(new Color(220, 255, 200));
-					}
+			
+			setBackground(new Color(244, 244, 244));
+			setForeground(table.getForeground());
+			
+			System.out.println(row);
+			
+			if (musicas != null) {
+				if (musicas.get(row).getQualidade() != null) {
+					if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
+						setBackground(new Color(255, 225, 220));
+					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
+						setBackground(new Color(216, 216, 255));
+					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
+						setBackground(new Color(160, 160, 255));
+					}	
+				} else {
+					setBackground(new Color(220, 255, 200));
 				}
 			}
+			
+			if (isSelected) {
+				if (!getFont().isBold()) {
+					setFont(getFont().deriveFont(Font.BOLD));//.deriveFont(getFont().getSize() + 1));
+					setBorder(BorderFactory.createLineBorder(Color.black, 1));
+				}
+				
+			} else {
+				if (getFont().isBold()) {
+					setFont(getFont().deriveFont(Font.NORMAL));//.deriveFont(getFont().getSize() - 1));
+					setBorder(bordaPadrao);
+				}
+			}
+			
 			return this;
 		}
 	}
