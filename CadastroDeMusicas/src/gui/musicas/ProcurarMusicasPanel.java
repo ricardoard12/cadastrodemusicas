@@ -1544,16 +1544,24 @@ public class ProcurarMusicasPanel extends JPanel {
 				setBackground(table.getSelectionBackground());
 				setForeground(table.getSelectionForeground());
 			} else {
-				setBackground(table.getBackground());
+				setBackground(new Color(244, 244, 244));
 				setForeground(table.getForeground());
 				
+				System.out.println(row);
+				
 				if (musicas != null) {
-					if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
-						setBackground(new Color(255, 239, 234));
-					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
-						setBackground(new Color(238, 243, 255));
-					}  else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
-						setBackground(new Color(219, 224, 255));
+					if (musicas.get(row).getQualidade() != null) {
+						if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
+							setBackground(new Color(255, 225, 220));
+						}/* else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_NORMAL)) {
+							setBackground(new Color(236, 236, 255));
+						} */else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
+							setBackground(new Color(216, 216, 255));
+						} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
+							setBackground(new Color(160, 160, 255));
+						}	
+					} else {
+						setBackground(new Color(220, 255, 200));
 					}
 				}
 			}
