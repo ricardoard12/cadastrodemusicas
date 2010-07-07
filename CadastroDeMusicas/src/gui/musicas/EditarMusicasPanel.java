@@ -184,6 +184,8 @@ public class EditarMusicasPanel extends JPanel {
 	private String caminhoImagemCapaSelecionada = null;
 	private String nomeArquivoCapaSelecionada = null;
 	
+	private int tipoArquivo;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -1840,7 +1842,13 @@ public class EditarMusicasPanel extends JPanel {
 			
 			musicasNomesCampos.add("Nome");
 			musicasNomesCampos.add("Duração");
-			musicasNomesCampos.add("Cantor");
+			if (tipoArquivo == Constantes.TIPO_ARQUIVO_MENSAGEM) {
+				musicasNomesCampos.add("Intérprete");
+			} else if (tipoArquivo == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
+				musicasNomesCampos.add("Intérprete");
+			} else if (tipoArquivo == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
+				musicasNomesCampos.add("Cantor");
+			}
 		}
 		
 		return musicasNomesCampos;
@@ -2629,6 +2637,8 @@ public class EditarMusicasPanel extends JPanel {
 	
 	private void configurarCadastroMusicasCantadas() {
 		//$hide>>$
+		tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+		
 		if (nomeDaMusicaLabel != null) nomeDaMusicaLabel.setText("Nome");
 		if (cantorLabel != null) cantorLabel.setText("Cantor (Nome Sem Espaços)");
 		if (tipoLabel != null) {
@@ -2642,6 +2652,10 @@ public class EditarMusicasPanel extends JPanel {
 		if (assuntosLabel != null) assuntosLabel.setText("Assuntos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Cantores");
+		getCantoresPanel().repaint();
+		TitledBorder tbm = (TitledBorder) getMusicasPanel().getBorder();
+		tbm.setTitle("Músicas");
+		getMusicasPanel().repaint();
 		if (letraLabel != null) letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
 		getLetraTextArea().setEditable(true);
@@ -2662,6 +2676,8 @@ public class EditarMusicasPanel extends JPanel {
 			getTipoComboBox().addItem(s);
 		}
 		
+		musicasNomesCampos = null;
+		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		//$hide<<$
@@ -2669,6 +2685,8 @@ public class EditarMusicasPanel extends JPanel {
 	
 	private void configurarCadastroMusicasInstrumentais() {
 		//$hide>>$
+		tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+		
 		nomeDaMusicaLabel.setText("Nome");
 		cantorLabel.setText("Intérprete (Nome Sem Espaços)");
 		tipoLabel.setText("Estilo");
@@ -2680,6 +2698,10 @@ public class EditarMusicasPanel extends JPanel {
 		assuntosLabel.setText("Instrumentos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Intérpretes");
+		getCantoresPanel().repaint();
+		TitledBorder tbm = (TitledBorder) getMusicasPanel().getBorder();
+		tbm.setTitle("Músicas");
+		getMusicasPanel().repaint();
 		letraLabel.setEnabled(false);
 		getLetraTextArea().setEnabled(false);
 		getLetraTextArea().setEditable(false);
@@ -2699,6 +2721,8 @@ public class EditarMusicasPanel extends JPanel {
 			getTipoComboBox().addItem(s);
 		}
 		
+		musicasNomesCampos = null;
+		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		//$hide<<$
@@ -2706,6 +2730,8 @@ public class EditarMusicasPanel extends JPanel {
 	
 	private void configurarCadastroMensagens() {
 		//$hide>>$
+		tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+		
 		nomeDaMusicaLabel.setText("Nome");
 		cantorLabel.setText("Intérprete (Nome Sem Espaços)");
 		// tipoLabel.setText("Estilo");
@@ -2717,6 +2743,10 @@ public class EditarMusicasPanel extends JPanel {
 		assuntosLabel.setText("Assuntos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Intérpretes");
+		getCantoresPanel().repaint();
+		TitledBorder tbm = (TitledBorder) getMusicasPanel().getBorder();
+		tbm.setTitle("Mensagens");
+		getMusicasPanel().repaint();
 		letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
 		getLetraTextArea().setEditable(true);
@@ -2735,6 +2765,8 @@ public class EditarMusicasPanel extends JPanel {
 		for (String s: getTiposString()) {
 			getTipoComboBox().addItem(s);
 		}
+		
+		musicasNomesCampos = null;
 		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
