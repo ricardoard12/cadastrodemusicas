@@ -1483,11 +1483,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	private void ativarCampos() {		
-		int tipoArquivo;
-		if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-		else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-		else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-		else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+		int tipoArquivo = getTipoArquivo();
 		
 		getPanelTipoMusica().setEnabled(true);
 		TitledBorder tb = (TitledBorder) panelTipoMusica.getBorder();
@@ -1748,11 +1744,7 @@ public class CadastrarMusicasPanel extends JPanel {
 					musica.setAssuntos(lista);
 				}
 
-				int tipoArquivo;
-				if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-				else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-				else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-				else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+				int tipoArquivo = getTipoArquivo();
 				musica.setTipoArquivo(tipoArquivo);
 				
 				Fachada.cadastrarMusica(musica);				
@@ -2026,11 +2018,7 @@ public class CadastrarMusicasPanel extends JPanel {
 				}
 			}
 			
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			
 			if (nomeSemEspacos == null || nomeSemEspacos.trim().equals("")) tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
 				
@@ -2067,7 +2055,14 @@ public class CadastrarMusicasPanel extends JPanel {
 			
 			musicasNomesCampos.add("Nome");
 			musicasNomesCampos.add("Duração");
-			musicasNomesCampos.add("Cantor");
+			if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MENSAGEM) {
+				musicasNomesCampos.add("Intérprete");
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
+				musicasNomesCampos.add("Intérprete");
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
+				musicasNomesCampos.add("Cantor");
+			}
+			musicasNomesCampos.add("Intérprete");
 		}
 		
 		return musicasNomesCampos;
@@ -2107,11 +2102,7 @@ public class CadastrarMusicasPanel extends JPanel {
 				nome = musica.getNome();
 			}
 			
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			
 			if (nome == null || nome.trim().equals("")) tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
 			
@@ -2158,11 +2149,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			Tipo t = new Tipo();
 			t.setTipo(tipo);
 			
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			t.setTipoArquivo(tipoArquivo);
 			
 			try {
@@ -2215,11 +2202,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			Assunto a = new Assunto();
 			a.setAssunto(assunto);
 			
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			a.setTipoArquivo(tipoArquivo);
 			
 			try {
@@ -2237,11 +2220,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private List<Assunto> getAssuntos() {
 		//$hide>>$
 		try {
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			
 			assuntos = Fachada.listarAssuntos(tipoArquivo);
 		} catch (DataException e) {
@@ -2267,11 +2246,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private List<Tipo> getTipos() {
 		//$hide>>$
 		try {
-			int tipoArquivo;
-			if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
-			else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
-			else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
-			else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+			int tipoArquivo = getTipoArquivo();
 			
 			tipos = Fachada.listarTipos(tipoArquivo);
 		} catch (DataException e) {
@@ -2785,6 +2760,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (assuntosLabel != null) assuntosLabel.setText("Assuntos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Cantores");
+		getCantoresPanel().repaint();
 		if (letraLabel != null) letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
 		getLetraTextArea().setEditable(true);
@@ -2805,6 +2781,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			getTipoComboBox().addItem(s);
 		}
 		
+		musicasNomesCampos = null;
+		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		//$hide<<$
@@ -2823,6 +2801,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		assuntosLabel.setText("Instrumentos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Intérpretes");
+		getCantoresPanel().repaint();
 		letraLabel.setEnabled(false);
 		getLetraTextArea().setEnabled(false);
 		getLetraTextArea().setEditable(false);
@@ -2842,6 +2821,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			getTipoComboBox().addItem(s);
 		}
 		
+		musicasNomesCampos = null;
+		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		//$hide<<$
@@ -2860,6 +2841,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		assuntosLabel.setText("Assuntos");
 		TitledBorder tb = (TitledBorder) getCantoresPanel().getBorder();
 		tb.setTitle("Intérpretes");
+		getCantoresPanel().repaint();
 		letraLabel.setEnabled(true);
 		getLetraTextArea().setEnabled(true);
 		getLetraTextArea().setEditable(true);
@@ -2879,9 +2861,20 @@ public class CadastrarMusicasPanel extends JPanel {
 			getTipoComboBox().addItem(s);
 		}
 		
+		musicasNomesCampos = null;
+		
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		//$hide<<$
+	}
+	
+	private int getTipoArquivo() {
+		int tipoArquivo;
+		if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+		else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
+		else if (getRadioButtonMensagem().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MENSAGEM;
+		else tipoArquivo = Constantes.TIPO_ARQUIVO_TODOS;
+		return tipoArquivo;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="0,10"

@@ -814,10 +814,27 @@ public class ProcurarMusicasPanel extends JPanel {
 			nomesCampos = new Vector<String>();
 			
 			nomesCampos.add("Nome");
-			nomesCampos.add("Cantores");
-			nomesCampos.add("Ritmo");
+			if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_TODOS) {
+				nomesCampos.add("Cantor/Intérprete");
+				nomesCampos.add("Ritmo/Estilo");	
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MENSAGEM) {
+				nomesCampos.add("Intérprete");
+				nomesCampos.add("");
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
+				nomesCampos.add("Intérprete");
+				nomesCampos.add("Estilo");
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
+				nomesCampos.add("Cantor");
+				nomesCampos.add("Ritmo");
+			}
 			nomesCampos.add("Duração");
-			nomesCampos.add("Assuntos");
+			if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_TODOS) {
+				nomesCampos.add("Assuntos/Instrumentos");
+			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
+				nomesCampos.add("Instrumentos");
+			} else {
+				nomesCampos.add("Assuntos");
+			}
 		}		
 		
 		return nomesCampos;
@@ -1466,6 +1483,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		letraLabel.setEnabled(true);
 		getLetraTextField().setEnabled(true);
 		
+		nomesCampos = null;
+		
 		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
@@ -1484,6 +1503,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		// letraLabel.setText("Letra");
 		letraLabel.setEnabled(false);
 		getLetraTextField().setEnabled(false);
+		
+		nomesCampos = null;
 		
 		procurarMusicas();
 		atualizarRitmos();
@@ -1504,6 +1525,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		letraLabel.setEnabled(true);
 		getLetraTextField().setEnabled(true);
 		
+		nomesCampos = null;
+		
 		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
@@ -1522,6 +1545,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		letraLabel.setText("Letra / Texto");
 		letraLabel.setEnabled(true);
 		getLetraTextField().setEnabled(true);
+		
+		nomesCampos = null;
 		
 		procurarMusicas();
 		atualizarRitmos();
@@ -1548,8 +1573,6 @@ public class ProcurarMusicasPanel extends JPanel {
 			
 			setBackground(new Color(244, 244, 244));
 			setForeground(table.getForeground());
-			
-			System.out.println(row);
 			
 			if (musicas != null) {
 				if (musicas.get(row).getQualidade() != null) {
