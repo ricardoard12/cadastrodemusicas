@@ -1560,6 +1560,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		 */
 		private static final long serialVersionUID = 1L;
 		private Border bordaPadrao;
+		private boolean voltarBorda = false;
 
 		public ColorRenderer() {
 			setOpaque(true);
@@ -1589,15 +1590,17 @@ public class ProcurarMusicasPanel extends JPanel {
 			}
 			
 			if (isSelected) {
-				if (!getFont().isBold()) {
-					setFont(getFont().deriveFont(Font.BOLD));//.deriveFont(getFont().getSize() + 1));
+				/*if (!getFont().isBold()) {*/
+					// setFont(getFont().deriveFont(Font.BOLD));//.deriveFont(getFont().getSize() + 1));
 					setBorder(BorderFactory.createLineBorder(Color.black, 1));
-				}
+					voltarBorda = true;
+				/*}*/
 				
 			} else {
-				if (getFont().isBold()) {
-					setFont(getFont().deriveFont(Font.NORMAL));//.deriveFont(getFont().getSize() - 1));
+				if (voltarBorda) {
+					// setFont(getFont().deriveFont(Font.NORMAL));//.deriveFont(getFont().getSize() - 1));
 					setBorder(bordaPadrao);
+					voltarBorda = false;
 				}
 			}
 			
