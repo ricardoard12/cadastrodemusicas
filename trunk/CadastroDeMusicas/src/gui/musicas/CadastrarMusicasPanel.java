@@ -2148,8 +2148,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			Tipo t = new Tipo();
 			t.setTipo(tipo);
 			
-			int tipoArquivo = getTipoArquivo();
-			t.setTipoArquivo(tipoArquivo);
+			t.setTipoArquivo(getTipoArquivo());
 			
 			try {
 				Fachada.cadastrarTipo(t);
@@ -2201,8 +2200,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			Assunto a = new Assunto();
 			a.setAssunto(assunto);
 			
-			int tipoArquivo = getTipoArquivo();
-			a.setTipoArquivo(tipoArquivo);
+			a.setTipoArquivo(getTipoArquivo());
 			
 			try {
 				Fachada.cadastrarAssunto(a);

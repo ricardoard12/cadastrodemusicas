@@ -1925,6 +1925,7 @@ public class EditarMusicasPanel extends JPanel {
 		if (tipo != null && !tipo.equals("")) {
 			Tipo t = new Tipo();
 			t.setTipo(tipo);
+			t.setTipoArquivo(tipoArquivo);
 			
 			try {
 				Fachada.cadastrarTipo(t);
@@ -1975,6 +1976,7 @@ public class EditarMusicasPanel extends JPanel {
 		if (assunto != null && !assunto.equals("")) {
 			Assunto a = new Assunto();
 			a.setAssunto(assunto);
+			a.setTipoArquivo(tipoArquivo);
 			
 			try {
 				Fachada.cadastrarAssunto(a);
