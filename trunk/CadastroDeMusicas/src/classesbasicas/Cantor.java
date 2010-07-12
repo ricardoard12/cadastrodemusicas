@@ -30,6 +30,7 @@ public class Cantor implements Serializable {
 		descricao += "idCantor: " + idCantor + "\n";
 		descricao += "Nome: " + nome + "\n";
 		descricao += "Nome Sem Espaços: " + nomeSemEspacos + "\n";
+		descricao += "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
 		descricao += "Chave Única: " + chaveUnica + "\n";
 		descricao += "Created: " + created.toString() + "\n";
 		descricao += "Modified: " + modified.toString() + "\n";

@@ -28,6 +28,7 @@ public class Tipo implements Serializable {
 		String descricao = "Dados do Ritmo\n";
 		descricao += "idTipo: " + idTipo + "\n";
 		descricao += "tipo: " + tipo + "\n";
+		descricao += "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
 		descricao += "Chave Única: " + chaveUnica + "\n";
 		descricao += "Created: " + created.toString() + "\n";
 		descricao += "Modified: " + modified.toString() + "\n";

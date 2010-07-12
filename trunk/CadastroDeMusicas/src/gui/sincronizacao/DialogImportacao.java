@@ -89,10 +89,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 				}
 				{
 					textAreaLog = new JTextArea();
+					textAreaLog.setAutoscrolls(true);
 					getContentPane().add(textAreaLog, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 6, 6, 0), 0, 0));
 				}
 				{
 					textAreaObservacoes = new JTextArea();
+					textAreaObservacoes.setAutoscrolls(true);
 					getContentPane().add(textAreaObservacoes, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2, 6, 6, 6), 0, 0));
 				}
 				{
