@@ -757,7 +757,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			Vector<String> temp = new Vector<String>();
 
 			if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS) {
-				String adicionar = "[" + Constantes.TIPO_MUSICA_NOMES_TIPOS[m.getTipoArquivo()].charAt(0) + "] ";
+				String adicionar = "[" + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[m.getTipoArquivo()].charAt(0) + "] ";
 				temp.add(adicionar + m.getNome());
 			} else {
 				temp.add(m.getNome());	

@@ -28,6 +28,7 @@ public class Assunto implements Serializable {
 		String descricao = "Dados do Assunto\n";
 		descricao += "idAssunto: " + idAssunto + "\n";
 		descricao += "assunto: " + assunto + "\n";
+		descricao += "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
 		descricao += "Chave Única: " + chaveUnica + "\n";
 		descricao += "Created: " + created.toString() + "\n";
 		descricao += "Modified: " + modified.toString() + "\n";

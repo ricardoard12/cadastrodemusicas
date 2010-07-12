@@ -39,6 +39,7 @@ public class Musica implements Serializable {
 		descricao += "idMusica: " + idMusica + "\n";
 		descricao += "Nome: " + nome + "\n";
 		descricao += "Cantor: " + (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "") + "\n";
+		descricao += "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
 		descricao += "Duração: " + Util.formataDuracao(duracao) + "\n";
 		descricao += "Ritmo: " + (tipo != null ? tipo.getTipo() : "") + "\n";
 		String assuntosString = "";

@@ -36,6 +36,11 @@ public class Constantes {
 	public static final String CONFIGURACAO_DATA_RELEASE = "data_release";
 	
 	public static final String STRING_CAPA_DISCO = "CAPADISCO";
+
+	public static final String QUALIDADE_RUIM = "Ruim";
+	public static final String QUALIDADE_NORMAL = "Normal";
+	public static final String QUALIDADE_BOA = "Boa";
+	public static final String QUALIDADE_OTIMA = "Ótima";
 	
 	public static final int TIPO_ARQUIVO_MUSICA_CANTADA = 1;
 	public static final int TIPO_ARQUIVO_MUSICA_INSTRUMENTAL = 2;
@@ -43,19 +48,14 @@ public class Constantes {
 	public static final int TIPO_ARQUIVO_TODOS = -1;
 	public static final int TIPO_ARQUIVO_NAO_LISTAR = -2;
 	
-	public static final String QUALIDADE_RUIM = "Ruim";
-	public static final String QUALIDADE_NORMAL = "Normal";
-	public static final String QUALIDADE_BOA = "Boa";
-	public static final String QUALIDADE_OTIMA = "Ótima";
-	
-	public static final String TIPO_MUSICA_CANTADA_STRING = "Cantada";
-	public static final String TIPO_MUSICA_INSTRUMENTAL_STRING = "Instrumental";
-	public static final String TIPO_MUSICA_MENSAGEM_STRING = "Mensagem";
-	public static final String[] TIPO_MUSICA_NOMES_TIPOS = {
+	public static final String TIPO_ARQUIVO_CANTADA_STRING = "Cantada";
+	public static final String TIPO_ARQUIVO_INSTRUMENTAL_STRING = "Instrumental";
+	public static final String TIPO_ARQUIVO_MENSAGEM_STRING = "Mensagem";
+	public static final String[] TIPO_ARQUIVO_NOMES_TIPOS = {
 		"",
-		"Cantada",
-		"Instrumental",
-		"Mensagem"
+		TIPO_ARQUIVO_CANTADA_STRING,
+		TIPO_ARQUIVO_INSTRUMENTAL_STRING,
+		TIPO_ARQUIVO_MENSAGEM_STRING
 	};
 }
 
