@@ -189,6 +189,11 @@ public class Fachada {
 		return tipoDAO.listarTipos(tipo);
 	}
 	
+	public static List<Tipo> listarTipos(String tipo, int tipoArquivo) throws DataException {
+		TipoDAO tipoDAO = new TipoDAOMySQL();
+		return tipoDAO.listarTipos(tipo, tipoArquivo);
+	}
+	
 	public static List<Qualidade> listarQualidades() throws DataException {
 		QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
 		
@@ -210,7 +215,10 @@ public class Fachada {
 		return assuntoDAO.listarAssuntos(assunto);
 	}
 	
-	
+	public static List<Assunto> listarAssuntos(String assunto, int tipoArquivo) throws DataException {
+		AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+		return assuntoDAO.listarAssuntos(assunto, tipoArquivo);
+	}	
 	
 	public static List<Cantor> listarCantoresPorDiversos(String nome, String nomeSemEspacos, int tipoArquivo) throws DataException {
 		boolean naoListarPorNome = false;
@@ -244,6 +252,11 @@ public class Fachada {
 	public static List<Cantor> listarCantoresPorNome(String nome) throws DataException {
 		CantorDAO cantorDAO = new CantorDAOMySQL();
 		return cantorDAO.listarCantoresPorNome(nome);
+	}
+	
+	public static List<Cantor> listarCantoresPorNome(String nome, int tipoArquivo) throws DataException {
+		CantorDAO cantorDAO = new CantorDAOMySQL();
+		return cantorDAO.listarCantoresPorNome(nome, tipoArquivo);
 	}
 	
 	public static Musica getMusica(int idMusica) throws DataException {

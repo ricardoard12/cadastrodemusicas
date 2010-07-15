@@ -16,5 +16,6 @@ public interface TipoDAO {
 	public List<Tipo> listarTipos(String tipo) throws DataException;
 	public List<Tipo> listarTipos(int tipoArquivo) throws DataException;
 	public Tipo getTipoPorChaveUnica(String chaveUnica) throws DataException;
+	public List<Tipo> listarTipos(String tipo, int tipoArquivo) throws DataException;
 	
 }

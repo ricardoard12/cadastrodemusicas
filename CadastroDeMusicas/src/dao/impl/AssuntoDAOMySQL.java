@@ -149,5 +149,10 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 		String sql = "SELECT * FROM assunto WHERE tipoarquivo = " + tipoArquivo + " OR " + tipoArquivo + " = " + Constantes.TIPO_ARQUIVO_TODOS + " ORDER BY assunto";
 		return listarAssuntosPorConsulta(sql);
 	}
+	
+	public List<Assunto> listarAssuntos(String assunto, int tipoArquivo) throws DataException {
+		String sql = "SELECT * FROM assunto WHERE assunto LIKE '" + assunto + "' AND tipoarquivo = " + tipoArquivo;
+		return listarAssuntosPorConsulta(sql);
+	}
 
 }

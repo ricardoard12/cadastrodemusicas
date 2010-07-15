@@ -233,7 +233,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						textoObservacoes += musicaLocal.getDescricaoCompleta();
 					}
 					
-					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1, Constantes.TIPO_ARQUIVO_TODOS);
+					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1, m.getTipoArquivo());
 					if (musicasLocais != null && musicasLocais.size() > 0) {
 						textoObservacoes += "\n\nForam encontradas " + musicasLocais.size() + " músicas Locais com o mesmo nome da Música contida no Log.\n\n"; 
 						for (Musica musica: musicasLocais) {
@@ -636,11 +636,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 				List<Assunto> assuntosSalvarMusica = new ArrayList<Assunto>();
 				for (Assunto aLog: assuntos) {
 					try {
-						List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+						List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto(), m.getTipoArquivo());
 						if (assuntosSistema != null && assuntosSistema.size() > 0) {
 							assuntosSalvarMusica.add(assuntosSistema.get(0));
 						} else {
 							Assunto novoAssunto = new Assunto();
+							novoAssunto.setTipoArquivo(m.getTipoArquivo());
 							novoAssunto.setAssunto(aLog.getAssunto());
 							novoAssunto.setChaveUnica(aLog.getChaveUnica());
 							Fachada.cadastrarAssunto(novoAssunto);
@@ -657,11 +658,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 			if (m.getTipo() != null) {
 				Tipo tipoMusica = m.getTipo();
 				try {
-					List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+					List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo(), m.getTipoArquivo());
 					if (tiposSistema != null && tiposSistema.size() > 0) {
 						m.setTipo(tiposSistema.get(0));
 					} else {
 						Tipo tipo = new Tipo();
+						tipo.setTipoArquivo(m.getTipoArquivo());
 						tipo.setTipo(tipoMusica.getTipo());
 						tipo.setChaveUnica(tipoMusica.getChaveUnica());
 						Fachada.cadastrarTipo(tipo);
@@ -680,11 +682,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 				
 				for (Cantor c: cantoresMusica) {
 					try {
-						List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+						List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome(), m.getTipoArquivo());
 						if (cantoresSistema != null && cantoresSistema.size() > 0) {
 							cantoresSalvarMusica.add(cantoresSistema.get(0));
 						} else {
 							Cantor novoCantor = new Cantor();
+							novoCantor.setTipoArquivo(m.getTipoArquivo());
 							novoCantor.setNome(c.getNome());
 							novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
 							novoCantor.setChaveUnica(c.getChaveUnica());
@@ -795,11 +798,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 							if (assuntoLocal != null && assuntoLocal.getAssunto().equalsIgnoreCase(aLog.getAssunto())) {
 								assuntosSalvarMusica.add(assuntoLocal);
 							} else {
-								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto(), m.getTipoArquivo());
 								if (assuntosSistema != null && assuntosSistema.size() > 0) {
 									assuntosSalvarMusica.add(assuntosSistema.get(0));
 								} else {
 									Assunto novoAssunto = new Assunto();
+									novoAssunto.setTipoArquivo(m.getTipoArquivo());
 									novoAssunto.setAssunto(aLog.getAssunto());
 									novoAssunto.setChaveUnica(aLog.getChaveUnica());
 									Fachada.cadastrarAssunto(novoAssunto);
@@ -821,11 +825,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 						if (tipoLocal != null && tipoLocal.getTipo().equalsIgnoreCase(tipoMusica.getTipo())) {
 							m.setTipo(tipoLocal);
 						} else {
-							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo(), m.getTipoArquivo());
 							if (tiposSistema != null && tiposSistema.size() > 0) {
 								m.setTipo(tiposSistema.get(0));
 							} else {
 								Tipo tipo = new Tipo();
+								tipo.setTipoArquivo(m.getTipoArquivo());
 								tipo.setTipo(tipoMusica.getTipo());
 								tipo.setChaveUnica(tipoMusica.getChaveUnica());
 								Fachada.cadastrarTipo(tipo);
@@ -849,11 +854,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 							if (cantorLocal != null && cantorLocal.getNome().equalsIgnoreCase(c.getNome())) {
 								cantoresSalvarMusica.add(cantorLocal);
 							} else {
-								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome(), m.getTipoArquivo());
 								if (cantoresSistema != null && cantoresSistema.size() > 0) {
 									cantoresSalvarMusica.add(cantoresSistema.get(0));
 								} else {
 									Cantor novoCantor = new Cantor();
+									novoCantor.setTipoArquivo(m.getTipoArquivo());
 									novoCantor.setNome(c.getNome());
 									novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
 									novoCantor.setChaveUnica(c.getChaveUnica());
@@ -1107,11 +1113,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 							if (assuntoLocal != null && assuntoLocal.getAssunto().equalsIgnoreCase(aLog.getAssunto())) {
 								assuntosSalvarMusica.add(assuntoLocal);
 							} else {
-								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto());
+								List<Assunto> assuntosSistema = Fachada.listarAssuntos(aLog.getAssunto(), m.getTipoArquivo());
 								if (assuntosSistema != null && assuntosSistema.size() > 0) {
 									assuntosSalvarMusica.add(assuntosSistema.get(0));
 								} else {
 									Assunto novoAssunto = new Assunto();
+									novoAssunto.setTipoArquivo(m.getTipoArquivo());
 									novoAssunto.setAssunto(aLog.getAssunto());
 									novoAssunto.setChaveUnica(aLog.getChaveUnica());
 									Fachada.cadastrarAssunto(novoAssunto);
@@ -1133,11 +1140,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 						if (tipoLocal != null && tipoLocal.getTipo().equalsIgnoreCase(tipoMusica.getTipo())) {
 							m.setTipo(tipoLocal);
 						} else {
-							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo());
+							List<Tipo> tiposSistema = Fachada.listarTipos(tipoMusica.getTipo(), m.getTipoArquivo());
 							if (tiposSistema != null && tiposSistema.size() > 0) {
 								m.setTipo(tiposSistema.get(0));
 							} else {
 								Tipo tipo = new Tipo();
+								tipo.setTipoArquivo(m.getTipoArquivo());
 								tipo.setTipo(tipoMusica.getTipo());
 								tipo.setChaveUnica(tipoMusica.getChaveUnica());
 								Fachada.cadastrarTipo(tipo);
@@ -1161,11 +1169,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 							if (cantorLocal != null && cantorLocal.getNome().equalsIgnoreCase(c.getNome())) {
 								cantoresSalvarMusica.add(cantorLocal);
 							} else {
-								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome());
+								List<Cantor> cantoresSistema = Fachada.listarCantoresPorNome(c.getNome(), m.getTipoArquivo());
 								if (cantoresSistema != null && cantoresSistema.size() > 0) {
 									cantoresSalvarMusica.add(cantoresSistema.get(0));
 								} else {
 									Cantor novoCantor = new Cantor();
+									novoCantor.setTipoArquivo(m.getTipoArquivo());
 									novoCantor.setNome(c.getNome());
 									novoCantor.setNomeSemEspacos(c.getNomeSemEspacos());
 									novoCantor.setChaveUnica(c.getChaveUnica());

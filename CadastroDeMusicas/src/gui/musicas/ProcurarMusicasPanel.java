@@ -1021,9 +1021,15 @@ public class ProcurarMusicasPanel extends JPanel {
 			getQualidadeComboBox().removeAllItems();
 			
 			getQualidadeComboBox().addItem("");
+			// getQualidadeComboBox().getComponent(0).setBackground(Constantes.COR_QUALIDADE_FALTANDO);
+			// getQualidadeComboBox().get
 			for (Qualidade q: qualidades) {
 				getQualidadeComboBox().addItem(q.getQualidade());
 			}
+			getQualidadeComboBox().getComponent(1).setBackground(Constantes.COR_QUALIDADE_RUIM);
+			//getQualidadeComboBox().getComponent(2).setBackground(Constantes.COR_QUALIDADE_NORMAL);
+			//getQualidadeComboBox().getComponent(3).setBackground(Constantes.COR_QUALIDADE_BOA);
+			//getQualidadeComboBox().getComponent(4).setBackground(Constantes.COR_QUALIDADE_OTIMA);
 			
 			if (s != null && !s.equals("")) {
 				getQualidadeComboBox().setSelectedItem(s);
@@ -1578,14 +1584,14 @@ public class ProcurarMusicasPanel extends JPanel {
 			if (musicas != null) {
 				if (musicas.get(row).getQualidade() != null) {
 					if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_RUIM)) {
-						setBackground(new Color(255, 225, 220));
+						setBackground(Constantes.COR_QUALIDADE_RUIM);
 					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_BOA)) {
-						setBackground(new Color(216, 216, 255));
+						setBackground(Constantes.COR_QUALIDADE_BOA);
 					} else if (musicas.get(row).getQualidade().getQualidade().equals(Constantes.QUALIDADE_OTIMA)) {
-						setBackground(new Color(160, 160, 255));
+						setBackground(Constantes.COR_QUALIDADE_OTIMA);
 					}	
 				} else {
-					setBackground(new Color(220, 255, 200));
+					setBackground(Constantes.COR_QUALIDADE_FALTANDO);
 				}
 			}
 			

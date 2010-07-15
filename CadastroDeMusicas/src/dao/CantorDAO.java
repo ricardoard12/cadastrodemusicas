@@ -16,4 +16,5 @@ public interface CantorDAO {
 	public List<Cantor> listarCantoresSemChaveUnica() throws DataException;
 	public List<Cantor> listarCantoresPorNome(String nome) throws DataException;
 	public Cantor getCantorPorChaveUnica(String chaveUnica) throws DataException;
+	public List<Cantor> listarCantoresPorNome(String nome, int tipoArquivo) throws DataException;
 }
