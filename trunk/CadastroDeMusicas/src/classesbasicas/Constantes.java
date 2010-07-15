@@ -1,5 +1,7 @@
 package classesbasicas;
 
+import java.awt.Color;
+
 public class Constantes {
 	public static final String MIDIA = "Midia";
 	public static final String MIDIA_CD = "CD";
@@ -57,5 +59,11 @@ public class Constantes {
 		TIPO_ARQUIVO_INSTRUMENTAL_STRING,
 		TIPO_ARQUIVO_MENSAGEM_STRING
 	};
+	
+	public static final Color COR_QUALIDADE_RUIM = new Color(255, 182, 182);
+	public static final Color COR_QUALIDADE_NORMAL = new Color(244, 244, 244);
+	public static final Color COR_QUALIDADE_BOA = new Color(189, 189, 255);
+	public static final Color COR_QUALIDADE_OTIMA = new Color(120, 120, 255);
+	public static final Color COR_QUALIDADE_FALTANDO = new Color(160, 255, 160);
 }
 

@@ -155,5 +155,10 @@ public class TipoDAOMySQL implements TipoDAO {
 		String sql = "SELECT * FROM tipo WHERE tipoarquivo = " + tipoArquivo + " OR " + tipoArquivo + " = " + Constantes.TIPO_ARQUIVO_TODOS +  " ORDER BY tipo";
 		return listarTiposPorConsulta(sql);
 	}
+	
+	public List<Tipo> listarTipos(String tipo, int tipoArquivo) throws DataException {
+		String sql = "SELECT * FROM tipo WHERE tipo LIKE '" + tipo + "' AND tipoarquivo = " + tipoArquivo;
+		return listarTiposPorConsulta(sql);
+	}
 
 }
