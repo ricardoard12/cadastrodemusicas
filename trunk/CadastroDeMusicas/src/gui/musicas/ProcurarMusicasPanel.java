@@ -7,6 +7,7 @@ import gui.colecaodiscos.GerarColecaoDiscosDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,16 +31,19 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -54,8 +58,6 @@ import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Qualidade;
 import classesbasicas.Tipo;
-
-import com.lowagie.text.Font;
 
 
 /**
@@ -945,6 +947,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			qualidadeComboBox = new JComboBox();
 			qualidadeComboBox.setSize(80, 20);
 			qualidadeComboBox.setPreferredSize(new java.awt.Dimension(64, 20));
+			qualidadeComboBox.setRenderer(new ColorCellRenderer());
 			qualidadeComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1021,7 +1024,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			getQualidadeComboBox().removeAllItems();
 			
 			getQualidadeComboBox().addItem("");
-			// getQualidadeComboBox().getComponent(0).setBackground(Constantes.COR_QUALIDADE_FALTANDO);
+			getQualidadeComboBox().getRenderer().getClass();//setBackground(Constantes.COR_QUALIDADE_FALTANDO);
 			// getQualidadeComboBox().get
 			for (Qualidade q: qualidades) {
 				getQualidadeComboBox().addItem(q.getQualidade());
@@ -1616,4 +1619,37 @@ public class ProcurarMusicasPanel extends JPanel {
 	//$hide<<$
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
+
+	class ColorCellRenderer implements ListCellRenderer {
+    protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+
+    // width doesn't matter as combobox will size
+    // private final static Dimension preferredSize = new Dimension(0, 20);
+
+    public Component getListCellRendererComponent(JList list, Object value,
+        int index, boolean isSelected, boolean cellHasFocus) {
+      JLabel renderer = (JLabel) defaultRenderer
+          .getListCellRendererComponent(list, value, index,
+              isSelected, cellHasFocus);
+      // if (value instanceof Color) {
+        // renderer.setBackground((Color) value);
+    	  if (value.equals("")) {
+    		  renderer = (JLabel) defaultRenderer
+              .getListCellRendererComponent(list, " ", index,
+                  isSelected, cellHasFocus);
+    		  renderer.setBackground(Constantes.COR_QUALIDADE_FALTANDO);
+    	  } else if (value.equals(Constantes.QUALIDADE_RUIM)) {
+    		  renderer.setBackground(Constantes.COR_QUALIDADE_RUIM);
+    	  } else if (value.equals(Constantes.QUALIDADE_NORMAL)) {
+    		  renderer.setBackground(Constantes.COR_QUALIDADE_NORMAL);
+    	  } else if (value.equals(Constantes.QUALIDADE_BOA)) {
+    		  renderer.setBackground(Constantes.COR_QUALIDADE_BOA);
+    	  } else if (value.equals(Constantes.QUALIDADE_OTIMA)) {
+    		  renderer.setBackground(Constantes.COR_QUALIDADE_OTIMA);
+    	  }
+      // }
+      // renderer.setPreferredSize(preferredSize);
+      return renderer;
+    }
+  }
 
