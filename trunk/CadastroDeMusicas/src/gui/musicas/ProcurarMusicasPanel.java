@@ -1029,7 +1029,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			for (Qualidade q: qualidades) {
 				getQualidadeComboBox().addItem(q.getQualidade());
 			}
-			getQualidadeComboBox().getComponent(1).setBackground(Constantes.COR_QUALIDADE_RUIM);
+			//getQualidadeComboBox().getComponent(1).setBackground(Constantes.COR_QUALIDADE_RUIM);
 			//getQualidadeComboBox().getComponent(2).setBackground(Constantes.COR_QUALIDADE_NORMAL);
 			//getQualidadeComboBox().getComponent(3).setBackground(Constantes.COR_QUALIDADE_BOA);
 			//getQualidadeComboBox().getComponent(4).setBackground(Constantes.COR_QUALIDADE_OTIMA);
