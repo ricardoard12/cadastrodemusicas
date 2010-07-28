@@ -27,9 +27,11 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -41,6 +43,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -466,7 +469,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JScrollPane getLetraScrollPane() {
 		if (letraScrollPane == null) {
 			letraScrollPane = new JScrollPane();
-			letraScrollPane.setPreferredSize(new java.awt.Dimension(223, 118));
+			letraScrollPane.setPreferredSize(new java.awt.Dimension(275, 118));
 			letraScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 			letraScrollPane.setSize(223, 118);
 			letraScrollPane.setMaximumSize(new java.awt.Dimension(223, 118));
@@ -487,6 +490,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			letraTextArea.setColumns(20);
 			letraTextArea.setTabSize(6);
 			letraTextArea.setRows(6);
+			letraTextArea.setPreferredSize(new java.awt.Dimension(273, 116));
 			// letraTextArea.setPreferredSize(new java.awt.Dimension(223, 60));
 			letraTextArea.repaint();
 		}
@@ -1079,16 +1083,25 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints6.gridy = 0;
 			gridBagConstraints6.gridx = 0;
 			nomeDaMusicaPanel = new JPanel();
-			GridBagLayout nomeDaMusicaPanelLayout = new GridBagLayout();
+			GroupLayout nomeDaMusicaPanelLayout = new GroupLayout((JComponent)nomeDaMusicaPanel);
 			nomeDaMusicaPanel.setLayout(nomeDaMusicaPanelLayout);
-			nomeDaMusicaPanelLayout.rowWeights = new double[] {0.1};
-			nomeDaMusicaPanelLayout.rowHeights = new int[] {7};
-			nomeDaMusicaPanelLayout.columnWeights = new double[] {0.1, 0.1};
-			nomeDaMusicaPanelLayout.columnWidths = new int[] {7, 7};
-			nomeDaMusicaPanel.add(nomeDaMusicaLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			nomeDaMusicaPanel.add(getAlterarNomeButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 61), 0, 0));
-			nomeDaMusicaPanel.add(getPlayButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
-			nomeDaMusicaPanel.add(getStopButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 26), 0, 0));
+			nomeDaMusicaPanel.setPreferredSize(new java.awt.Dimension(265, 27));
+			nomeDaMusicaPanelLayout.setHorizontalGroup(nomeDaMusicaPanelLayout.createSequentialGroup()
+				.addComponent(nomeDaMusicaLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+
+				.addComponent(getAlterarNomeButton(), GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+				.addGap(16)
+				.addComponent(getStopButton(), GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+				.addComponent(getPlayButton(), GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE));
+			nomeDaMusicaPanelLayout.setVerticalGroup(nomeDaMusicaPanelLayout.createSequentialGroup()
+				.addContainerGap(11, Short.MAX_VALUE)
+				.addGroup(nomeDaMusicaPanelLayout.createParallelGroup()
+				    .addGroup(nomeDaMusicaPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				        .addComponent(getAlterarNomeButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+				        .addComponent(nomeDaMusicaLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
+				    .addGroup(nomeDaMusicaPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				        .addComponent(getStopButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+				        .addComponent(getPlayButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))));
 		}
 		return nomeDaMusicaPanel;
 	}
@@ -1103,7 +1116,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarNomeButton = new JButton();
 			alterarNomeButton.setFocusable(false);
 			alterarNomeButton.setText("Alterar");
-			alterarNomeButton.setPreferredSize(new Dimension(67, 16));
 			alterarNomeButton.setBounds(new Rectangle(124,8,67,16));
 			alterarNomeButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			alterarNomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1132,14 +1144,18 @@ public class CadastrarMusicasPanel extends JPanel {
 			GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
 			gridBagConstraints6.insets = new Insets(8, 0, 0, 0);
 			cantorPanel = new JPanel();
-			GridBagLayout cantorPanelLayout = new GridBagLayout();
+			GroupLayout cantorPanelLayout = new GroupLayout((JComponent)cantorPanel);
 			cantorPanel.setLayout(cantorPanelLayout);
-			cantorPanelLayout.rowWeights = new double[] {0.1};
-			cantorPanelLayout.rowHeights = new int[] {7};
-			cantorPanelLayout.columnWeights = new double[] {0.1, 0.1};
-			cantorPanelLayout.columnWidths = new int[] {7, 7};
-			cantorPanel.add(cantorLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(8, 0, 0, 26), 0, 0));
-			cantorPanel.add(getAlterarCantorButton(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0, 57, 0, 0), 0, 0));
+			cantorPanel.setPreferredSize(new java.awt.Dimension(267, 27));
+			cantorPanelLayout.setHorizontalGroup(cantorPanelLayout.createSequentialGroup()
+				.addComponent(cantorLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGap(63)
+				.addComponent(getAlterarCantorButton(), GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE));
+			cantorPanelLayout.setVerticalGroup(cantorPanelLayout.createSequentialGroup()
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(cantorPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				    .addComponent(getAlterarCantorButton(), GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(cantorLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)));
 		}
 		return cantorPanel;
 	}
@@ -1154,7 +1170,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			alterarCantorButton = new JButton();
 			alterarCantorButton.setFocusable(false);
 			alterarCantorButton.setText("Alterar");
-			alterarCantorButton.setPreferredSize(new Dimension(67, 16));
 			alterarCantorButton.setFont(new Font("Dialog", Font.BOLD, 10));
 			alterarCantorButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -1289,7 +1304,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			playButton.setBounds(new Rectangle(198,2,26,22));
 			playButton.setMnemonic(KeyEvent.VK_UNDEFINED);
 			playButton.setToolTipText("Toca a música que está selecionada para ser salva");
-			playButton.setPreferredSize(new Dimension(26, 16));
 			playButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1312,7 +1326,6 @@ public class CadastrarMusicasPanel extends JPanel {
 			stopButton.setFocusable(false);
 			stopButton.setIcon(new ImageIcon(getClass().getResource("/figuras/icones/media_stop_red.png")));
 			stopButton.setBounds(new Rectangle(224,2,26,22));
-			stopButton.setPreferredSize(new Dimension(26, 16));
 			stopButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					//$hide>>$
@@ -1336,6 +1349,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			controle1Panel = new JPanel();
 			controle1Panel.setLayout(borderLayout);
 			controle1Panel.setBackground(Color.lightGray);
+			controle1Panel.setPreferredSize(new java.awt.Dimension(275, 20));
 		}
 		return controle1Panel;
 	}
