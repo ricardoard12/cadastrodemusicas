@@ -1,3 +1,11 @@
+INSERT INTO configuracoes VALUES('titulo', 'Sistema de Cadastro de Músicas');
+INSERT INTO configuracoes VALUES('tipo_sistema', 'MUSICAS');
+INSERT INTO configuracoes VALUES('item_menu_musicas', 'Músicas');
+INSERT INTO configuracoes VALUES('item_menu_cantores', 'Cantores');
+INSERT INTO configuracoes VALUES('tab_cadastrar_musicas_titulo', 'Cadastrar Músicas');
+INSERT INTO configuracoes VALUES('tab_procurar_musicas_titulo', 'Procurar Músicas');
+INSERT INTO configuracoes VALUES('tab_editar_musicas_titulo', 'Editar Música');
+
 Salvar o último tipo de arquivo utilizado na tela de procura (e de cadastro)
 fazer com que as alterações nas músicas se reflitam no player
 Se recuperar de erro com o bd na inicialização (tentar matar o processo e iniciar novamente, ou se não conseguir matar, iniciar em outra porta)

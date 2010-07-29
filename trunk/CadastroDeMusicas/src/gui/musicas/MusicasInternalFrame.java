@@ -8,8 +8,13 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import bd.BDUtil;
+
 import util.GlobalPlayer;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
+import exceptions.ConfiguracaoInexistenteException;
+import exceptions.DataException;
 
 public class MusicasInternalFrame extends JInternalFrame {
 
@@ -42,7 +47,15 @@ public class MusicasInternalFrame extends JInternalFrame {
 		this.setSize(645, 402);
 		this.setFrameIcon(new ImageIcon(getClass().getResource("/figuras/icones/music.png")));
 		this.setClosable(true);
-		this.setTitle("Músicas");
+		try {
+			this.setTitle(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_ITEM_MENU_MUSICAS));
+		} catch (ConfiguracaoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.setContentPane(getJContentPane());
 	}
 
@@ -68,9 +81,18 @@ public class MusicasInternalFrame extends JInternalFrame {
 	public JTabbedPane getTabbedPane() {
 		if (tabbedPane == null) {
 			tabbedPane = new JTabbedPane();
-			tabbedPane.addTab("Cadastrar Músicas", null, getCadastrarMusicasPanel(), null);
-			tabbedPane.addTab("Procurar Músicas", null, getProcurarMusicasPanel(), null);
-			tabbedPane.addTab("Editar Música", null, getEditarMusicasPanel(), null);
+			try {
+				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_CADASTRAR_MUSICAS_TITULO), null, getCadastrarMusicasPanel(), null);
+				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_PROCURAR_MUSICAS_TITULO), null, getProcurarMusicasPanel(), null);
+				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_EDITAR_MUSICAS_TITULO), null, getEditarMusicasPanel(), null);
+			} catch (ConfiguracaoInexistenteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return tabbedPane;
 	}
