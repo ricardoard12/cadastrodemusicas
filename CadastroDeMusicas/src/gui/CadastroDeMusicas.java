@@ -9,12 +9,10 @@ import gui.assuntos.AssuntosInternalFrame;
 import gui.cantores.CantoresInternalFrame;
 import gui.colecaodiscos.GerarColecaoDiscosDialog;
 import gui.musicas.MusicasInternalFrame;
-import gui.player.PlayerFrame;
 import gui.tipos.TiposInternalFrame;
 import gui.verificacoes.VerificarArquivosDialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
