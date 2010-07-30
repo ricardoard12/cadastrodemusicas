@@ -347,27 +347,28 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints9.ipady = 0;
 			gridBagConstraints9.gridx = 2;
 			tipoLabel = new JLabel();
-			tipoLabel.setText("Ritmo");
+			try {
+				tipoLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_RITMO));
+			} catch (ConfiguracaoInexistenteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (DataException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
 			gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints7.gridy = 5;
 			gridBagConstraints7.weightx = 1.0;
 			gridBagConstraints7.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints7.gridx = 0;
-			cantorLabel = new JLabel();
-			cantorLabel.setText("Cantor (Nome Sem Espaços)");
-			cantorLabel.setPreferredSize(new Dimension(168, 14));
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.fill = GridBagConstraints.BOTH;
 			gridBagConstraints2.gridy = 2;
 			gridBagConstraints2.weightx = 1.0;
 			gridBagConstraints2.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints2.gridx = 0;
-			nomeDaMusicaLabel = new JLabel();
-			nomeDaMusicaLabel.setText("Nome (Breve Descrição)");			
-			// nomeDaMusicaLabel.setBounds(0, 6, 43, 16);
-			nomeDaMusicaLabel.setBounds(0, 6, 130, 16);
-			
+						
 			dadosPrincipaisPanel = new JPanel();						
 			dadosPrincipaisPanel.setLayout(new GridBagLayout());
 			dadosPrincipaisPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Dados Principais", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
@@ -381,18 +382,36 @@ public class CadastrarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.add(spacer8Label, gridBagConstraints34);
 			dadosPrincipaisPanel.add(spacer10Label, gridBagConstraints30);
 			dadosPrincipaisPanel.add(getRitmoPanel(), new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			
+			nomeDaMusicaLabel = new JLabel();
+			cantorLabel = new JLabel();
+			try {
+				nomeDaMusicaLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_MUSICA));
+				cantorLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_CANTOR));
+			} catch (ConfiguracaoInexistenteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cantorLabel.setPreferredSize(new Dimension(168, 14));
+			
 			if (getPanelTipoMusica() != null) {
+				nomeDaMusicaLabel.setBounds(0, 6, 43, 16);
+				
 				dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 96, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 96, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getNomeTextField(), new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 96, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 96, 0, 0), 0, 0));
 			} else {
+				nomeDaMusicaLabel.setBounds(0, 6, 160, 16);
+				
 				dadosPrincipaisPanel.add(getNomeDaMusicaPanel(), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getCantorPanel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getNomeTextField(), new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 				dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 			}
-			
 			
 			dadosPrincipaisPanel.add(getControle1Panel(), new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(spacerLabel, gridBagConstraints28);
@@ -2627,7 +2646,15 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JLabel getCapaLabelLabel() {
 		if(capaLabelLabel == null) {
 			capaLabelLabel = new JLabel();
-			capaLabelLabel.setText("Capa do Disco");
+			try {
+				capaLabelLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_CAPA_DISCO));
+			} catch (ConfiguracaoInexistenteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			capaLabelLabel.setBounds(1, 0, 68, 14);
 		}
 		return capaLabelLabel;

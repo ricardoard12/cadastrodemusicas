@@ -5,6 +5,10 @@ INSERT INTO configuracoes VALUES('item_menu_cantores', 'Cantores');
 INSERT INTO configuracoes VALUES('tab_cadastrar_musicas_titulo', 'Cadastrar Músicas');
 INSERT INTO configuracoes VALUES('tab_procurar_musicas_titulo', 'Procurar Músicas');
 INSERT INTO configuracoes VALUES('tab_editar_musicas_titulo', 'Editar Música');
+INSERT INTO configuracoes VALUES('nome_musica', 'Nome (Breve Descrição)');
+INSERT INTO configuracoes VALUES('nome_cantor', 'Orador (Nome sem Espaços)');
+INSERT INTO configuracoes VALUES('nome_ritmo', 'Tipo Áudio');
+INSERT INTO configuracoes VALUES('nome_capa', 'Foto');
 
 Salvar o último tipo de arquivo utilizado na tela de procura (e de cadastro)
 fazer com que as alterações nas músicas se reflitam no player
