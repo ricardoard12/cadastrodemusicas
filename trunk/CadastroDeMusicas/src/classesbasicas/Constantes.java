@@ -42,6 +42,10 @@ public class Constantes {
 	public static final String CONFIGURACAO_TAB_CADASTRAR_MUSICAS_TITULO = "tab_cadastrar_musicas_titulo";
 	public static final String CONFIGURACAO_TAB_PROCURAR_MUSICAS_TITULO = "tab_procurar_musicas_titulo";
 	public static final String CONFIGURACAO_TAB_EDITAR_MUSICAS_TITULO = "tab_editar_musicas_titulo";
+	public static final String CONFIGURACAO_NOME_MUSICA = "nome_musica";
+	public static final String CONFIGURACAO_NOME_CANTOR = "nome_cantor";
+	public static final String CONFIGURACAO_NOME_RITMO = "nome_ritmo";
+	public static final String CONFIGURACAO_CAPA_DISCO = "capa_disco";
 	
 	public static final String STRING_CAPA_DISCO = "CAPADISCO";
 
