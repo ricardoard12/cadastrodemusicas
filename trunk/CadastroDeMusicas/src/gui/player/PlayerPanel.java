@@ -41,6 +41,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import player.MP3PlayerExterno;
+import util.Configuracoes;
 import util.Util;
 import bd.BDUtil;
 import classesbasicas.Constantes;
@@ -154,14 +155,9 @@ public class PlayerPanel extends javax.swing.JPanel {
 		}
 		
 		atualizarListaDeMusicas();
-		try {
-			String configIntervalo = BDUtil.getConfiguracao(Constantes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS);
-			intervaloEntreMusicas = Integer.parseInt(configIntervalo);
-		} catch (ConfiguracaoInexistenteException e) {
-			e.printStackTrace();
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+
+		String configIntervalo = Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS);
+		intervaloEntreMusicas = Integer.parseInt(configIntervalo);
 		
 		//$hide<<$
 	}
@@ -804,7 +800,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 			System.out.println("Novo intevalo entre as músicas: " + dialog.getIntervaloEntreMusicas());
 			intervaloEntreMusicas = dialog.getIntervaloEntreMusicas();
 			try {
-				BDUtil.salvarConfiguracao(Constantes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS, "" + intervaloEntreMusicas);
+				BDUtil.salvarConfiguracao(Configuracoes.CONFIGURACAO_INTERVALO_ENTRE_MUSICAS, "" + intervaloEntreMusicas);
 			} catch (DataException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

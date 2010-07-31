@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.MatteBorder;
 
+import util.Configuracoes;
+
 import classesbasicas.Constantes;
 
 import exceptions.ConfiguracaoInexistenteException;
@@ -77,7 +79,7 @@ public class AboutPanel extends JPanel implements ActionListener
     String email = "E-Mail: fabiodfmelo@gmail.com";
     String dataRelease = "Data Release";
     try {
-		dataRelease = BDUtil.getConfiguracao(Constantes.CONFIGURACAO_DATA_RELEASE);
+		dataRelease = BDUtil.getConfiguracao(Configuracoes.CONFIGURACAO_DATA_RELEASE);
 	} catch (ConfiguracaoInexistenteException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

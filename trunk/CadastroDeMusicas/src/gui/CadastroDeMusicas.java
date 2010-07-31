@@ -39,6 +39,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
+import util.Configuracoes;
 import util.GlobalPlayer;
 import util.Util;
 import bd.BDUtil;
@@ -197,19 +198,10 @@ public class CadastroDeMusicas extends JFrame {
 			cadastroMenu.setText("Cadastro");
 			cadastroMenu.add(getCadastrarMusicaMenuItem());
 			
-			try {
-				if (BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TIPO_SISTEMA).equals(Constantes.TIPO_SISTEMA_MUSICAS)) {
-					cadastroMenu.add(getCadastrarRitmoMenuItem());
-					cadastroMenu.add(getCadastrarAssuntoMenuItem());	
-				}
-			} catch (ConfiguracaoInexistenteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS)) {
+				cadastroMenu.add(getCadastrarRitmoMenuItem());
+				cadastroMenu.add(getCadastrarAssuntoMenuItem());	
+			}			
 		}
 		return cadastroMenu;
 	}
@@ -341,16 +333,9 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getCadastrarMusicaMenuItem() {
 		if (cadastrarMusicaMenuItem == null) {
 			cadastrarMusicaMenuItem = new JMenuItem();
-			try {
-				cadastrarMusicaMenuItem.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_ITEM_MENU_MUSICAS));
-				cadastrarMusicaMenuItem.setActionCommand(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_ITEM_MENU_MUSICAS));
-			} catch (ConfiguracaoInexistenteException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (DataException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
+
+			cadastrarMusicaMenuItem.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ITEM_MENU_MUSICAS));
+			cadastrarMusicaMenuItem.setActionCommand(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ITEM_MENU_MUSICAS));
 			
 			cadastrarMusicaMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
@@ -476,15 +461,9 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getBuscarMusicaMenuItem() {
 		if (buscarMusicaMenuItem == null) {
 			buscarMusicaMenuItem = new JMenuItem();
-			try {
-				buscarMusicaMenuItem.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_ITEM_MENU_MUSICAS));
-			} catch (ConfiguracaoInexistenteException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (DataException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
+
+			buscarMusicaMenuItem.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ITEM_MENU_MUSICAS));
+
 			buscarMusicaMenuItem.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (internalFrame != null) {
@@ -518,7 +497,7 @@ public class CadastroDeMusicas extends JFrame {
 	private JMenuItem getBuscarCantorMenuItem() {
 		if (buscarCantorMenuItem == null) {
 			buscarCantorMenuItem = new JMenuItem();
-			buscarCantorMenuItem.setText("Cantores");
+			buscarCantorMenuItem.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ITEM_MENU_CANTORES));
 			buscarCantorMenuItem.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (internalFrame != null) {
@@ -779,15 +758,9 @@ public class CadastroDeMusicas extends JFrame {
 	private void initialize() {
 		this.setJMenuBar(getBarraDeMenuPrincipalJMenuBar());
 		this.setContentPane(getJContentPane());
-		try {
-			this.setTitle(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TITULO));
-		} catch (ConfiguracaoInexistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		this.setTitle(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TITULO));
+
 		this.setResizable(false);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/figuras/icones/star_grey.png")));
 		this.addWindowListener(new WindowAdapter() {
