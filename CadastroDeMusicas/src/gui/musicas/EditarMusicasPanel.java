@@ -45,6 +45,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import util.Configuracoes;
 import util.GlobalPlayer;
 import util.Util;
 import classesbasicas.Assunto;
@@ -297,7 +298,7 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints4.gridwidth = 3;
 			gridBagConstraints4.gridy = 6;
 			letraLabel = new JLabel();
-			letraLabel.setText("Letra");
+			letraLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_LETRA));
 			GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
 			gridBagConstraints3.gridx = 1;
 			gridBagConstraints3.gridy = 1;
@@ -318,8 +319,7 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints9.fill = GridBagConstraints.BOTH;
 			gridBagConstraints9.ipady = 0;
 			gridBagConstraints9.gridx = 2;
-			tipoLabel = new JLabel();
-			tipoLabel.setText("Ritmo");
+			tipoLabel = new JLabel(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_RITMO));
 			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
 			gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints7.gridy = 5;
@@ -327,7 +327,7 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints7.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints7.gridx = 0;
 			cantorLabel = new JLabel();
-			cantorLabel.setText("Cantor (Nome Sem Espaços)");
+			cantorLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_CANTOR));
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.fill = GridBagConstraints.BOTH;
 			gridBagConstraints2.gridy = 2;
@@ -335,8 +335,13 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints2.anchor = GridBagConstraints.NORTHWEST;
 			gridBagConstraints2.gridx = 0;
 			nomeDaMusicaLabel = new JLabel();
-			nomeDaMusicaLabel.setText("Nome");			
-			nomeDaMusicaLabel.setBounds(new Rectangle(0, 9, 33, 16));
+			nomeDaMusicaLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_MUSICA));
+			if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS)) {
+				nomeDaMusicaLabel.setBounds(new Rectangle(0, 9, 33, 16));
+			} else {
+				nomeDaMusicaLabel.setBounds(new Rectangle(0, 9, 120, 16));
+			}
+			
 			dadosPrincipaisPanel = new JPanel();
 			dadosPrincipaisPanel.setLayout(new GridBagLayout());
 			dadosPrincipaisPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Dados Principais", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
@@ -344,7 +349,7 @@ public class EditarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.add(getNomeTextField(), gridBagConstraints2);
 			dadosPrincipaisPanel.add(getCantorTextField(), new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(1, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getTipoComboBox(), gridBagConstraints9);
-			dadosPrincipaisPanel.add(getDuracaoTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(1, 0, 4, 50), 0, 0));
+			dadosPrincipaisPanel.add(getDuracaoTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(1, 0, 4, 64), 0, 0));
 			dadosPrincipaisPanel.add(spacer01Label, gridBagConstraints3);
 			dadosPrincipaisPanel.add(letraLabel, new GridBagConstraints(0, 6, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(getLetraScrollPane(), new GridBagConstraints(0, 7, 2, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -355,7 +360,7 @@ public class EditarMusicasPanel extends JPanel {
 			dadosPrincipaisPanel.add(getControle1Panel(), new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			dadosPrincipaisPanel.add(spacerLabel, gridBagConstraints28);
 			dadosPrincipaisPanel.add(cantorLabel, gridBagConstraints47);
-			dadosPrincipaisPanel.add(getDuracaoPanel(), new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 50), 0, 0));
+			dadosPrincipaisPanel.add(getDuracaoPanel(), new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 64), 0, 0));
 			dadosPrincipaisPanel.add(getCapaLabel(), new GridBagConstraints(2, 7, 1, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 16, 0, 12), 0, 0));
 			dadosPrincipaisPanel.add(getCapaControlePanel(), new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 14, 0, 10), 0, 0));
 			dadosPrincipaisPanel.add(getAnoTextField(), new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 110, 4, 0), 0, 0));
@@ -443,7 +448,7 @@ public class EditarMusicasPanel extends JPanel {
 	private JTextField getDuracaoTextField() {
 		if (duracaoTextField == null) {
 			duracaoTextField = new JTextField();
-			duracaoTextField.setColumns(10);
+			duracaoTextField.setColumns(8);
 			duracaoTextField.setEditable(false);
 		}
 		return duracaoTextField;
@@ -815,7 +820,7 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints38.gridx = 0;
 			cantoresPanel = new JPanel();
 			cantoresPanel.setLayout(new GridBagLayout());
-			cantoresPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Cantores", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			cantoresPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_TITULO_CANTORES), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			cantoresPanel.add(getCantoresScrollPane(), gridBagConstraints38);
 			cantoresPanel.add(spacer14Label, gridBagConstraints39);
 		}
@@ -853,7 +858,7 @@ public class EditarMusicasPanel extends JPanel {
 			gridBagConstraints40.gridx = 1;
 			musicasPanel = new JPanel();
 			musicasPanel.setLayout(new GridBagLayout());
-			musicasPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Músicas", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			musicasPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_MUSICAS_EXISTENTES), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			musicasPanel.setPreferredSize(new java.awt.Dimension(600, 452));
 			musicasPanel.add(getMusicasScrollPane(), gridBagConstraints40);
 			musicasPanel.add(spacer15Label, gridBagConstraints41);
@@ -1847,7 +1852,9 @@ public class EditarMusicasPanel extends JPanel {
 			} else if (tipoArquivo == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
 				musicasNomesCampos.add("Intérprete");
 			} else if (tipoArquivo == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
-				musicasNomesCampos.add("Cantor");
+				musicasNomesCampos.add(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_NOME_CAMPO_ORADOR));
+			} else {
+				musicasNomesCampos.add(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_NOME_CAMPO_ORADOR));
 			}
 		}
 		
@@ -2593,7 +2600,7 @@ public class EditarMusicasPanel extends JPanel {
 	private JLabel getCapaLabelLabel() {
 		if(capaLabelLabel == null) {
 			capaLabelLabel = new JLabel();
-			capaLabelLabel.setText("Capa do Disco");
+			capaLabelLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_CAPA_DISCO));
 			capaLabelLabel.setBounds(1, 0, 68, 14);
 		}
 		return capaLabelLabel;

@@ -50,6 +50,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import util.Configuracoes;
 import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
@@ -149,7 +150,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	 */
 	private void initialize() {
 		letraLabel = new JLabel();
-		letraLabel.setText("Letra");
+		letraLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_LETRA));
 		letraLabel.setPreferredSize(new java.awt.Dimension(183, 14));
 		GridBagConstraints gridBagConstraints14 = new GridBagConstraints();
 		gridBagConstraints14.gridx = 0;
@@ -243,14 +244,14 @@ public class ProcurarMusicasPanel extends JPanel {
 			gridBagConstraints31.insets = new Insets(0, 16, 0, 0);
 			gridBagConstraints31.gridy = 2;
 			assuntoLabel = new JLabel();
-			assuntoLabel.setText("Assunto / Instrumentos");
+			assuntoLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ASSUNTO_INSTRUMENTOS_LABEL));
 			GridBagConstraints gridBagConstraints12 = new GridBagConstraints();
 			gridBagConstraints12.gridx = 0;
 			gridBagConstraints12.anchor = GridBagConstraints.SOUTHWEST;
 			gridBagConstraints12.fill = GridBagConstraints.NONE;
 			gridBagConstraints12.gridy = 2;
 			ritmoLabel = new JLabel();
-			ritmoLabel.setText("Ritmo / Estilo");
+			ritmoLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_RITMO_ESTILO_LABEL));
 			GridBagConstraints gridBagConstraints41 = new GridBagConstraints();
 			gridBagConstraints41.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints41.gridy = 1;
@@ -264,7 +265,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			gridBagConstraints3.insets = new Insets(0, 12, 0, 0);
 			gridBagConstraints3.gridy = 0;
 			cantorLabel = new JLabel();
-			cantorLabel.setText("Cantor / Intérprete");
+			cantorLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_CANTOR_INTERPRETE_LABEL));
 			GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 			gridBagConstraints1.anchor = GridBagConstraints.SOUTHWEST;
 			gridBagConstraints1.gridwidth = 2;
@@ -741,6 +742,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	}
 
 	private int getTipoArquivo() {
+		if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_DMD)) return Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
+		
 		int tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
 		if (getRadioButtonCantada().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_CANTADA;
 		else if (getRadioButtonInstrumental().isSelected()) tipoArquivo = Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL;
@@ -826,8 +829,14 @@ public class ProcurarMusicasPanel extends JPanel {
 				nomesCampos.add("Intérprete");
 				nomesCampos.add("Estilo");
 			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
-				nomesCampos.add("Cantor");
-				nomesCampos.add("Ritmo");
+				if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS)) {
+					nomesCampos.add("Cantor");
+					nomesCampos.add("Ritmo");	
+				} else {
+					nomesCampos.add("Orador");
+					nomesCampos.add("Tipo Áudio");
+				}
+				
 			}
 			nomesCampos.add("Duração");
 			if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_TODOS) {
@@ -1395,6 +1404,11 @@ public class ProcurarMusicasPanel extends JPanel {
 			panelTipoArquivo.add(getRadioButtonInstrumental());
 			panelTipoArquivo.add(getRadioButtonMensagem());
 			panelTipoArquivo.add(getRadioButtonTodos());
+			if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_DMD)) {
+				getRadioButtonCantada().setSelected(true);
+				panelTipoArquivo.setVisible(false);
+				
+			}
 		}
 		return panelTipoArquivo;
 	}
@@ -1415,7 +1429,8 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonCantada.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonCantada.isSelected()) {
-						configurarProcuraMusicasCantadas();	
+						if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS))
+							configurarProcuraMusicasCantadas();	
 					}
 				}
 			
@@ -1465,7 +1480,8 @@ public class ProcurarMusicasPanel extends JPanel {
 			radioButtonTodos = new JRadioButton();
 			radioButtonTodos.setText("Todos");
 			radioButtonTodos.setMargin(new java.awt.Insets(0, 0, 0, 0));
-			radioButtonTodos.setSelected(true);
+			radioButtonTodos.setSelected(true);	
+			
 			radioButtonTodos.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonTodos.isSelected()) {

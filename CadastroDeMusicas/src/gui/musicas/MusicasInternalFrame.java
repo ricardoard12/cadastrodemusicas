@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 
 import bd.BDUtil;
 
+import util.Configuracoes;
 import util.GlobalPlayer;
 import classesbasicas.Constantes;
 import classesbasicas.Musica;
@@ -47,15 +48,7 @@ public class MusicasInternalFrame extends JInternalFrame {
 		this.setSize(645, 402);
 		this.setFrameIcon(new ImageIcon(getClass().getResource("/figuras/icones/music.png")));
 		this.setClosable(true);
-		try {
-			this.setTitle(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_ITEM_MENU_MUSICAS));
-		} catch (ConfiguracaoInexistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.setTitle(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_ITEM_MENU_MUSICAS));
 		this.setContentPane(getJContentPane());
 	}
 
@@ -81,18 +74,10 @@ public class MusicasInternalFrame extends JInternalFrame {
 	public JTabbedPane getTabbedPane() {
 		if (tabbedPane == null) {
 			tabbedPane = new JTabbedPane();
-			try {
-				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_CADASTRAR_MUSICAS_TITULO), null, getCadastrarMusicasPanel(), null);
-				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_PROCURAR_MUSICAS_TITULO), null, getProcurarMusicasPanel(), null);
-				tabbedPane.addTab(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TAB_EDITAR_MUSICAS_TITULO), null, getEditarMusicasPanel(), null);
-			} catch (ConfiguracaoInexistenteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+
+			tabbedPane.addTab(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TAB_CADASTRAR_MUSICAS_TITULO), null, getCadastrarMusicasPanel(), null);
+			tabbedPane.addTab(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TAB_PROCURAR_MUSICAS_TITULO), null, getProcurarMusicasPanel(), null);
+			tabbedPane.addTab(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TAB_EDITAR_MUSICAS_TITULO), null, getEditarMusicasPanel(), null);
 		}
 		return tabbedPane;
 	}

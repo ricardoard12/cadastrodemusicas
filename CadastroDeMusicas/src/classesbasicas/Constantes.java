@@ -33,20 +33,7 @@ public class Constantes {
 	public static final long TAMANHO_MAXIMO_CD_AUDIO = 4650L; // equivalente a 75 minutos
 	
 	public static final String nomeDiretorioTemp = "colec_temp";
-	
-	public static final String CONFIGURACAO_INTERVALO_ENTRE_MUSICAS = "intervalo_musicas";
-	public static final String CONFIGURACAO_DATA_RELEASE = "data_release";
-	public static final String CONFIGURACAO_TIPO_SISTEMA = "tipo_sistema";
-	public static final String CONFIGURACAO_TITULO = "titulo";
-	public static final String CONFIGURACAO_ITEM_MENU_MUSICAS = "item_menu_musicas";
-	public static final String CONFIGURACAO_TAB_CADASTRAR_MUSICAS_TITULO = "tab_cadastrar_musicas_titulo";
-	public static final String CONFIGURACAO_TAB_PROCURAR_MUSICAS_TITULO = "tab_procurar_musicas_titulo";
-	public static final String CONFIGURACAO_TAB_EDITAR_MUSICAS_TITULO = "tab_editar_musicas_titulo";
-	public static final String CONFIGURACAO_NOME_MUSICA = "nome_musica";
-	public static final String CONFIGURACAO_NOME_CANTOR = "nome_cantor";
-	public static final String CONFIGURACAO_NOME_RITMO = "nome_ritmo";
-	public static final String CONFIGURACAO_CAPA_DISCO = "capa_disco";
-	
+		
 	public static final String STRING_CAPA_DISCO = "CAPADISCO";
 
 	public static final String QUALIDADE_RUIM = "Ruim";
@@ -75,9 +62,6 @@ public class Constantes {
 	public static final Color COR_QUALIDADE_BOA = new Color(189, 189, 255);
 	public static final Color COR_QUALIDADE_OTIMA = new Color(120, 120, 255);
 	public static final Color COR_QUALIDADE_FALTANDO = new Color(160, 255, 160);
-	
-	public static final String TIPO_SISTEMA_MUSICAS = "MUSICAS";
-	public static final String TIPO_SISTEMA_DMD = "DMD";
 	
 }
 

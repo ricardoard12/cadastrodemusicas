@@ -1,6 +1,5 @@
 package gui.musicas;
 
-import exceptions.ConfiguracaoInexistenteException;
 import exceptions.DataException;
 import fachada.Fachada;
 
@@ -53,13 +52,10 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-import bd.BDUtil;
-
+import util.Configuracoes;
 import util.GlobalPlayer;
 import util.Util;
 import classesbasicas.Assunto;
@@ -321,7 +317,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints4.gridwidth = 3;
 			gridBagConstraints4.gridy = 6;
 			letraLabel = new JLabel();
-			letraLabel.setText("Letra");
+			letraLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_LETRA));
 			GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
 			gridBagConstraints3.gridx = 1;
 			gridBagConstraints3.gridy = 1;
@@ -346,16 +342,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints9.fill = GridBagConstraints.BOTH;
 			gridBagConstraints9.ipady = 0;
 			gridBagConstraints9.gridx = 2;
-			tipoLabel = new JLabel();
-			try {
-				tipoLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_RITMO));
-			} catch (ConfiguracaoInexistenteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (DataException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			tipoLabel = new JLabel(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_RITMO));
 			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
 			gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
 			gridBagConstraints7.gridy = 5;
@@ -385,16 +372,9 @@ public class CadastrarMusicasPanel extends JPanel {
 			
 			nomeDaMusicaLabel = new JLabel();
 			cantorLabel = new JLabel();
-			try {
-				nomeDaMusicaLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_MUSICA));
-				cantorLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_NOME_CANTOR));
-			} catch (ConfiguracaoInexistenteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			nomeDaMusicaLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_MUSICA));
+			cantorLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_NOME_CANTOR));
 			cantorLabel.setPreferredSize(new Dimension(168, 14));
 			
 			if (getPanelTipoMusica() != null) {
@@ -890,7 +870,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints38.gridx = 0;
 			cantoresPanel = new JPanel();
 			cantoresPanel.setLayout(new GridBagLayout());
-			cantoresPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Cantores", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			cantoresPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_TITULO_CANTORES), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			cantoresPanel.setSize(10, 10);
 			cantoresPanel.setPreferredSize(new java.awt.Dimension(360, 469));
 			cantoresPanel.add(getCantoresScrollPane(), gridBagConstraints38);
@@ -934,7 +914,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			gridBagConstraints40.gridx = 1;
 			musicasPanel = new JPanel();
 			musicasPanel.setLayout(new GridBagLayout());
-			musicasPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Músicas", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			musicasPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_MUSICAS_EXISTENTES), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			musicasPanel.add(getMusicasScrollPane(), gridBagConstraints40);
 			musicasPanel.add(spacer15Label, gridBagConstraints41);
 			musicasPanel.add(getBotoes1Panel(), gridBagConstraints54);
@@ -1095,8 +1075,8 @@ public class CadastrarMusicasPanel extends JPanel {
 			GroupLayout ritmoPanelLayout = new GroupLayout((JComponent)ritmoPanel);
 			ritmoPanel.setLayout(ritmoPanelLayout);
 			ritmoPanelLayout.setHorizontalGroup(ritmoPanelLayout.createSequentialGroup()
-				.addComponent(tipoLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-				.addGap(67)
+				.addComponent(tipoLabel, GroupLayout.PREFERRED_SIZE, Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_DMD) ? 60 : 27, GroupLayout.PREFERRED_SIZE)
+				.addGap(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_DMD) ? 34 : 67)
 				.addComponent(getNovoRitmoButton(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE));
 			ritmoPanelLayout.setVerticalGroup(ritmoPanelLayout.createSequentialGroup()
 				.addGap(6)
@@ -2099,7 +2079,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_INSTRUMENTAL) {
 				musicasNomesCampos.add("Intérprete");
 			} else if (getTipoArquivo() == Constantes.TIPO_ARQUIVO_MUSICA_CANTADA) {
-				musicasNomesCampos.add("Cantor");
+				musicasNomesCampos.add(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TABELA_NOME_CAMPO_ORADOR));
 			}
 		}
 		
@@ -2646,15 +2626,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	private JLabel getCapaLabelLabel() {
 		if(capaLabelLabel == null) {
 			capaLabelLabel = new JLabel();
-			try {
-				capaLabelLabel.setText(BDUtil.getConfiguracao(Constantes.CONFIGURACAO_CAPA_DISCO));
-			} catch (ConfiguracaoInexistenteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			capaLabelLabel.setText(Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_CAPA_DISCO));
 			capaLabelLabel.setBounds(1, 0, 68, 14);
 		}
 		return capaLabelLabel;
@@ -2705,30 +2677,23 @@ public class CadastrarMusicasPanel extends JPanel {
 	}
 	
 	private JPanel getPanelTipoMusica() {
-		try {
-			if(panelTipoMusica == null && BDUtil.getConfiguracao(Constantes.CONFIGURACAO_TIPO_SISTEMA).equals(Constantes.TIPO_SISTEMA_MUSICAS)) { 
-				panelTipoMusica = new JPanel();
-				GridLayout panelTipoMusicaLayout = new GridLayout(3, 1);
-				panelTipoMusicaLayout.setHgap(5);
-				panelTipoMusicaLayout.setVgap(5);
-				panelTipoMusicaLayout.setColumns(1);
-				panelTipoMusicaLayout.setRows(3);
-				panelTipoMusica.setLayout(panelTipoMusicaLayout);
-				panelTipoMusica.setPreferredSize(new java.awt.Dimension(98, 60));
-				panelTipoMusica.setSize(98, 56);
-				panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
-				panelTipoMusica.setEnabled(false);
-				panelTipoMusica.add(getRadioButtonCantada());
-				panelTipoMusica.add(getRadioButtonInstrumental());
-				panelTipoMusica.add(getRadioButtonMensagem());
-			}
-		} catch (ConfiguracaoInexistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(panelTipoMusica == null && Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS)) { 
+			panelTipoMusica = new JPanel();
+			GridLayout panelTipoMusicaLayout = new GridLayout(3, 1);
+			panelTipoMusicaLayout.setHgap(5);
+			panelTipoMusicaLayout.setVgap(5);
+			panelTipoMusicaLayout.setColumns(1);
+			panelTipoMusicaLayout.setRows(3);
+			panelTipoMusica.setLayout(panelTipoMusicaLayout);
+			panelTipoMusica.setPreferredSize(new java.awt.Dimension(98, 60));
+			panelTipoMusica.setSize(98, 56);
+			panelTipoMusica.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED), "Tipo", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma",0,11), new java.awt.Color(0,0,0)));
+			panelTipoMusica.setEnabled(false);
+			panelTipoMusica.add(getRadioButtonCantada());
+			panelTipoMusica.add(getRadioButtonInstrumental());
+			panelTipoMusica.add(getRadioButtonMensagem());
 		}
+
 		return panelTipoMusica;
 	}
 	
