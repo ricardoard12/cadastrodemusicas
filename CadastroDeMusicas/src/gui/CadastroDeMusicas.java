@@ -530,15 +530,24 @@ public class CadastroDeMusicas extends JFrame {
 	private JDesktopPane getDesktopPane() {
 		if (desktopPane == null) {
 			backgroundLabel = new JLabel();
-			backgroundLabel.setBounds(-6, 181, 577, 391);
-			backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/music-notes-transp.jpg")));
-			backgroundLabel.setText("");
 			mysqlLabel = new JLabel();
 			mysqlLabel.setBounds(699, 395, 174, 120);
 			mysqlLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/mysql.png")));
 			mysqlLabel.setText("");
 			desktopPane = new JDesktopPane();
-			desktopPane.setBackground(new java.awt.Color(255,255,255));
+			if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS)) {
+				backgroundLabel.setBounds(-6, 181, 577, 391);
+				backgroundLabel.setText("");
+				backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/music-notes-transp.jpg")));
+				desktopPane.setBackground(new java.awt.Color(255,255,255));	
+			} else {
+				backgroundLabel.setBounds(32, 188, 577, 391);
+				backgroundLabel.setText("");
+				//desktopPane.setBackground(new java.awt.Color(226,255,220));
+				desktopPane.setBackground(new java.awt.Color(220,230,255));
+				backgroundLabel.setIcon(new ImageIcon(getClass().getResource("/figuras/sol_lua_estrela_fundo_transp.png")));
+			}
+			
 			desktopPane.setPreferredSize(new java.awt.Dimension(794, 523));
 			desktopPane.add(mysqlLabel, null);
 			desktopPane.add(backgroundLabel, null);
