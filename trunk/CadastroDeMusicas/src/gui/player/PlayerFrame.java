@@ -1,6 +1,8 @@
 package gui.player;
 import java.awt.BorderLayout;
 import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -53,6 +55,12 @@ public class PlayerFrame extends javax.swing.JFrame {
 			this.setPreferredSize(new java.awt.Dimension(225, 294));
 			this.setResizable(false);
 			this.setTitle("Player");
+			this.addMouseWheelListener(new MouseWheelListener() {
+				public void mouseWheelMoved(MouseWheelEvent evt) {
+					System.out.println("this.mouseWheelMoved, event="+evt);
+					//TODO add your code for this.mouseWheelMoved
+				}
+			});
 			{
 				playerPanel = new PlayerPanel();
 				playerPanel.setPlayerFrame(this);
@@ -69,7 +77,7 @@ public class PlayerFrame extends javax.swing.JFrame {
 			public void windowClosing(WindowEvent arg0) {
 				parar();
 			}
-
+			
 			public void windowClosed(WindowEvent arg0) {
 				parar();
 			}

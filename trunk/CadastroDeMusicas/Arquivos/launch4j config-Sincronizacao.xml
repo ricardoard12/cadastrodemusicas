@@ -3,7 +3,7 @@
   <headerType>gui</headerType>
   <jar>C:\Users\fabiodelicato\Desktop\New folder\Cadastro de Musicas 1.2\Sincronizacao1.2.jar</jar>
   <outfile>C:\Users\fabiodelicato\Desktop\New folder\Cadastro de Musicas 1.2\Sincronizacao1.2.exe</outfile>
-  <errTitle>Não foi encontrada uma Máquina Virtual Java</errTitle>
+  <errTitle>NÃ£o foi encontrada uma MÃ¡quina Virtual Java</errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
   <priority>high</priority>
@@ -23,21 +23,21 @@
   </jre>
   <versionInfo>
     <fileVersion>1.2.0.0</fileVersion>
-    <txtFileVersion>Versão 1.2</txtFileVersion>
-    <fileDescription>Sistema de Cadastro de Músicas</fileDescription>
-    <copyright>Fábio Delicato</copyright>
+    <txtFileVersion>Versï¿½o 1.2</txtFileVersion>
+    <fileDescription>Sistema de Cadastro de Mï¿½sicas</fileDescription>
+    <copyright>Fï¿½bio Delicato</copyright>
     <productVersion>1.2.0.0</productVersion>
-    <txtProductVersion>Versão 1.2</txtProductVersion>
-    <productName>Sistema de Cadastro de Músicas</productName>
+    <txtProductVersion>Versï¿½o 1.2</txtProductVersion>
+    <productName>Sistema de Cadastro de Mï¿½sicas</productName>
     <companyName></companyName>
-    <internalName>Sistema de Cadastro de Músicas</internalName>
+    <internalName>Sistema de Cadastro de Mï¿½sicas</internalName>
     <originalFilename>CadastroDeMusicas.exe</originalFilename>
   </versionInfo>
   <messages>
-    <startupErr>Ocorreu um Erro ao Iniciar a Aplicação.</startupErr>
-    <bundledJreErr>Não foi possível inicializar a Márquina Virtual Java Imbutida na Aplicação.</bundledJreErr>
-    <jreVersionErr>Esta Aplicação necessita de uma Máquina Virtual Java Instalada.</jreVersionErr>
-    <launcherErr>O Registro faz referência a uma Máquina Virtual Java Inexistente ou Corrompida.</launcherErr>
-    <instanceAlreadyExistsMsg>Uma instência da Aplicação já está rodando.</instanceAlreadyExistsMsg>
+    <startupErr>Ocorreu um Erro ao Iniciar a Aplicaï¿½ï¿½o.</startupErr>
+    <bundledJreErr>Nï¿½o foi possï¿½vel inicializar a Mï¿½rquina Virtual Java Imbutida na Aplicaï¿½ï¿½o.</bundledJreErr>
+    <jreVersionErr>Esta Aplicaï¿½ï¿½o necessita de uma Mï¿½quina Virtual Java Instalada.</jreVersionErr>
+    <launcherErr>O Registro faz referï¿½ncia a uma Mï¿½quina Virtual Java Inexistente ou Corrompida.</launcherErr>
+    <instanceAlreadyExistsMsg>Uma instï¿½ncia da Aplicaï¿½ï¿½o jï¿½ estï¿½ rodando.</instanceAlreadyExistsMsg>
   </messages>
 </launch4jConfig>
