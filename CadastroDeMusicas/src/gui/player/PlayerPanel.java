@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -173,6 +175,13 @@ public class PlayerPanel extends javax.swing.JPanel {
 			this.setLayout(thisLayout);
 			this.setSize(217, 274);
 			this.setMaximumSize(new java.awt.Dimension(217, 274));
+			this.addMouseWheelListener(new MouseWheelListener() {
+				public void mouseWheelMoved(MouseWheelEvent evt) {
+					System.out.println("" + evt);
+					int add = (-evt.getWheelRotation()) * 3;
+			        volumeSlider.setValue(volumeSlider.getValue() + add);
+				}
+			});
 			{
 				nomeMusicaAtualLabel = new JLabel();
 				this.add(nomeMusicaAtualLabel, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.BOTH, new Insets(8, 4, 2, 4), 0, 0));
@@ -353,6 +362,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 			{
 				playListScrollPane = new JScrollPane();
 				this.add(playListScrollPane, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+				playListScrollPane.addMouseWheelListener(new MouseWheelListener() {
+					public void mouseWheelMoved(MouseWheelEvent evt) {
+						PlayerPanel.this.dispatchEvent(evt);				
+					}
+				});
 				{
 					playListList = new JList();
 					playListList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
