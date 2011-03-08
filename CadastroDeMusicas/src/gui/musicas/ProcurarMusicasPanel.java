@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -34,6 +35,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -93,6 +95,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JScrollPane tabelaScrollPane = null;
 	private JLabel colecaoBuscaLabel;
 	private JRadioButton radioButtonMensagem;
+	private JPanel filtrosPanel;
 	private JRadioButton radioButtonTodos;
 	private JRadioButton radioButtonInstrumental;
 	private JRadioButton radioButtonCantada;
@@ -135,6 +138,7 @@ public class ProcurarMusicasPanel extends JPanel {
 	private JTextField numeroRegistrosTextField = null;
 	private JButton gerarColecaoButton = null;
 	private List<Colecao> colecoes = null;
+	private Hashtable<String, List<String>> filtros = new Hashtable<String, List<String>>();
 	/**
 	 * This is the default constructor
 	 */
@@ -175,7 +179,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		gridBagConstraints4.gridy = 3;
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new java.awt.Dimension(891, 550));
-		this.add(getDadosDaProcuraPanel(), gridBagConstraints6);
+		this.add(getDadosDaProcuraPanel(), new GridBagConstraints(-1, -1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		this.add(getTabelaPanel(), gridBagConstraints4);
 		this.add(getBotoesPanel(), new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 14, 0, 0), 0, 0));
 		this.add(getPanelTipoArquivo(), new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 17, 5, 3), 0, 0));
@@ -285,7 +289,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			dadosDaProcuraPanelLayout.rowHeights = new int[] {7, 7, 7, 7};
 			dadosDaProcuraPanelLayout.columnWeights = new double[] {0.2, 0.2, 0.6};
 			dadosDaProcuraPanelLayout.columnWidths = new int[] {7, 7, 100};
-			dadosDaProcuraPanel.setPreferredSize(new java.awt.Dimension(630, 102));
+			dadosDaProcuraPanel.setPreferredSize(new java.awt.Dimension(686, 121));
 			dadosDaProcuraPanel.add(getLetraTextField(), new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(letraLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(nomeLabel, gridBagConstraints1);
@@ -306,6 +310,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			dadosDaProcuraPanel.add(getColecaoBuscaComboBox(), new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 12, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(getAnoLabel(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 121, 0, 0), 0, 0));
 			dadosDaProcuraPanel.add(getAnoTextField(), new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+			dadosDaProcuraPanel.add(getFiltrosPanel(), new GridBagConstraints(0, 11, 3, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			atualizarQualidades();
 		}
 		return dadosDaProcuraPanel;
@@ -323,7 +328,7 @@ public class ProcurarMusicasPanel extends JPanel {
 
 				public void actionPerformed(ActionEvent arg0) {
 					//$hide>>$
-					procurarMusicas();
+					adicionarFiltro("nome", nomeTextField.getText());
 					//$hide<<$
 				}
 				
@@ -1578,6 +1583,16 @@ public class ProcurarMusicasPanel extends JPanel {
 		atualizarAssuntos();
 	}
 	
+	private JPanel getFiltrosPanel() {
+		if(filtrosPanel == null) {
+			filtrosPanel = new JPanel();
+			BoxLayout filtrosPanelLayout = new BoxLayout(filtrosPanel, javax.swing.BoxLayout.X_AXIS);
+			filtrosPanel.setLayout(filtrosPanelLayout);
+			filtrosPanel.setPreferredSize(new java.awt.Dimension(685, 18));
+		}
+		return filtrosPanel;
+	}
+
 	//$hide>>$
 	class ColorRenderer extends JLabel implements TableCellRenderer {
 		/**
@@ -1632,6 +1647,79 @@ public class ProcurarMusicasPanel extends JPanel {
 			return this;
 		}
 	}
+	
+	private void adicionarFiltro(String key, String value) {
+		// Verifica a validade do filtro
+		if (key == null || key.length() == 0 ||
+			value == null || value.length() == 0) {
+			return;
+		}
+		
+		// verifica se o filtro já está adicionado
+		List<String> valores = filtros.get(key);
+		List<String> remover = new ArrayList<String>();
+		if (valores != null) {
+			for (String s: valores) {
+				if (s.contains(value)) return;
+				else {
+					if (value.contains(s)) {
+						remover.add(s);
+					}
+				}
+			}	
+		}
+		
+		for (String s: remover) {
+			valores.remove(s);
+		}
+		
+		if (valores == null) {
+			valores = new ArrayList<String>();
+			filtros.put(key, valores);
+		}
+		valores.add(value);
+		
+		FiltroCheckBox jCheckBox = null;
+		for (Component c: getFiltrosPanel().getComponents()) {
+			if (c instanceof FiltroCheckBox) {
+				FiltroCheckBox fcb = (FiltroCheckBox) c;
+				if (fcb.getKey().equals(key)) {
+					jCheckBox = fcb;
+					break;
+				}
+			}
+		}
+		if (jCheckBox == null) {
+			jCheckBox = new FiltroCheckBox(this, key);
+			jCheckBox.setText(key + ": " + value);
+			getFiltrosPanel().add(jCheckBox);
+			getFiltrosPanel().revalidate();
+		} else {
+			String text = key + ": ";
+			
+			for (String s: valores) {
+				if (valores.indexOf(s) == valores.size() - 1) text += s;
+				else text += s + " ou ";
+			}
+			
+			jCheckBox.setText(text);
+			jCheckBox.repaint();
+		}
+	}
+	
+	protected boolean removerFiltro(FiltroCheckBox filtro) {
+		String key = filtro.getKey();
+		
+		List<String> valores = filtros.get(key);
+		if (valores != null) {
+			filtros.remove(key);
+			getFiltrosPanel().remove(filtro);
+			getFiltrosPanel().repaint();
+			return true;
+		}
+		
+		return false;
+	}
 	//$hide<<$
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
@@ -1668,4 +1756,38 @@ public class ProcurarMusicasPanel extends JPanel {
       return renderer;
     }
   }
+	
+class FiltroCheckBox extends JCheckBox {
+	private String key;
+	private ProcurarMusicasPanel panel;
+	
+	public FiltroCheckBox(ProcurarMusicasPanel panel, String key)
+	{
+		super();
+		
+		setSelected(true);
+		setFocusable(false);
+		
+		this.panel = panel;
+		this.key = key;
+		
+		this.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//$hide>>$
+				if (!FiltroCheckBox.this.isSelected()) {
+					FiltroCheckBox.this.panel.removerFiltro(FiltroCheckBox.this);
+				}
+				
+				//$hide<<$
+			}
+		});
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+}
+	
+
 
