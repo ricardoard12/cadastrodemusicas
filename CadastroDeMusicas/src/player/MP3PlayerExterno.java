@@ -11,9 +11,12 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Map;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import javazoom.jl.decoder.Equalizer;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayer;
@@ -22,6 +25,7 @@ import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 import javazoom.jlgui.player.amp.tag.TagInfo;
 import javazoom.jlgui.player.amp.tag.TagInfoFactory;
+import javazoom.jlgui.player.amp.util.Config;
 
 public class MP3PlayerExterno extends BasicPlayer implements ChangeListener, MouseListener {
 	PlayerPanel controller = null;
@@ -43,7 +47,6 @@ public class MP3PlayerExterno extends BasicPlayer implements ChangeListener, Mou
 		addBasicPlayerListener(new BasicPlayerListener() {
 			public void stateUpdated(BasicPlayerEvent bpe) {
 				System.out.println(bpe);
-				
 				if (bpe.getCode() == BasicPlayerEvent.EOM) {
 					MP3PlayerExterno.this.controller.finalizouMusica();
 				}
@@ -64,7 +67,16 @@ public class MP3PlayerExterno extends BasicPlayer implements ChangeListener, Mou
 			}
 			
 			public void opened(Object arg0, Map properties) {
-				MP3PlayerExterno.this.properties = properties;
+		        MP3PlayerExterno.this.properties = properties;
+		        
+		        Map props = ((javazoom.spi.PropertiesContainer) MP3PlayerExterno.this.m_audioInputStream).properties();
+		        
+		        float[] eq = (float []) props.get("mp3.equalizer");
+		        System.out.println(eq.toString());
+		        
+		        for (int i = 0; i < eq.length; i++) {
+		        	eq[i] = i < 8 ? (float) -1.0 : (float) 1.0;
+		        }
 			}		
 		});
 		
