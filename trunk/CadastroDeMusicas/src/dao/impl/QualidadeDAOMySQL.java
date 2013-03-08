@@ -92,4 +92,12 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 		
 	}
 
+	public int getQualidadeId(String qualidade) throws DataException {
+		String sql = "SELECT * FROM Qualidade WHERE qualidade = '" + qualidade + "'";
+		
+		List<Qualidade> lista = listarQualidadesPorConsulta(sql);
+		
+		return lista.get(0).getIdQualidade();
+	}
+
 }

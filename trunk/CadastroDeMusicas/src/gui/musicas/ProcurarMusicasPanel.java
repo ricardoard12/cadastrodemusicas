@@ -765,12 +765,20 @@ public class ProcurarMusicasPanel extends JPanel {
 		//$hide>>$
 		for (Musica m: getMusicas()) {
 			Vector<String> temp = new Vector<String>();
+			
+			String obs = "";
+			
+			// Adicionando uma indicação de observação (Caso haje observação para a música)
+			if (m.getObservacao() != null && m.getObservacao().trim().length() > 0)
+			{
+				obs = "* ";
+			}
 
 			if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS) {
-				String adicionar = "[" + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[m.getTipoArquivo()].charAt(0) + "] ";
+				String adicionar = obs + "[" + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[m.getTipoArquivo()].charAt(0) + "] ";
 				temp.add(adicionar + m.getNome());
 			} else {
-				temp.add(m.getNome());	
+				temp.add(obs + m.getNome());	
 			}
 			
 			if (m.getCantores() != null && m.getCantores().size() > 0) {

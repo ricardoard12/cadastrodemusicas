@@ -12,5 +12,6 @@ public interface QualidadeDAO {
 	public void removerQualidade(Qualidade q) throws DataException;
 	public Qualidade getQualidade(int idQualidade) throws DataException;
 	public List<Qualidade> listarQualidades() throws DataException;
+	public int getQualidadeId(String qualidade) throws DataException;
 	
 }
