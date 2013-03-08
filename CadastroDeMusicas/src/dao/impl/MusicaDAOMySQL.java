@@ -400,7 +400,10 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		}	
 		
 		if (!naoListarPorQualidade) {
-			sql += "and (qualidade.qualidade like '%" + qualidade + "%') ";
+			QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
+			int qualidadeId = qualidadeDAO.getQualidadeId(qualidade);
+			
+			sql += "and (qualidade.idQualidade >= " + qualidadeId + ") ";
 		}
 				
 		sql +=  "group by musica.idMusica order by musica.nome";
