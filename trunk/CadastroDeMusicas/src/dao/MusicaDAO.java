@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.InputStream;
+import java.util.Hashtable;
 import java.util.List;
 
 import classesbasicas.Cantor;
@@ -31,7 +32,8 @@ public interface MusicaDAO {
 			String qualidade, boolean naoListarPorQualidade,
 			String letra, boolean naoListarPorLetra,
 			int ano, boolean naoListarPorAno,
-			int tipoArquivo, boolean naoListarPorTipoArquivo) throws DataException;
+			int tipoArquivo, boolean naoListarPorTipoArquivo,
+			Hashtable<String, List<String>> filtros) throws DataException;
 	public List<Musica> listarMusicasDaColecaoPorDiversos(
 			String nome, boolean naoListarPorNome,
 			String nomeCantor, boolean naoListarPorNomeCantor,

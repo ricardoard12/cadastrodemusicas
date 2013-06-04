@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class Fachada {
 	
 	// Métodos de listagem	
 	public static List<Musica> listarMusicasPorDiversos(String nome, String nomeCantor, String ritmo, String assunto, String observacao,
-			String qualidade, String letra, Colecao colecao, int ano, int tipoArquivo) throws DataException {
+			String qualidade, String letra, Colecao colecao, int ano, int tipoArquivo, Hashtable<String, List<String>> filtros) throws DataException {
 		boolean naoListarPorNome = false;
 		boolean naoListarPorNomeCantor = false;
 		boolean naoListarPorRitmo = false;
@@ -95,12 +96,6 @@ public class Fachada {
 			observacao = observacao.trim();
 		}
 		
-		if (qualidade == null || qualidade.trim().equals("")) {
-			naoListarPorQualidade = true;
-		} else {
-			qualidade = qualidade.trim();
-		}
-		
 		if (letra == null || letra.trim().equals("")) {
 			naoListarPorLetra = true;
 		} else {
@@ -138,7 +133,7 @@ public class Fachada {
 						assunto, naoListarPorAssunto,
 						observacao, naoListarPorObservacao,
 						qualidade, naoListarPorQualidade,
-						letra, naoListarPorLetra, ano, naoListarPorAno, tipoArquivo, naoListarPorTipoArquivo);	
+						letra, naoListarPorLetra, ano, naoListarPorAno, tipoArquivo, naoListarPorTipoArquivo, filtros);	
 			}
 		}
 	}

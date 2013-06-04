@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 import util.Util;
@@ -20,6 +21,7 @@ import bd.BDUtil;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
 import classesbasicas.Colecao;
+import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import dao.AssuntoDAO;
 import dao.CantorDAO;
@@ -373,7 +375,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			String qualidade, boolean naoListarPorQualidade,
 			String letra, boolean naoListarPorLetra,
 			int ano, boolean naoListarPorAno,
-			int tipoArquivo, boolean naoListarPorTipoArquivo) throws DataException {
+			int tipoArquivo, boolean naoListarPorTipoArquivo,
+			Hashtable<String, List<String>> filtros) throws DataException {
 		
 		String sql = "select * from	((((((musica left join musicacantor on musica.idMusica = musicacantor.idMusica) " + 
 			"left join cantor on musicacantor.idcantor = cantor.idcantor) " +
@@ -399,11 +402,21 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			sql += "and (assunto.assunto like '" + assunto + "') ";
 		}	
 		
-		if (!naoListarPorQualidade) {
-			QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
-			int qualidadeId = qualidadeDAO.getQualidadeId(qualidade);
-			
-			sql += "and (qualidade.idQualidade >= " + qualidadeId + ") ";
+		if (filtros != null)
+		{
+			// verificando as qualidades selecionadas
+			List<String> qualidades = filtros.get(Constantes.CAMPO_PROCURA_QUALIDADE);
+			if (qualidades != null && qualidades.size() > 0)
+			{
+				sql += "and (0";
+				for (String q: qualidades)
+				{
+					QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
+					int qualidadeId = qualidadeDAO.getQualidadeId(q);
+					sql += " or qualidade.idQualidade = " + qualidadeId;
+				}	
+				sql += ") ";
+			}
 		}
 				
 		sql +=  "group by musica.idMusica order by musica.nome";

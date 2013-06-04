@@ -328,7 +328,8 @@ public class ProcurarMusicasPanel extends JPanel {
 
 				public void actionPerformed(ActionEvent arg0) {
 					//$hide>>$
-					adicionarFiltro("nome", nomeTextField.getText());
+					// adicionarFiltro("nome", nomeTextField.getText());
+					procurarMusicas();
 					//$hide<<$
 				}
 				
@@ -737,7 +738,7 @@ public class ProcurarMusicasPanel extends JPanel {
 		musicas = new ArrayList<Musica>();
 		
 		try {
-			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano, tipoArquivo);
+			musicas = Fachada.listarMusicasPorDiversos(nome, nomeCantor, ritmo, assunto, observacao, qualidade, letra, colecao, ano, tipoArquivo, filtros);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -974,6 +975,8 @@ public class ProcurarMusicasPanel extends JPanel {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						//$hide>>$
+						String qualidade = (String) getQualidadeComboBox().getSelectedItem();
+						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade);
 						procurarMusicas();
 						e.consume();
 						//$hide<<$
@@ -1051,10 +1054,6 @@ public class ProcurarMusicasPanel extends JPanel {
 			for (Qualidade q: qualidades) {
 				getQualidadeComboBox().addItem(q.getQualidade());
 			}
-			//getQualidadeComboBox().getComponent(1).setBackground(Constantes.COR_QUALIDADE_RUIM);
-			//getQualidadeComboBox().getComponent(2).setBackground(Constantes.COR_QUALIDADE_NORMAL);
-			//getQualidadeComboBox().getComponent(3).setBackground(Constantes.COR_QUALIDADE_BOA);
-			//getQualidadeComboBox().getComponent(4).setBackground(Constantes.COR_QUALIDADE_OTIMA);
 			
 			if (s != null && !s.equals("")) {
 				getQualidadeComboBox().setSelectedItem(s);
@@ -1740,13 +1739,12 @@ public class ProcurarMusicasPanel extends JPanel {
 
     public Component getListCellRendererComponent(JList list, Object value,
         int index, boolean isSelected, boolean cellHasFocus) {
-      JLabel renderer = (JLabel) defaultRenderer
+      Component renderer = defaultRenderer
           .getListCellRendererComponent(list, value, index,
               isSelected, cellHasFocus);
-      // if (value instanceof Color) {
-        // renderer.setBackground((Color) value);
+
     	  if (value.equals("")) {
-    		  renderer = (JLabel) defaultRenderer
+    		  renderer = defaultRenderer
               .getListCellRendererComponent(list, " ", index,
                   isSelected, cellHasFocus);
     		  renderer.setBackground(Constantes.COR_QUALIDADE_FALTANDO);

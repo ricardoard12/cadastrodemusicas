@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -2124,7 +2125,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			
 			if (nome == null || nome.trim().equals("")) tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
 			
-			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, tipoArquivo);
+			musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, tipoArquivo, null);
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

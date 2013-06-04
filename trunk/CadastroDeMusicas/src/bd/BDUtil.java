@@ -190,6 +190,39 @@ public class BDUtil {
 									"UPDATE musica SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";",
 									"UPDATE tipo SET tipoarquivo = " + Constantes.TIPO_ARQUIVO_MUSICA_CANTADA + ";"
 									};
+					
+					
+					/*DROP VIEW IF EXISTS `cadastrodemusicas`.`musicas_view`;
+
+					CREATE VIEW `cadastrodemusicas`.`musicas_view` 
+						AS 
+							( 
+					select 
+						musica.*, 
+						cantor.idCantor, cantor.nomesemespacos,cantor.nome as nome_cantor,
+						tipo.tipo, 
+						assunto.assunto, 
+						qualidade.qualidade 
+					from ((((((
+						musica left join musicacantor on musica.idMusica = musicacantor.idMusica) 
+						left join cantor on musicacantor.idcantor = cantor.idcantor) 
+						left join tipo on musica.idTipo = tipo.idTipo) 
+						left join musicaassunto on musica.idMusica = musicaassunto.idMusica) 
+						left join assunto on musicaassunto.idAssunto = assunto.idAssunto)
+						left join qualidade on musica.idQualidade = qualidade.idQualidade) 
+					group by musica.idMusica)*/
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
 						System.out.println(s);
