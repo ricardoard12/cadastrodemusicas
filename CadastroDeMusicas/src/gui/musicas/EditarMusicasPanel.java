@@ -1895,9 +1895,9 @@ public class EditarMusicasPanel extends JPanel {
 			}
 			
 			if (musica != null) {
-				musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, musica.getTipoArquivo());	
+				musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, musica.getTipoArquivo(), null);	
 			} else {
-				musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, Constantes.TIPO_ARQUIVO_NAO_LISTAR);
+				musicas = Fachada.listarMusicasPorDiversos(nome, null, null, null, null, null, null, null, 0, Constantes.TIPO_ARQUIVO_NAO_LISTAR, null);
 			}
 			
 		} catch (DataException e) {

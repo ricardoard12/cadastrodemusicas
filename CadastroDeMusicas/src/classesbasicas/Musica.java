@@ -64,6 +64,63 @@ public class Musica implements Serializable {
 		return descricao;
 	}
 	
+	public String getDescricaoCompletaSemDiferencas(Musica m) {
+		String descricao = "Dados da Música\n";
+		descricao += (idMusica == m.getIdMusica()) ? "" : "idMusica: " + idMusica + "\n";
+		descricao += (nome.equals(m.getNome())) ? "" : "Nome: " + nome + "\n";
+		
+		String temp1 = (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "");
+		String temp2 = (m.getCantores() != null && m.getCantores().size() > 0 ? m.getCantores().get(0).getNome() : "");
+		descricao += (isStringEqual(temp1, temp2)) ? "" : "Cantor: " + temp1 + "\n";
+		descricao += (tipoArquivo == m.getTipoArquivo()) ? "" : "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
+		descricao += (duracao == m.getDuracao()) ? "" : "Duração: " + Util.formataDuracao(duracao) + "\n";
+		descricao += (tipo == m.getTipo()) ? "" : "Ritmo: " + (tipo != null ? tipo.getTipo() : "") + "\n";
+		String assuntosString = "";
+		String assuntosString2 = "";
+		if (assuntos != null && assuntos.size() > 0) {
+			for (int j = 0; j < assuntos.size(); j++) {
+				assuntosString += assuntos.get(j).getAssunto();
+				if (j < assuntos.size() - 1) assuntosString += ", ";
+			}
+		}
+		if (m.getAssuntos() != null && m.getAssuntos().size() > 0) {
+			for (int j = 0; j < m.getAssuntos().size(); j++) {
+				assuntosString2 += m.getAssuntos().get(j).getAssunto();
+				if (j < m.getAssuntos().size() - 1) assuntosString2 += ", ";
+			}
+		}
+		descricao += (isStringEqual(assuntosString, assuntosString2)) ? "" : "Assuntos: " + assuntosString + "\n";
+		
+		if (qualidade == null && m.getQualidade() != null || qualidade != null && m.getQualidade() == null) {
+			descricao += "Qualidade: " + (qualidade != null ? qualidade.getQualidade() : "") + "\n";
+		} else if (qualidade != null) {
+			descricao += (isStringEqual(qualidade.getQualidade(), m.getQualidade().getQualidade())) ? "" : "Qualidade: " + (qualidade != null ? qualidade.getQualidade() : "") + "\n";
+		}
+		
+		descricao += (ano == m.getAno()) ? "" : "Ano: " + (ano > 0 ? ano : "") + "\n";
+		descricao += (isStringEqual(nomeArquivo, m.getNomeArquivo())) ? "" : "Nome do Arquivo: " + nomeArquivo + "\n";
+		descricao += (isStringEqual(diretorio, m.getDiretorio())) ? "" : "Diretório: " + diretorio + "\n";
+		descricao += (isStringEqual(chaveUnica, m.getChaveUnica())) ? "" : "Chave Única: " + chaveUnica + "\n";
+		descricao += (isStringEqual(nomeArquivoCapa, m.getNomeArquivoCapa())) ? "" : "Nome Arquivo Capa: " + nomeArquivoCapa + "\n";
+		descricao += (isStringEqual(created.toString(), m.getCreated().toString())) ? "" : "Created: " + created.toString() + "\n";
+		descricao += (isStringEqual(modified.toString(), m.getModified().toString())) ? "" : "Modified: " + modified.toString() + "\n";
+		descricao += (isStringEqual(observacao, m.getObservacao())) ? "" : "Observação: " + observacao + "\n";
+		descricao += (isStringEqual(letra, m.getLetra())) ? "" : "Letra: " + letra;
+
+		return descricao;
+	}
+	
+	private boolean isStringEqual(String temp1, String temp2)
+	{
+		if (temp1 == null && temp2 == null) {
+			return true;
+		} else if (temp1 == null) {
+			return false;
+		} else {
+			return temp1.equals(temp2);
+		}
+	}
+	
 	public List<Assunto> getAssuntos() {
 		return assuntos;
 	}

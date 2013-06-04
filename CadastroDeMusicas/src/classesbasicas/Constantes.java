@@ -57,6 +57,8 @@ public class Constantes {
 		TIPO_ARQUIVO_MENSAGEM_STRING
 	};
 	
+	public static final String CAMPO_PROCURA_QUALIDADE = "qualidade";
+	
 	public static final Color COR_QUALIDADE_RUIM = new Color(255, 182, 182);
 	public static final Color COR_QUALIDADE_NORMAL = new Color(244, 244, 244);
 	public static final Color COR_QUALIDADE_BOA = new Color(189, 189, 255);
