@@ -7,7 +7,6 @@ import gui.colecaodiscos.GerarColecaoDiscosDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -673,15 +672,6 @@ public class ProcurarMusicasPanel extends JPanel {
 			}
 			player.GlobalPlayer.getGlobalPlayer().open(ms);	
 		}
-			
-			/*String nomeArquivo = m.getNomeArquivo();
-			String caminhoCompleto = Util.getDiretorioBase() + File.separator 
-				+ m.getDiretorio() + File.separator + nomeArquivo;
-			
-			GlobalPlayer.play(caminhoCompleto);
-			getControlesInPanel().add(GlobalPlayer.getControle(), BorderLayout.SOUTH);				
-			getControlesInPanel().validate();
-			GlobalPlayer.getControle().repaint();*/
 		//$hide<<$
 	}
 
@@ -727,9 +717,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		}
 		
 		if ( (nome == null || nome.trim().equals("")) && (nomeCantor == null || nomeCantor.trim().equals("")) && 
-			 (ritmo == null || ritmo.trim().equals("")) && (assunto == null || assunto.trim().equals("")) &&
-			 (observacao == null || observacao.trim().equals("")) && (qualidade == null || qualidade.trim().equals("")) &&
-			 (letra == null || letra.trim().equals("")) && ano == 0) {
+			 (observacao == null || observacao.trim().equals("")) &&
+			 (letra == null || letra.trim().equals("")) && ano == 0 && (filtros == null || filtros.size() == 0)) {
 			tipoArquivo = Constantes.TIPO_ARQUIVO_NAO_LISTAR;
 		}
 
@@ -881,10 +870,24 @@ public class ProcurarMusicasPanel extends JPanel {
 			ritmoComboBox = new JComboBox();
 			ritmoComboBox.setPreferredSize(new java.awt.Dimension(60, 18));
 			ritmoComboBox.setSize(80, 20);
+			ritmoComboBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					//$hide>>$
+					if (getRitmoComboBox().getSelectedIndex() != 0) {
+						String ritmo = (String) getRitmoComboBox().getSelectedItem();
+						adicionarFiltro(Constantes.CAMPO_PROCURA_RITMO, ritmo, false);
+						ritmoComboBox.setSelectedIndex(0);
+						procurarMusicas();	
+					}
+					//$hide<<$										
+				}
+			});
 			ritmoComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						//$hide>>$
+						adicionarFiltro(Constantes.CAMPO_PROCURA_RITMO, (String) getRitmoComboBox().getSelectedItem(), false);
+						ritmoComboBox.setSelectedIndex(0);
 						procurarMusicas();
 						e.consume();
 						//$hide<<$
@@ -904,10 +907,25 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (assuntoComboBox == null) {
 			assuntoComboBox = new JComboBox();
 			assuntoComboBox.setPreferredSize(new java.awt.Dimension(168, 20));
+			
+			assuntoComboBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					//$hide>>$
+					if (getAssuntoComboBox().getSelectedIndex() != 0) {
+						String assunto = (String) getAssuntoComboBox().getSelectedItem();
+						adicionarFiltro(Constantes.CAMPO_PROCURA_ASSUNTO, assunto, false);
+						assuntoComboBox.setSelectedIndex(0);
+						procurarMusicas();	
+					}
+					//$hide<<$										
+				}
+			});
 			assuntoComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						//$hide>>$
+						adicionarFiltro(Constantes.CAMPO_PROCURA_ASSUNTO, (String) getAssuntoComboBox().getSelectedItem(), false);
+						assuntoComboBox.setSelectedIndex(0);
 						procurarMusicas();
 						e.consume();
 						//$hide<<$
@@ -971,12 +989,25 @@ public class ProcurarMusicasPanel extends JPanel {
 			qualidadeComboBox.setSize(80, 20);
 			qualidadeComboBox.setPreferredSize(new java.awt.Dimension(64, 20));
 			qualidadeComboBox.setRenderer(new ColorCellRenderer());
+			qualidadeComboBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					//$hide>>$
+					if (getQualidadeComboBox().getSelectedIndex() != 0) {
+						String qualidade = (String) getQualidadeComboBox().getSelectedItem();
+						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade,false);
+						qualidadeComboBox.setSelectedIndex(0);
+						procurarMusicas();	
+					}
+					//$hide<<$										
+				}
+			});
 			qualidadeComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						//$hide>>$
 						String qualidade = (String) getQualidadeComboBox().getSelectedItem();
-						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade);
+						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade,false);
+						qualidadeComboBox.setSelectedIndex(0);
 						procurarMusicas();
 						e.consume();
 						//$hide<<$
@@ -1655,11 +1686,15 @@ public class ProcurarMusicasPanel extends JPanel {
 		}
 	}
 	
-	private void adicionarFiltro(String key, String value) {
+	private void adicionarFiltro(String key, String value, boolean clearOldValue) {
 		// Verifica a validade do filtro
 		if (key == null || key.length() == 0 ||
 			value == null || value.length() == 0) {
 			return;
+		}
+		
+		if (clearOldValue) {
+			filtros.remove(key);
 		}
 		
 		// verifica se o filtro já está adicionado
@@ -1706,7 +1741,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			
 			for (String s: valores) {
 				if (valores.indexOf(s) == valores.size() - 1) text += s;
-				else text += s + " ou ";
+				else text += s + "|";
 			}
 			
 			jCheckBox.setText(text);
@@ -1721,7 +1756,9 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (valores != null) {
 			filtros.remove(key);
 			getFiltrosPanel().remove(filtro);
+			getFiltrosPanel().revalidate();
 			getFiltrosPanel().repaint();
+			procurarMusicas();
 			return true;
 		}
 		

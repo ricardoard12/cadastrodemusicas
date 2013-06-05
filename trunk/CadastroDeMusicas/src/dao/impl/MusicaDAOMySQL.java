@@ -394,13 +394,13 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			sql += "and (cantor.nome like '%" + nomeCantor + "%') ";
 		}
 		
-		if (!naoListarPorRitmo) {
+		/*if (!naoListarPorRitmo) {
 			sql += "and (tipo.tipo like '%" + ritmo + "%') ";
 		}
 		
 		if (!naoListarPorAssunto) {
 			sql += "and (assunto.assunto like '" + assunto + "') ";
-		}	
+		}*/	
 		
 		if (filtros != null)
 		{
@@ -417,6 +417,31 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				}	
 				sql += ") ";
 			}
+			
+			// verificando os assuntos selecionados
+			List<String> assuntos = filtros.get(Constantes.CAMPO_PROCURA_ASSUNTO);
+			if (assuntos != null && assuntos.size() > 0)
+			{
+				sql += "and (0";
+				for (String a: assuntos)
+				{
+					sql += " or assunto.assunto like '" + a + "'";
+				}	
+				sql += ") ";
+			}
+			
+			// verificando os ritmos selecionados
+			List<String> ritmos = filtros.get(Constantes.CAMPO_PROCURA_RITMO);
+			if (ritmos != null && ritmos.size() > 0)
+			{
+				sql += "and (0";
+				for (String r: ritmos)
+				{
+					sql += " or tipo.tipo like '" + r + "'";
+				}	
+				sql += ") ";
+			}
+			
 		}
 				
 		sql +=  "group by musica.idMusica order by musica.nome";
