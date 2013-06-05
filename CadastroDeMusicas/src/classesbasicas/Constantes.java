@@ -58,6 +58,8 @@ public class Constantes {
 	};
 	
 	public static final String CAMPO_PROCURA_QUALIDADE = "qualidade";
+	public static final String CAMPO_PROCURA_RITMO = "ritmo";
+	public static final String CAMPO_PROCURA_ASSUNTO = "assunto";
 	
 	public static final Color COR_QUALIDADE_RUIM = new Color(255, 182, 182);
 	public static final Color COR_QUALIDADE_NORMAL = new Color(244, 244, 244);

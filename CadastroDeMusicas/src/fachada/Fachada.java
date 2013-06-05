@@ -76,18 +76,6 @@ public class Fachada {
 			nomeCantor = nomeCantor.trim();
 		}
 		
-		if (ritmo == null || ritmo.trim().equals("")) {
-			naoListarPorRitmo = true;
-		} else {
-			ritmo = ritmo.trim();
-		}
-		
-		if (assunto == null || assunto.trim().equals("")) {
-			naoListarPorAssunto = true;
-		} else {
-			assunto = assunto.trim();
-		}
-		
 		if (observacao == null || observacao.trim().equals("")) {
 			naoListarPorObservacao = true;
 		} else {
@@ -108,8 +96,16 @@ public class Fachada {
 			naoListarPorTipoArquivo = true;
 		}
 		
-		if (filtros == null || !filtros.contains("qualidade")) {
+		if (filtros == null || !filtros.containsKey(Constantes.CAMPO_PROCURA_QUALIDADE)) {
 			naoListarPorQualidade = true;
+		}
+		
+		if (filtros == null || !filtros.containsKey(Constantes.CAMPO_PROCURA_RITMO)) {
+			naoListarPorRitmo = true;
+		}
+
+		if (filtros == null || !filtros.containsKey(Constantes.CAMPO_PROCURA_ASSUNTO)) {
+			naoListarPorAssunto = true;
 		}
 		
 		if (naoListarPorNome && naoListarPorNomeCantor && naoListarPorRitmo && naoListarPorAssunto && naoListarPorObservacao
