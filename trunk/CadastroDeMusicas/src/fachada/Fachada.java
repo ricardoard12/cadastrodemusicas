@@ -12,11 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import util.Util;
@@ -109,7 +107,11 @@ public class Fachada {
 		if (tipoArquivo == Constantes.TIPO_ARQUIVO_TODOS || tipoArquivo == Constantes.TIPO_ARQUIVO_NAO_LISTAR) {
 			naoListarPorTipoArquivo = true;
 		}
-
+		
+		if (filtros == null || !filtros.contains("qualidade")) {
+			naoListarPorQualidade = true;
+		}
+		
 		if (naoListarPorNome && naoListarPorNomeCantor && naoListarPorRitmo && naoListarPorAssunto && naoListarPorObservacao
 				&& naoListarPorQualidade && naoListarPorLetra && naoListarPorTipoArquivo) {
 			return new ArrayList<Musica>();
