@@ -876,7 +876,10 @@ public class ProcurarMusicasPanel extends JPanel {
 					if (getRitmoComboBox().getSelectedIndex() != 0) {
 						String ritmo = (String) getRitmoComboBox().getSelectedItem();
 						adicionarFiltro(Constantes.CAMPO_PROCURA_RITMO, ritmo, false);
-						ritmoComboBox.setSelectedIndex(0);
+						if (ritmoComboBox.getItemCount() > 0)
+						{
+							ritmoComboBox.setSelectedIndex(0);	
+						}
 						procurarMusicas();	
 					}
 					//$hide<<$										
@@ -914,7 +917,10 @@ public class ProcurarMusicasPanel extends JPanel {
 					if (getAssuntoComboBox().getSelectedIndex() != 0) {
 						String assunto = (String) getAssuntoComboBox().getSelectedItem();
 						adicionarFiltro(Constantes.CAMPO_PROCURA_ASSUNTO, assunto, false);
-						assuntoComboBox.setSelectedIndex(0);
+						if (assuntoComboBox.getItemCount() > 0)
+						{
+							assuntoComboBox.setSelectedIndex(0);
+						}
 						procurarMusicas();	
 					}
 					//$hide<<$										
@@ -995,7 +1001,10 @@ public class ProcurarMusicasPanel extends JPanel {
 					if (getQualidadeComboBox().getSelectedIndex() != 0) {
 						String qualidade = (String) getQualidadeComboBox().getSelectedItem();
 						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade,false);
-						qualidadeComboBox.setSelectedIndex(0);
+						if (qualidadeComboBox.getItemCount() > 0)
+						{
+							qualidadeComboBox.setSelectedIndex(0);
+						}
 						procurarMusicas();	
 					}
 					//$hide<<$										
