@@ -1,0 +1,49 @@
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\fabiodelicato\Desktop\Cadastro de Músicas 1.3 - Versão de Trabalho\CadastroDeMusicas.jar</jar>
+  <outfile>C:\Users\fabiodelicato\Desktop\Cadastro de Músicas 1.3 - Versão de Trabalho\CadastroDeMusicas.exe</outfile>
+  <errTitle>Não foi encontrada uma Máquina Virtual Java</errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>high</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <customProcName>false</customProcName>
+  <stayAlive>false</stayAlive>
+  <manifest></manifest>
+  <icon>C:\FABIO_DEV\CadastroDeMusicas\Arquivos\music.ico</icon>
+  <jre>
+    <path>./jre6/</path>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <initialHeapSize>256</initialHeapSize>
+    <maxHeapSize>768</maxHeapSize>
+  </jre>
+  <splash>
+    <file>C:\FABIO_DEV\CadastroDeMusicas\Arquivos\splash2.bmp</file>
+    <waitForWindow>true</waitForWindow>
+    <timeout>30</timeout>
+    <timeoutErr>true</timeoutErr>
+  </splash>
+  <versionInfo>
+    <fileVersion>1.4.0.0</fileVersion>
+    <txtFileVersion>Versão 1.4</txtFileVersion>
+    <fileDescription>Sistema de Cadastro de Músicas</fileDescription>
+    <copyright>Fábio Delicato</copyright>
+    <productVersion>1.4.0.0</productVersion>
+    <txtProductVersion>Versï¿½o 1.4</txtProductVersion>
+    <productName>Sistema de Cadastro de Músicas</productName>
+    <companyName></companyName>
+    <internalName>Sistema de Cadastro de Músicas</internalName>
+    <originalFilename>CadastroDeMusicas.exe</originalFilename>
+  </versionInfo>
+  <messages>
+    <startupErr>Ocorreu um Erro ao Iniciar a Aplicação.</startupErr>
+    <bundledJreErr>Não foi possível inicializar a Máquina Virtual Java Embutida na Aplicação.</bundledJreErr>
+    <jreVersionErr>Esta Aplicação necessita de uma Máquina Virtual Java Instalada para funcionar.</jreVersionErr>
+    <launcherErr>O Registro faz referência a uma Máquina Virtual Java Inexistente ou Corrompida.</launcherErr>
+    <instanceAlreadyExistsMsg>Uma instância da Aplicação já está rodando.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>
