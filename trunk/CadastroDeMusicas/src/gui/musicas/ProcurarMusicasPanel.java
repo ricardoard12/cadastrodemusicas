@@ -1079,6 +1079,18 @@ public class ProcurarMusicasPanel extends JPanel {
 		//$hide<<$
 	}
 	
+	public void limparFiltros() {
+		filtros.clear();
+		
+		for (Component c: getFiltrosPanel().getComponents())
+		{
+			getFiltrosPanel().remove(c);
+		}
+		
+		getFiltrosPanel().revalidate();
+		getFiltrosPanel().repaint();
+	}
+	
 	public void atualizarQualidades() {
 		//$hide>>$
 		try {
@@ -1562,9 +1574,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		
 		nomesCampos = null;
 		
-		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
+		
+		limparFiltros();
+		
+		procurarMusicas();
 	}
 	
 	private void configurarProcuraMusicasInstrumentais() {
@@ -1583,9 +1598,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		
 		nomesCampos = null;
 		
-		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
+		
+		limparFiltros();
+		
+		procurarMusicas();
 	}
 	
 	private void configurarProcuraMensagens() {
@@ -1604,9 +1622,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		
 		nomesCampos = null;
 		
-		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
+		
+		limparFiltros();
+		
+		procurarMusicas();
 	}
 	
 	private void configurarProcuraTodas() {
@@ -1625,9 +1646,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		
 		nomesCampos = null;
 		
-		procurarMusicas();
 		atualizarRitmos();
 		atualizarAssuntos();
+		
+		limparFiltros();
+		
+		procurarMusicas();
 	}
 	
 	private JPanel getFiltrosPanel() {
