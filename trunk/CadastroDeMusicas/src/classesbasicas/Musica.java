@@ -65,7 +65,7 @@ public class Musica implements Serializable {
 	}
 	
 	public String getDescricaoCompletaSemDiferencas(Musica m) {
-		String descricao = "Dados da Música\n";
+		String descricao = "";
 		descricao += (idMusica == m.getIdMusica()) ? "" : "idMusica: " + idMusica + "\n";
 		descricao += (nome.equals(m.getNome())) ? "" : "Nome: " + nome + "\n";
 		
@@ -107,6 +107,13 @@ public class Musica implements Serializable {
 		descricao += (isStringEqual(observacao, m.getObservacao())) ? "" : "Observação: " + observacao + "\n";
 		descricao += (isStringEqual(letra, m.getLetra())) ? "" : "Letra: " + letra;
 
+		if (!descricao.trim().equals(""))
+		{
+			descricao = "Dados da Música\n" + descricao;	
+		} else {
+			descricao = "";
+		}
+		
 		return descricao;
 	}
 	

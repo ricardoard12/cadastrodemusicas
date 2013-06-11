@@ -179,10 +179,12 @@ public class DialogImportacao extends javax.swing.JDialog {
 	
 	private void processarEntradaLog() {
 		//$hide>>$
+		String descricaoSemDiferencas;
 		buttonIgnorar.setEnabled(false);
 		buttonAdicionarDado.setEnabled(false);
 		buttonAplicarAlteracoes.setEnabled(false);
 		buttonRemover.setEnabled(false);
+		boolean musicaEncontrada = false;
 
 		if (indiceAtual >= logs.size()) {
 			finalizarProcessamento();
@@ -215,8 +217,18 @@ public class DialogImportacao extends javax.swing.JDialog {
 				try {
 					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
 					if (musicaLocal != null) {
-						textoObservacoes += "Foi encontrada uma música com a mesma Chave Única da Música do Log.\n\n"; 
-						textoObservacoes += musicaLocal.getDescricaoCompletaSemDiferencas(m); 
+						musicaEncontrada = true;
+						textoObservacoes += "Foi encontrada uma música com a mesma Chave Única da Música do Log.\n";
+						descricaoSemDiferencas = musicaLocal.getDescricaoCompletaSemDiferencas(m); 
+						if (descricaoSemDiferencas.equals(""))
+						{
+							textoObservacoes += "AS MÚSICAS SÃO IDÊNTICAS. A OPERAÇÃO PODE SER IGNORADA!";	
+						} else {
+							textoObservacoes += descricaoSemDiferencas;
+						}
+						  
+					} else {
+						textoObservacoes += "NÃO foi encontrada uma música Local com a mesma CHAVE ÚNICA.\n\n";
 					}
 				} catch (DataException e) {
 					e.printStackTrace();
@@ -224,26 +236,21 @@ public class DialogImportacao extends javax.swing.JDialog {
 				
 				// preenchendo a área de texto dos dados locais (Observações)
 				// procurando uma música com o mesmo nome da cadastrada
-				try {
-					textoObservacoes = "";
-					
-					Musica musicaLocal = Fachada.getMusicaPorChaveUnica(m.getChaveUnica());
-					if (musicaLocal != null) {
-						textoObservacoes += "Foi encontrada uma música local com a mesma chave única da contida no log.\n";
-						textoObservacoes += musicaLocal.getDescricaoCompletaSemDiferencas(m);
-					}
-					
-					List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1, m.getTipoArquivo(), null);
-					if (musicasLocais != null && musicasLocais.size() > 0) {
-						textoObservacoes += "\n\nForam encontradas " + musicasLocais.size() + " músicas Locais com o mesmo nome da Música contida no Log.\n\n"; 
-						for (Musica musica: musicasLocais) {
-							textoObservacoes += musica.getDescricaoCompletaSemDiferencas(m); 
+				if (!musicaEncontrada)
+				{
+					try {
+						List<Musica> musicasLocais = Fachada.listarMusicasPorDiversos(m.getNome(), null, null, null, null, null, null, null, -1, m.getTipoArquivo(), null);
+						if (musicasLocais != null && musicasLocais.size() > 0) {
+							textoObservacoes += "Foram encontradas " + musicasLocais.size() + " músicas Locais com o mesmo nome da Música contida no Log.\n"; 
+							for (Musica musica: musicasLocais) {
+								textoObservacoes += musica.getDescricaoCompletaSemDiferencas(m); 
+							}
+						} else {
+							textoObservacoes += "Não foram encontradas músicas Locais com o mesmo nome da Música contida no Log.";
 						}
-					} else {
-						textoObservacoes += "Não foram encontradas músicas Locais com o mesmo nome da Música contida no Log.";
-					}
-				} catch (DataException e) {
-					e.printStackTrace();
+					} catch (DataException e) {
+						e.printStackTrace();
+					}	
 				}
 				
 				textAreaObservacoes.setText(textoObservacoes);
@@ -278,7 +285,14 @@ public class DialogImportacao extends javax.swing.JDialog {
 							textoObservacoes += "Foi encontrada uma música com a mesma chave Única da contida no Log.\nMas a música não tem o mesmo id (ATENÇÃO).\n";	
 						}
 						
-						textoObservacoes += musicaLocal.getDescricaoCompletaSemDiferencas(m);
+						descricaoSemDiferencas = musicaLocal.getDescricaoCompletaSemDiferencas(m); 
+						if (descricaoSemDiferencas.equals(""))
+						{
+							musicaEncontrada = true;
+							textoObservacoes += "AS MÚSICAS SÃO IDÊNTICAS. A OPERAÇÃO PODE SER IGNORADA!";
+						} else {
+							textoObservacoes += descricaoSemDiferencas;	
+						}
 					} else {
 						textoObservacoes += "NÃO Foi encontrada uma música com a mesma chave Única da contida no Log.\nBuscando uma música com o mesmo id.\n";
 						musicaLocal = Fachada.getMusica(m.getIdMusica());

@@ -330,7 +330,22 @@ public class BDUtil {
 					stat.executeBatch();
 					conexao.commit();
 					conexao.setAutoCommit(true);
-				}
+				} else  if (rs.getString("valor").equals("1.3")) {
+					System.out.println("Atualizando o Banco de Dados da Versão 1.3 para a 1.4");
+					String[] sqls = {
+								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.4' WHERE `configuracoes`.`configuracao` =  'versao';",
+								"ALTER TABLE `musica` ADD `arquivoMusica` longblob NULL;",
+							};
+					conexao.setAutoCommit(false);
+					for (String s : sqls) {
+						System.out.println(s);
+						stat.addBatch(s);
+						// stat.execute(s);
+					}				
+					stat.executeBatch();
+					conexao.commit();
+					conexao.setAutoCommit(true);
+				} 
 				
 				// atualizar a variavel sincronizacaoAtiva
 				sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'sincronizacao'";
