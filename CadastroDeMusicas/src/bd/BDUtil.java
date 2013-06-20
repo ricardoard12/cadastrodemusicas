@@ -334,7 +334,7 @@ public class BDUtil {
 					System.out.println("Atualizando o Banco de Dados da Versão 1.3 para a 1.4");
 					String[] sqls = {
 								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.4' WHERE `configuracoes`.`configuracao` =  'versao';",
-								"ALTER TABLE `musica` ADD `arquivoMusica` longblob NULL;",
+								"ALTER TABLE `musica` ADD `arquivoMusica` longblob NULL DEFAULT NULL;",
 							};
 					conexao.setAutoCommit(false);
 					for (String s : sqls) {
@@ -345,6 +345,21 @@ public class BDUtil {
 					stat.executeBatch();
 					conexao.commit();
 					conexao.setAutoCommit(true);
+					
+					try {
+						List<Musica> musicas = Fachada.listarTodasAsMusicasEmOrdemAlfabetica();
+						
+						for (Musica m: musicas)
+						{
+							String path = getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo();
+						}
+					} catch (DataException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DiretorioBaseInvalidoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} 
 				
 				// atualizar a variavel sincronizacaoAtiva

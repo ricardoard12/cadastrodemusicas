@@ -3,6 +3,12 @@ package classesbasicas;
 import java.awt.Color;
 
 public class Constantes {
+
+	public final static String USUARIO_FABIO = "fabio";
+	public final static String SENHA_FABIO = "/UEfwT/pwptG5plsxxJ7KKAgrLo=";
+	
+	public final static String USUARIO_ROOT = "ROOT";
+	
 	public static final String MIDIA = "Midia";
 	public static final String MIDIA_CD = "CD";
 	public static final String MIDIA_CD_AUDIO = "CD_AUDIO";
