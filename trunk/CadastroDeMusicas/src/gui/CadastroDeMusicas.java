@@ -8,6 +8,7 @@ import gui.about.About;
 import gui.assuntos.AssuntosInternalFrame;
 import gui.cantores.CantoresInternalFrame;
 import gui.colecaodiscos.GerarColecaoDiscosDialog;
+import gui.login.TelaDeLogin;
 import gui.musicas.MusicasInternalFrame;
 import gui.tipos.TiposInternalFrame;
 import gui.verificacoes.VerificarArquivosDialog;
@@ -721,6 +722,9 @@ public class CadastroDeMusicas extends JFrame {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
+			TelaDeLogin.logar();
+			// mudouUsuarioLogado();
+			
 			//$hide>>$
 			Util.iniciarDiretorioBase();
 			//$hide<<$
