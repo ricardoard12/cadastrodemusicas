@@ -43,6 +43,7 @@ import fachada.Fachada;
 public class DialogImportacao extends javax.swing.JDialog {
 	private JLabel LabelLog;
 	private JLabel LabelObservacoes;
+	private JButton buttonPularPara;
 	private JButton buttonRemover;
 	private JButton buttonAplicarAlteracoes;
 	private JButton buttonAdicionarDado;
@@ -148,6 +149,23 @@ public class DialogImportacao extends javax.swing.JDialog {
 								removerDado();
 								indiceAtual++;
 								processarEntradaLog();
+							}
+						});
+					}
+					{
+						buttonPularPara = new JButton();
+						panelBotoes.add(buttonPularPara);
+						buttonPularPara.setText("Pular Índices");
+						buttonPularPara.setEnabled(false);
+						buttonPularPara.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								escolherIndice();
+								processarEntradaLog();
+							}
+
+							private void escolherIndice() {
+								String str = JOptionPane.showInputDialog("Digite o Índice desejado:", "" + indiceAtual);
+								indiceAtual = Integer.parseInt(str);
 							}
 						});
 					}
