@@ -722,7 +722,7 @@ public class CadastroDeMusicas extends JFrame {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			TelaDeLogin.logar();
+			// TelaDeLogin.logar();
 			// mudouUsuarioLogado();
 			
 			//$hide>>$
