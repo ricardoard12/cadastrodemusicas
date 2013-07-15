@@ -19,6 +19,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -910,28 +911,12 @@ public class ProcurarMusicasPanel extends JPanel {
 		if (assuntoComboBox == null) {
 			assuntoComboBox = new JComboBox();
 			assuntoComboBox.setPreferredSize(new java.awt.Dimension(168, 20));
-			
-			assuntoComboBox.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent arg0) {
-					//$hide>>$
-					if (getAssuntoComboBox().getSelectedIndex() != 0) {
-						String assunto = (String) getAssuntoComboBox().getSelectedItem();
-						adicionarFiltro(Constantes.CAMPO_PROCURA_ASSUNTO, assunto, false);
-						if (assuntoComboBox.getItemCount() > 0)
-						{
-							assuntoComboBox.setSelectedIndex(0);
-						}
-						procurarMusicas();	
-					}
-					//$hide<<$										
-				}
-			});
 			assuntoComboBox.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						//$hide>>$
 						adicionarFiltro(Constantes.CAMPO_PROCURA_ASSUNTO, (String) getAssuntoComboBox().getSelectedItem(), false);
-						assuntoComboBox.setSelectedIndex(0);
+						// assuntoComboBox.setSelectedIndex(0);
 						procurarMusicas();
 						e.consume();
 						//$hide<<$
