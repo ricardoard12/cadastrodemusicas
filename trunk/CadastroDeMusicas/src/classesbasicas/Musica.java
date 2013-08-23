@@ -74,7 +74,7 @@ public class Musica implements Serializable {
 		descricao += (isStringEqual(temp1, temp2)) ? "" : "Cantor: " + temp1 + "\n";
 		descricao += (tipoArquivo == m.getTipoArquivo()) ? "" : "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
 		descricao += (duracao == m.getDuracao()) ? "" : "Duração: " + Util.formataDuracao(duracao) + "\n";
-		descricao += (tipo == m.getTipo()) ? "" : "Ritmo: " + (tipo != null ? tipo.getTipo() : "") + "\n";
+		descricao += (tipo == m.getTipo() || (tipo != null && m.getTipo() != null && isStringEqual(tipo.getTipo(), m.getTipo().getTipo()))) ? "" : "Ritmo: " + (tipo != null ? tipo.getTipo() : "") + "\n";
 		String assuntosString = "";
 		String assuntosString2 = "";
 		if (assuntos != null && assuntos.size() > 0) {

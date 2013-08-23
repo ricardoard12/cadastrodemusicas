@@ -156,7 +156,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 						buttonPularPara = new JButton();
 						panelBotoes.add(buttonPularPara);
 						buttonPularPara.setText("Pular Índices");
-						buttonPularPara.setEnabled(false);
+						buttonPularPara.setEnabled(true);
 						buttonPularPara.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
 								escolherIndice();
