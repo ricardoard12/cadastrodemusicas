@@ -345,13 +345,41 @@ public class BDUtil {
 					stat.executeBatch();
 					conexao.commit();
 					conexao.setAutoCommit(true);
+
+				} else  if (rs.getString("valor").equals("1.4")) {
+					/*System.out.println("Atualizando o Banco de Dados da Versão 1.4 para a 1.5");
+					String[] sqls = {
+								"CREATE TABLE arquivomusica (`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, `arquivomusica` longblob NULL DEFAULT NULL);",
+								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.5' WHERE `configuracoes`.`configuracao` =  'versao';",
+								"ALTER TABLE `musica` DROP `arquivoMusica`;",
+								"ALTER TABLE `musica` ADD `idarquivomusica` BIGINT NOT NULL ;"
+							};
+					conexao.setAutoCommit(false);
+					for (String s : sqls) {
+						System.out.println(s);
+						stat.addBatch(s);
+						// stat.execute(s);
+					}				
+					stat.executeBatch();
+					conexao.commit();
+					conexao.setAutoCommit(true);*/
 					
 					try {
 						List<Musica> musicas = Fachada.listarTodasAsMusicasEmOrdemAlfabetica();
 						
 						for (Musica m: musicas)
 						{
-							String path = getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo();
+							String current = new java.io.File( "." ).getCanonicalPath();
+							String path = current.replaceAll("[\\]", "\\\\") + "\\\\" + getDiretorioBase() + "\\\\" + m.getDiretorio() + "\\\\" + m.getNomeArquivo();
+							
+							sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\"" + path + "\"));";
+							stat.execute(sql, Statement.RETURN_GENERATED_KEYS);
+							ResultSet id_arquivo = stat.getGeneratedKeys();
+							id_arquivo.next();
+							int id = id_arquivo.getInt(1);
+							
+							sql = "UPDATE musica SET idarquivomusica = " + id + " WHERE idMusica = " + m.getIdMusica();
+							stat.execute(sql);
 						}
 					} catch (DataException e) {
 						// TODO Auto-generated catch block
@@ -359,8 +387,11 @@ public class BDUtil {
 					} catch (DiretorioBaseInvalidoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				} 
+				}
 				
 				// atualizar a variavel sincronizacaoAtiva
 				sql = "SELECT valor FROM configuracoes WHERE configuracao LIKE 'sincronizacao'";
