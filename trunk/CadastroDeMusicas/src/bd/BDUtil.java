@@ -369,10 +369,11 @@ public class BDUtil {
 						
 						for (Musica m: musicas)
 						{
-							String current = new java.io.File( "." ).getCanonicalPath();
-							String path = current.replaceAll("[\\]", "\\\\") + "\\\\" + getDiretorioBase() + "\\\\" + m.getDiretorio() + "\\\\" + m.getNomeArquivo();
+							// String current = new java.io.File( "." ).getCanonicalPath();
+							String path = getDiretorioBase() + File.pathSeparator + m.getDiretorio() + File.pathSeparator + m.getNomeArquivo();
+							File f = new File(path);
 							
-							sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\"" + path + "\"));";
+							sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + f.getAbsolutePath().replaceAll("(\\\\|" + File.pathSeparator + ")", "/") + "\'));";
 							stat.execute(sql, Statement.RETURN_GENERATED_KEYS);
 							ResultSet id_arquivo = stat.getGeneratedKeys();
 							id_arquivo.next();
@@ -385,9 +386,6 @@ public class BDUtil {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (DiretorioBaseInvalidoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
