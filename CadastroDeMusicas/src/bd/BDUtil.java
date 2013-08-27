@@ -347,7 +347,8 @@ public class BDUtil {
 					conexao.setAutoCommit(true);
 
 				} else  if (rs.getString("valor").equals("1.4")) {
-					/*System.out.println("Atualizando o Banco de Dados da Versão 1.4 para a 1.5");
+					System.out.println("Atualizando o Banco de Dados da Versão 1.4 para a 1.5");
+					
 					String[] sqls = {
 								"CREATE TABLE arquivomusica (`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, `arquivomusica` longblob NULL DEFAULT NULL);",
 								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.5' WHERE `configuracoes`.`configuracao` =  'versao';",
@@ -362,13 +363,24 @@ public class BDUtil {
 					}				
 					stat.executeBatch();
 					conexao.commit();
-					conexao.setAutoCommit(true);*/
+					conexao.setAutoCommit(true);
+					
+					for (String s: sqls)
+					{
+						System.out.println(s);
+					}
 					
 					try {
+						System.out.println("Alterando todas as musicas para colocar o arquivo no BD");
+						
 						List<Musica> musicas = Fachada.listarTodasAsMusicasEmOrdemAlfabetica();
+						
+						System.out.println("Quantidaded e musicas: " + musicas.size());
 						
 						for (Musica m: musicas)
 						{
+							System.out.println("Musica: " + m.getNome());
+							
 							// String current = new java.io.File( "." ).getCanonicalPath();
 							String path = getDiretorioBase() + File.pathSeparator + m.getDiretorio() + File.pathSeparator + m.getNomeArquivo();
 							File f = new File(path);
@@ -382,6 +394,22 @@ public class BDUtil {
 							sql = "UPDATE musica SET idarquivomusica = " + id + " WHERE idMusica = " + m.getIdMusica();
 							stat.execute(sql);
 						}
+						
+						System.out.println("Removendo o campo nomearquivo da tabela de musicas");
+						String[] sqls2 = {
+								"ALTER TABLE `musica` DROP `nomearquivo`;"
+							};
+						conexao.setAutoCommit(false);
+						for (String s : sqls2) {
+							System.out.println(s);
+							stat.addBatch(s);
+							// stat.execute(s);
+						}				
+						stat.executeBatch();
+						conexao.commit();
+						conexao.setAutoCommit(true);
+
+						System.out.println("OK! Banco de dados alterado.");
 					} catch (DataException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
