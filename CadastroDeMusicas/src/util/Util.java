@@ -15,47 +15,25 @@ import java.util.Date;
 
 import javazoom.jlgui.player.amp.tag.TagInfo;
 import javazoom.jlgui.player.amp.tag.TagInfoFactory;
-import bd.BDUtil;
 import classesbasicas.Constantes;
 import classesbasicas.Musica;
-import exceptions.DataException;
-import exceptions.DiretorioBaseInvalidoException;
 
 public class Util {
 	
 	private static int musicasPorDisco = 600;
 	private static String tipoDeMidia = "DVD";
-	private static String diretorioBase = null;
 	
 	private static String caminhoDiretorioTemp = null;
 	
 	public static String diretorioPassado = null;
 
-	public static void iniciarDiretorioBase() throws DiretorioBaseInvalidoException {
-		try {
-			diretorioBase = BDUtil.getDiretorioBase();
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	public static String getDiretorioBase() {
-		if (diretorioBase == null) {
-			try {
-				iniciarDiretorioBase();
-			} catch (DiretorioBaseInvalidoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-			
-		return diretorioBase;
+		return "./";
 	}
 	
 	public static String getCaminhoDiretorioTemporario() {
 		if (caminhoDiretorioTemp == null) {
-			caminhoDiretorioTemp = getDiretorioBase() + File.separator + Constantes.nomeDiretorioTemp;	
+			caminhoDiretorioTemp = getDiretorioBase() + Constantes.nomeDiretorioTemp;	
 			File tempDir = new File(caminhoDiretorioTemp);
 			if (!tempDir.exists()) {
 				tempDir.mkdir();
@@ -80,16 +58,6 @@ public class Util {
 		
 		nomeArquivoRet = nomeArquivo;
 		return nomeArquivoRet;
-	}
-	
-	public static void setDiretorioBase(String dir) {
-		diretorioBase = dir;
-		try {
-			BDUtil.salvarDiretorioBase(dir);
-		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public static String intToString(int inteiro) {
@@ -307,44 +275,6 @@ public class Util {
 		Util.tipoDeMidia = tipoDeMidia;
 	}
 
-	public static String getDiretorioProximoArquivo() {
-		return BDUtil.getDiretorioProximoArquivo();
-	}
-	
-	public static String compoeNomeArquivo(Musica musica) {
-		String nomeArquivo = null;
-		
-		if (musica == null) return null;
-		
-		// compondo o nome do arquivo final
-		nomeArquivo = musica.getNome();
-		if (musica.getCantores() != null && musica.getCantores().size() > 0) {
-			nomeArquivo = nomeArquivo + " - "
-					+ musica.getCantores().get(0).getNomeSemEspacos();
-		}
-		
-		nomeArquivo += ".mp3";
-		
-		// testando se já existe um arquivo com o mesmo nome
-		File arquivo = new File(getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-		int i = 0;
-		while (arquivo.exists()) {
-			i++;
-			nomeArquivo = musica.getNome() + " #" + i;
-			if (musica.getCantores() != null && musica.getCantores().size() > 0) {
-				nomeArquivo = nomeArquivo + " - "
-						+ musica.getCantores().get(0).getNomeSemEspacos();
-			}
-			nomeArquivo += ".mp3";
-			
-			arquivo = new File(getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-		}
-		
-		
-		return nomeArquivo;		
-		
-	}
-	
 	public static String formataDuracao(int duracao) {
 		DecimalFormat df = new DecimalFormat("00");
 		return duracao / 60 + ":" + df.format(duracao % 60);
@@ -353,30 +283,8 @@ public class Util {
 	// transforma a duração de String (00:00) para int
 	public static int getDuracao(String duracaoString) {
 		int duracao = 0;
-		
-		
-		
+
 		return duracao;
-	}
-	
-	public static boolean verificarArquivo(Musica m) {
-		boolean existeArquivo = false;
-		
-		String caminhoCompleto = getDiretorioBase() + File.separator + 
-			m.getDiretorio() + File.separator + m.getNomeArquivo();
-		
-		File arquivo = new File(caminhoCompleto);
-		
-		if (arquivo.exists()) {
-			existeArquivo = true;
-		}
-		
-		return existeArquivo;
-	}
-	
-	public static String getNomeArquivo(Musica m) {
-		return getDiretorioBase() + File.separator + 
-		m.getDiretorio() + File.separator + m.getNomeArquivo();
 	}
 	
 	public static String gerarChaveUnica(String s) {
@@ -400,5 +308,11 @@ public class Util {
 		for (File arquivo: arquivos) {
 			arquivo.delete();
 		}
+	}
+	
+	public static String getCaminhoArquivoTempMusica(Musica m)
+	{
+		String caminhoArquivo = getCaminhoDiretorioTemporario() + File.pathSeparator + "musica" + m.getIdMusica() + ".mp3";
+		return caminhoArquivo;
 	}
 }

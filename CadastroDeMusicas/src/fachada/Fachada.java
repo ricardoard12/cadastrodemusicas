@@ -1,6 +1,8 @@
 package fachada;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -272,9 +274,29 @@ public class Fachada {
 		return assuntoDAO.getAssunto(idAssunto);
 	}
 	
-	public static InputStream getCapaDiscoMusica(Musica m) throws DataException {
+	public static InputStream getCapaDiscoMusica(Musica m, String caminhoArquivo) throws DataException {
 		MusicaDAO musicaDAO = new MusicaDAOMySQL();
-		return musicaDAO.getCapaDiscoMusica(m);
+		
+		if (musicaDAO.getCapaDiscoMusica(m, caminhoArquivo) == MusicaDAO.ARQUIVO_CAPA_COPIADO_OK)
+		{
+			try
+			{
+				return new FileInputStream(caminhoArquivo);	
+			}
+			catch (FileNotFoundException e)
+			{
+				System.out.println("File NOT FOUND (capa disco musica)");
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public static int exportarArquivoMusica(Musica m, String caminhoArquivo) throws DataException
+	{
+		MusicaDAO musicaDAO = new MusicaDAOMySQL();
+		return musicaDAO.getArquivoMusica(m, caminhoArquivo);
 	}
 	
 	public static List<Musica> listarTodasAsMusicasEmOrdemAlfabetica() throws DataException {
@@ -324,9 +346,19 @@ public class Fachada {
 	}	
 	
 	// Métodos de cadastro
-	public static void cadastrarMusica(Musica m) throws DataException {
-		MusicaDAO musicaDAO = new MusicaDAOMySQL();		
-		if (m.getChaveUnica() == null || m.getChaveUnica().equals("")) m.gerarChaveUnica();		
+	public static void cadastrarMusica(Musica m, File f) throws DataException {
+		MusicaDAO musicaDAO = new MusicaDAOMySQL();
+		
+		if (m.getChaveUnica() == null || m.getChaveUnica().equals("")) m.gerarChaveUnica();
+		
+		int id = musicaDAO.cadastrarArquivoMusica(f);
+		if (id == 0)
+		{
+			throw new DataException();
+		} else {
+			m.setIdArquivoMusica(id);
+		}
+		
 		musicaDAO.cadastrarMusica(m);
 	}
 	
@@ -659,11 +691,6 @@ public class Fachada {
 	public static void removerPlaylist(Playlist p) throws DataException {
 		PlaylistDAO pDAO = new PlaylistDAOMySQL();
 		pDAO.removerPlaylist(p);
-	}
-	
-	public static int exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
-		MusicaDAO mDAO = new MusicaDAOMySQL();
-		return mDAO.exportarArquivoCapa(musica, caminhoArquivo);
 	}
 	
 	// métodos de teste	

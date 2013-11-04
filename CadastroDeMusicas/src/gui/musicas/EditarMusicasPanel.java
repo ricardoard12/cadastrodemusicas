@@ -1389,7 +1389,6 @@ public class EditarMusicasPanel extends JPanel {
 		System.out.println("Mudou o nome da música!!!");
 		if (musica != null) {
 			musica.setNome(getNomeTextField().getText());
-			atualizaNomeArquivoDaMusica();
 			atualizarTabelaDeMusicas();
 			
 		}
@@ -1416,7 +1415,6 @@ public class EditarMusicasPanel extends JPanel {
 		if (musica != null) {
 			musica.setCantores(null);
 			atualizarTabelaDeCantores();
-			atualizaNomeArquivoDaMusica();
 		}
 		//$hide<<$
 	}
@@ -1446,82 +1444,6 @@ public class EditarMusicasPanel extends JPanel {
 		} catch (DataException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		
-		if (!musica.getNomeArquivo().equals(musicaAntiga.getNomeArquivo())) {
-			String nomeArquivoAntigo = Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() +
-				File.separator + musicaAntiga.getNomeArquivo();
-			File arquivoAntigo = new File(nomeArquivoAntigo);
-			File novoArquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() +
-					File.separator + musica.getNomeArquivo());
-			
-			if (!arquivoAntigo.renameTo(novoArquivo)) {
-				JOptionPane.showMessageDialog(this, "Não foi possível modificar o nome do arquivo. A operação será cancelada.",
-						"Erro ao renomear arquivo.", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			/*// copiando para um arquivo temporário
-			int i = 0;
-			String temp = "temp" + i;
-			String nomeArquivoAntigo = Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() +
-				File.separator + musicaAntiga.getNomeArquivo();
-			String nomeArquivoTemp = Util.getDiretorioBase() + File.separator + temp;
-			
-			while (!Util.copyFile(nomeArquivoAntigo, nomeArquivoTemp)) {
-				File arquivoTemp = new File(nomeArquivoTemp);
-				
-				if (arquivoTemp.exists()) {
-					i++;
-					temp = "temp" + i;
-					nomeArquivoTemp = Util.getDiretorioBase() + File.separator + temp;
-				} else {
-					File arquivoAntigo = new File(nomeArquivoAntigo);
-					if (!arquivoAntigo.exists()) {
-						JOptionPane.showMessageDialog(this, "Problemas com o arquivo da música, por favor, faça uma verificação dos arquivos (menu Sistema).",
-								"Problemas com arquivos", JOptionPane.ERROR_MESSAGE);
-						return;
-					} else {
-						JOptionPane.showMessageDialog(this, "Problema inesperado ao copiar arquivo da música.", "Problema inesperado", JOptionPane.ERROR_MESSAGE);
-					}
-				}				
-			}
-			
-			// apagando o arquivo original
-			File arquivoAntigo = new File(nomeArquivoAntigo);
-			
-			File novoArquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() +
-					File.separator + musica.getNomeArquivo());
-			File arquivoTemporario = new File(nomeArquivoTemp);
-
-			if (musica.getNomeArquivo().equalsIgnoreCase(musicaAntiga.getNomeArquivo())) {
-				if (!arquivoAntigo.delete()) {
-					JOptionPane.showMessageDialog(this, "Não foi possível apagar o arquivo antigo da música. Cancelando a operação", "Impossível apagar arquivo", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				// TODO arrumar um jeito de fazer um flush aqui
-				while (arquivoAntigo.exists()) {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-			
-			if (!arquivoTemporario.renameTo(novoArquivo)) {
-				JOptionPane.showMessageDialog(this, "Não foi possível copiar o novo arquivo da música. Cancelando operação.", "Erro ao copiar arquivo.", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
-			if (!musica.getNomeArquivo().equalsIgnoreCase(musicaAntiga.getNomeArquivo())) {
-				if (!arquivoAntigo.delete()) {
-					JOptionPane.showMessageDialog(this, "Não foi possível apagar o arquivo antigo da música. Por favor, apague manualmente.", "Impossível apagar arquivo", JOptionPane.ERROR_MESSAGE);
-					// return;
-				}
-			}*/
-			
 		}
 		
 		// alterar a música
@@ -1632,79 +1554,6 @@ public class EditarMusicasPanel extends JPanel {
 		}
 
 		cancelarOperacao();
-		//$hide<<$
-	}
-
-	public void atualizaNomeArquivoDaMusica() {
-		//$hide>>$
-		if (musica != null) {
-			String nomeArquivoAntigo = "";
-			
-			try {
-				Musica mTemp = Fachada.getMusica(musica.getIdMusica());
-				if (mTemp != null) {
-					nomeArquivoAntigo = mTemp.getNomeArquivo();	
-				} else {
-					cancelarOperacao();
-					return;
-				}
-				
-				System.out.println(nomeArquivoAntigo);
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			
-			String nomeArquivo = null;
-			
-			// compondo o nome do arquivo final
-			nomeArquivo = musica.getNome();
-			if (musica.getCantores() != null && musica.getCantores().size() > 0) {
-				nomeArquivo = nomeArquivo + " - "
-						+ musica.getCantores().get(0).getNomeSemEspacos();
-			}
-			
-			nomeArquivo += ".mp3";
-			
-			// testando se já existe um arquivo com o mesmo nome
-			File arquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-			int i = 0;
-			while (arquivo.exists() && !arquivo.getName().equalsIgnoreCase(nomeArquivoAntigo)) {
-				i++;
-				nomeArquivo = musica.getNome() + " #" + i;
-				if (musica.getCantores() != null && musica.getCantores().size() > 0) {
-					nomeArquivo = nomeArquivo + " - "
-							+ musica.getCantores().get(0).getNomeSemEspacos();
-				}
-				nomeArquivo += ".mp3";
-				
-				arquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-			}
-			
-			musica.setNomeArquivo(nomeArquivo);
-			
-			if ((musica.getCantores() == null || musica.getCantores().size() == 0)
-					&& (getCantorTextField().getText() != null && !getCantorTextField().getText().equals(""))) {
-				musica.setNomeArquivo(musica.getNome() + " - " + getCantorTextField().getText().trim()
-						.replaceAll(" ", "").toUpperCase() + ".mp3");
-				
-				// testando se já existe um arquivo com o mesmo nome
-				arquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + 
-						File.separator + musica.getNomeArquivo());
-				i = 0;
-				while (arquivo.exists() && !arquivo.getName().equalsIgnoreCase(nomeArquivoAntigo)) {
-					i++;
-					
-					musica.setNomeArquivo(musica.getNome() + " #" + i + " - " + getCantorTextField().getText().trim()
-							.replaceAll(" ", "").toUpperCase() + ".mp3");
-					
-					arquivo = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + 
-							File.separator + musica.getNomeArquivo());
-				}
-			}			
-			
-			getNomeArquivoTextField().setText(musica.getNomeArquivo());
-		}			
 		//$hide<<$
 	}
 
@@ -2088,7 +1937,8 @@ public class EditarMusicasPanel extends JPanel {
 		if (musica != null) {
 			try {
 				Musica m = Fachada.getMusica(musica.getIdMusica());
-				GlobalPlayer.play(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo());
+				Fachada.exportarArquivoMusica(m, Util.getCaminhoArquivoTempMusica(m));
+				GlobalPlayer.play(Util.getCaminhoArquivoTempMusica(m), false);
 				getControle1Panel().add(GlobalPlayer.getControle(), BorderLayout.SOUTH);
 				validate();	
 				GlobalPlayer.getControle().repaint();
@@ -2110,10 +1960,9 @@ public class EditarMusicasPanel extends JPanel {
 		//$hide>>$
 		if (musicas != null && musicas.size() > 0 && getMusicasTable().getSelectedRow() != -1) {		
 			Musica m = musicas.get(getMusicasTable().getSelectedRow());
-			String nomeArquivo = Util.getDiretorioBase() + File.separator + m.getDiretorio() +
-				File.separator + m.getNomeArquivo();
+			String nomeArquivo = Util.getCaminhoArquivoTempMusica(m);
 			
-			GlobalPlayer.play(nomeArquivo);
+			GlobalPlayer.play(nomeArquivo, false);
 			getControlePanel().add(GlobalPlayer.getControle(), BorderLayout.SOUTH);				
 			validate();	
 			GlobalPlayer.getControle().repaint();
@@ -2166,14 +2015,10 @@ public class EditarMusicasPanel extends JPanel {
 			getLetraTextArea().setText("");
 		}
 		
-		getDiretorioTextField().setText(musica.getDiretorio());
-		
 		getQualidadeComboBox().setSelectedItem(0);
 		if (musica.getQualidade() != null) {
 			getQualidadeComboBox().setSelectedItem(musica.getQualidade().getQualidade());
 		}
-		
-		getNomeArquivoTextField().setText(musica.getNomeArquivo());
 		
 		if (musica.getObservacao() != null) {
 			getObservacaoTextArea().setText(musica.getObservacao());
@@ -2201,7 +2046,7 @@ public class EditarMusicasPanel extends JPanel {
 		// mostrar a capa
 		if (musica.getNomeArquivoCapa() != null) {
 			try {
-				BufferedImage bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica));
+				BufferedImage bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica, Util.getCaminhoDiretorioTemporario() + File.pathSeparator + musica.getNomeArquivoCapa()));
 				int side = getCapaLabel().getWidth() < getCapaLabel().getHeight() ? getCapaLabel().getWidth() : getCapaLabel().getHeight();
 				Image scaledImage = bi.getScaledInstance(side, side, Image.SCALE_SMOOTH);
 				capaLabel.setText("");
@@ -2312,7 +2157,7 @@ public class EditarMusicasPanel extends JPanel {
 	
 	private void substituirArquivo() {
 		//$hide>>$
-		Musica m;
+/*		Musica m;
 		if (musica != null) {
 			try {
 				m = Fachada.getMusica(musica.getIdMusica());
@@ -2388,7 +2233,7 @@ public class EditarMusicasPanel extends JPanel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		//$hide<<$
 	}
 
@@ -2491,7 +2336,7 @@ public class EditarMusicasPanel extends JPanel {
 								bi = ImageIO.read(new File(caminhoImagemCapaSelecionada));	
 							} else {
 								try {
-									bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica));
+									bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica, Util.getCaminhoDiretorioTemporario() + File.pathSeparator + musica.getNomeArquivoCapa()));
 								} catch (DataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

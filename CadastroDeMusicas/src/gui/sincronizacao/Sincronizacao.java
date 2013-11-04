@@ -222,18 +222,18 @@ public class Sincronizacao extends javax.swing.JFrame {
 							continue;
 						}
 
-						// salvando o arquivo MP3 da música para o diretorio temporario
+/*						// salvando o arquivo MP3 da música para o diretorio temporario
 						Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
 								, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
-						
+*/						
 						// salvando o arquivo de imagem da capa do disco
-						if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
+/*						if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
 							int tmp = Fachada.exportarArquivoCapa(musica, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica() + "CAPADISCO");
 							if (tmp != MusicaDAO.ARQUIVO_CAPA_COPIADO_OK && tmp != MusicaDAO.ARQUIVO_CAPA_INEXISTENTE) {
 								JOptionPane.showMessageDialog(this, "Erro ao exportar a imagem da capa do Disco da Música.", "Erro", JOptionPane.ERROR_MESSAGE);
 							}
 						}
-												
+*/												
 						l.setObjeto(musica);
 						logs.add(l);
 						
@@ -269,12 +269,12 @@ public class Sincronizacao extends javax.swing.JFrame {
 						}
 						
 						// salvando o arquivo de imagem da capa do disco
-						if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
+						/*if (musica.getNomeArquivoCapa() != null && !musica.getNomeArquivoCapa().equals("")) {
 							int tmp = Fachada.exportarArquivoCapa(musica, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica() + Constantes.STRING_CAPA_DISCO);
 							if (tmp != MusicaDAO.ARQUIVO_CAPA_COPIADO_OK && tmp != MusicaDAO.ARQUIVO_CAPA_INEXISTENTE) {
 								JOptionPane.showMessageDialog(this, "Erro ao exportar a imagem da capa do Disco da Música.", "Erro", JOptionPane.ERROR_MESSAGE);
 							}
-						}
+						}*/
 						
 						l.setObjeto(musica);
 						logs.add(l);
@@ -347,8 +347,8 @@ public class Sincronizacao extends javax.swing.JFrame {
 					}
 
 					// salvando o arquivo MP3 da música para o diretorio temporario
-					Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
-							, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());
+					/*Util.copyFile(BDUtil.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + musica.getNomeArquivo()
+							, tempDirLogs.getAbsolutePath() + File.separator + musica.getChaveUnica());*/
 					
 					l.setObjeto(musica);
 					logs.add(l);
@@ -394,10 +394,10 @@ public class Sincronizacao extends javax.swing.JFrame {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (DiretorioBaseInvalidoException e) {
+		}/* catch (DiretorioBaseInvalidoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private void atualizarSincronizacaoAtiva(boolean ativa) {

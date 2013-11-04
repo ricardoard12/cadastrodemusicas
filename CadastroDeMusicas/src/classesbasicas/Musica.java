@@ -10,19 +10,18 @@ import util.Util;
 
 public class Musica implements Serializable {
 	private int idMusica; // chave primária da tabela no banco de dados
+	private int idArquivoMusica;
 	private Tipo tipo;
 	private Qualidade qualidade;
 	private String nome;
 	private String letra;
 	private int duracao; // duração da música em segundos
 	private String observacao;
-	private String nomeArquivo;
-	private String diretorio;
 	private String chaveUnica; // chave unica, deve ser gerada antes do primeiro salvamento no banco de dados
 							   // utilizada para efeitos de sincronização do BD entre diferentes pessoas utilizando o sistema 
 	private int ano = -1;
 	private String nomeArquivoCapa;
-	private BufferedImage capa;
+	private BufferedImage capa = null;
 	
 	private List<Cantor> cantores;
 	private List<Assunto> assuntos;
@@ -37,6 +36,7 @@ public class Musica implements Serializable {
 	public String getDescricaoCompleta() {
 		String descricao = "Dados da Música\n";
 		descricao += "idMusica: " + idMusica + "\n";
+		descricao += "idArquivoMusica: " + idArquivoMusica + "\n";
 		descricao += "Nome: " + nome + "\n";
 		descricao += "Cantor: " + (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "") + "\n";
 		descricao += "Tipo do Arquivo: " + Constantes.TIPO_ARQUIVO_NOMES_TIPOS[tipoArquivo] + "\n";
@@ -52,8 +52,6 @@ public class Musica implements Serializable {
 		descricao += "Assuntos: " + assuntosString + "\n";
 		descricao += "Qualidade: " + (qualidade != null ? qualidade.getQualidade() : "") + "\n";
 		descricao += "Ano: " + (ano > 0 ? ano : "") + "\n";
-		descricao += "Nome do Arquivo: " + nomeArquivo + "\n";
-		descricao += "Diretório: " + diretorio + "\n";
 		descricao += "Chave Única: " + chaveUnica + "\n";
 		descricao += "Nome Arquivo Capa: " + nomeArquivoCapa + "\n";
 		descricao += "Created: " + created.toString() + "\n";
@@ -67,6 +65,7 @@ public class Musica implements Serializable {
 	public String getDescricaoCompletaSemDiferencas(Musica m) {
 		String descricao = "";
 		descricao += (idMusica == m.getIdMusica()) ? "" : "idMusica: " + idMusica + "\n";
+		descricao += (idArquivoMusica == m.getIdArquivoMusica()) ? "" : "idArquivoMusica: " + idArquivoMusica + "\n";
 		descricao += (nome.equals(m.getNome())) ? "" : "Nome: " + nome + "\n";
 		
 		String temp1 = (cantores != null && cantores.size() > 0 ? cantores.get(0).getNome() : "");
@@ -98,8 +97,6 @@ public class Musica implements Serializable {
 		}
 		
 		descricao += (ano == m.getAno()) ? "" : "Ano: " + (ano > 0 ? ano : "") + "\n";
-		descricao += (isStringEqual(nomeArquivo, m.getNomeArquivo())) ? "" : "Nome do Arquivo: " + nomeArquivo + "\n";
-		descricao += (isStringEqual(diretorio, m.getDiretorio())) ? "" : "Diretório: " + diretorio + "\n";
 		descricao += (isStringEqual(chaveUnica, m.getChaveUnica())) ? "" : "Chave Única: " + chaveUnica + "\n";
 		descricao += (isStringEqual(nomeArquivoCapa, m.getNomeArquivoCapa())) ? "" : "Nome Arquivo Capa: " + nomeArquivoCapa + "\n";
 		descricao += (isStringEqual(created.toString(), m.getCreated().toString())) ? "" : "Created: " + created.toString() + "\n";
@@ -149,6 +146,12 @@ public class Musica implements Serializable {
 	public int getIdMusica() {
 		return idMusica;
 	}
+	public void setIdArquivoMusica(int idArquivoMusica) {
+		this.idArquivoMusica = idArquivoMusica;
+	}
+	public int getIdArquivoMusica() {
+		return idArquivoMusica;
+	}
 	public void setIdMusica(int idMusica) {
 		this.idMusica = idMusica;
 	}
@@ -163,12 +166,6 @@ public class Musica implements Serializable {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public String getNomeArquivo() {
-		return nomeArquivo;
-	}
-	public void setNomeArquivo(String nomeArquivo) {
-		this.nomeArquivo = nomeArquivo;
 	}
 	public String getObservacao() {
 		return observacao;
@@ -187,12 +184,6 @@ public class Musica implements Serializable {
 	}
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
-	}
-	public String getDiretorio() {
-		return diretorio;
-	}
-	public void setDiretorio(String diretorio) {
-		this.diretorio = diretorio;
 	}
 	public String getChaveUnica() {
 		return chaveUnica;
@@ -244,7 +235,7 @@ public class Musica implements Serializable {
 		
 		String s = "" + date.toString() + idMusica + (tipo != null ? tipo.getTipo() : "") +
 			(qualidade != null ? qualidade.getQualidade() : "") + nome + letra + duracao +
-			observacao + nomeArquivo + diretorio;
+			observacao + idArquivoMusica;
 		
 		this.chaveUnica = util.Util.gerarChaveUnica(s);
 		System.out.println(this.chaveUnica);
@@ -253,6 +244,7 @@ public class Musica implements Serializable {
 	public Object clone() {
 		Musica inst = new Musica();
 		inst.idMusica = this.idMusica;
+		inst.idArquivoMusica = this.idArquivoMusica;
 		inst.tipo = this.tipo == null ? null : (Tipo) this.tipo.clone();
 		inst.qualidade = this.qualidade == null
 			? null
@@ -262,10 +254,6 @@ public class Musica implements Serializable {
 		inst.duracao = this.duracao;
 		inst.observacao = this.observacao == null ? null : new String(
 			this.observacao);
-		inst.nomeArquivo = this.nomeArquivo == null ? null : new String(
-			this.nomeArquivo);
-		inst.diretorio = this.diretorio == null ? null : new String(
-			this.diretorio);
 		inst.cantores = null;
 		if (this.cantores != null) {
 			inst.cantores = new ArrayList<Cantor>();
@@ -303,6 +291,7 @@ public class Musica implements Serializable {
 		}
 		Musica castedObj = (Musica) o;
 		return ((this.idMusica == castedObj.idMusica)
+			&& (this.idArquivoMusica == castedObj.idArquivoMusica)
 			&& (this.tipo == null ? castedObj.tipo == null : this.tipo
 				.equals(castedObj.tipo))
 			&& (this.qualidade == null
@@ -316,12 +305,6 @@ public class Musica implements Serializable {
 			&& (this.observacao == null
 				? castedObj.observacao == null
 				: this.observacao.equals(castedObj.observacao))
-			&& (this.nomeArquivo == null
-				? castedObj.nomeArquivo == null
-				: this.nomeArquivo.equals(castedObj.nomeArquivo))
-			&& (this.diretorio == null
-				? castedObj.diretorio == null
-				: this.diretorio.equals(castedObj.diretorio))
 			&& this.ano == castedObj.ano
 			&& (this.cantores == null
 				? castedObj.cantores == null
@@ -339,6 +322,7 @@ public class Musica implements Serializable {
 	public int hashCode() {
 		int hashCode = 1;
 		hashCode = 31 * hashCode + idMusica;
+		hashCode = 31 * hashCode + idArquivoMusica;
 		hashCode = 31 * hashCode + (tipo == null ? 0 : tipo.hashCode());
 		hashCode = 31
 			* hashCode
@@ -349,12 +333,6 @@ public class Musica implements Serializable {
 		hashCode = 31
 			* hashCode
 			+ (observacao == null ? 0 : observacao.hashCode());
-		hashCode = 31
-			* hashCode
-			+ (nomeArquivo == null ? 0 : nomeArquivo.hashCode());
-		hashCode = 31
-			* hashCode
-			+ (diretorio == null ? 0 : diretorio.hashCode());
 		hashCode = 31 * hashCode + (cantores == null ? 0 : cantores.hashCode());
 		hashCode = 31 * hashCode + (assuntos == null ? 0 : assuntos.hashCode());
 		hashCode = 31 * hashCode + tipoArquivo;

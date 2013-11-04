@@ -20,7 +20,7 @@ import fachada.Fachada;
 
 public class VerificaNomeCantores {
 	private static void verificarNomesCantores() {
-		try {
+		/*try {
 
 			int contagem = 0;
 			
@@ -59,7 +59,7 @@ public class VerificaNomeCantores {
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public void testaCantoresDiretorio() {
@@ -67,7 +67,7 @@ public class VerificaNomeCantores {
 	}
 	
 	private static void testaDuracaoMusicas() {
-		List<Musica> musicas;
+		/*List<Musica> musicas;
 		int i = 0;
 
 		try {
@@ -89,10 +89,10 @@ public class VerificaNomeCantores {
 					
 					int duracaoMP3 = Util.getMP3Duration(nomeArquivo);
 					
-					/*if (m.getDuracao() == 0 || Math.abs(duracaoMP3 - m.getDuracao()) == 1) {
+					if (m.getDuracao() == 0 || Math.abs(duracaoMP3 - m.getDuracao()) == 1) {
 						m.setDuracao(duracaoMP3);
 						Fachada.alterarMusica(m);
-					}*/
+					}
 					
 					if (duracaoMP3 != m.getDuracao()) {
 						System.out.println(m.getIdMusica() + " - " + m.getNome() + " - Duracao Lida: " + duracaoMP3 + " - Duracao Antiga: " + m.getDuracao());
@@ -110,7 +110,7 @@ public class VerificaNomeCantores {
 			e.printStackTrace();
 		}
 
-		System.out.println("Total de Músicas: " + i);
+		System.out.println("Total de Músicas: " + i);*/
 		
 	
 	}

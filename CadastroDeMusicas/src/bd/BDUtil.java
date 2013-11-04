@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import classesbasicas.Assunto;
@@ -26,7 +25,6 @@ import com.mysql.management.MysqldResourceI;
 
 import exceptions.ConfiguracaoInexistenteException;
 import exceptions.DataException;
-import exceptions.DiretorioBaseInvalidoException;
 import fachada.Fachada;
 
 public class BDUtil {
@@ -349,10 +347,8 @@ public class BDUtil {
 				} else  if (rs.getString("valor").equals("1.4")) {
 					System.out.println("Atualizando o Banco de Dados da Versão 1.4 para a 1.5");
 					
-					String[] sqls = {
+					/*String[] sqls = {
 								"CREATE TABLE arquivomusica (`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, `arquivomusica` longblob NULL DEFAULT NULL);",
-								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.5' WHERE `configuracoes`.`configuracao` =  'versao';",
-								"ALTER TABLE `musica` DROP `arquivoMusica`;",
 								"ALTER TABLE `musica` ADD `idarquivomusica` BIGINT NOT NULL ;"
 							};
 					conexao.setAutoCommit(false);
@@ -368,12 +364,13 @@ public class BDUtil {
 					for (String s: sqls)
 					{
 						System.out.println(s);
-					}
+					}*/
 					
-					try {
+					/*try {
 						System.out.println("Alterando todas as musicas para colocar o arquivo no BD");
 						
 						List<Musica> musicas = Fachada.listarTodasAsMusicasEmOrdemAlfabetica();
+						// List<Musica> musicas = Fachada.listarMusicasPorDiversos("A Mãe d%menina", null, null, null, null, null, null, null, 0, Constantes.TIPO_ARQUIVO_TODOS, null);
 						
 						System.out.println("Quantidaded e musicas: " + musicas.size());
 						
@@ -384,8 +381,9 @@ public class BDUtil {
 							// String current = new java.io.File( "." ).getCanonicalPath();
 							String path = getDiretorioBase() + File.pathSeparator + m.getDiretorio() + File.pathSeparator + m.getNomeArquivo();
 							File f = new File(path);
+							String fPath = f.getAbsolutePath().replaceAll("(\\\\|" + File.pathSeparator + ")", "/").replaceAll("(\')", "\\\\'");
 							
-							sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + f.getAbsolutePath().replaceAll("(\\\\|" + File.pathSeparator + ")", "/") + "\'));";
+							sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + fPath + "\'));";
 							stat.execute(sql, Statement.RETURN_GENERATED_KEYS);
 							ResultSet id_arquivo = stat.getGeneratedKeys();
 							id_arquivo.next();
@@ -397,7 +395,8 @@ public class BDUtil {
 						
 						System.out.println("Removendo o campo nomearquivo da tabela de musicas");
 						String[] sqls2 = {
-								"ALTER TABLE `musica` DROP `nomearquivo`;"
+								"ALTER TABLE `musica` DROP `nomearquivo`;",
+								"UPDATE `cadastrodemusicas`.`configuracoes` SET `valor` = '1.5' WHERE `configuracoes`.`configuracao` =  'versao';"
 							};
 						conexao.setAutoCommit(false);
 						for (String s : sqls2) {
@@ -416,7 +415,7 @@ public class BDUtil {
 					} catch (DiretorioBaseInvalidoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
 				}
 				
 				// atualizar a variavel sincronizacaoAtiva
@@ -510,82 +509,6 @@ public class BDUtil {
 			e.printStackTrace();
 		}
 	}
-
-	public static void salvarDiretorioBase(String dir) throws DataException {
-		String sql = "UPDATE configuracoes SET valor = \'" + dir.replace(File.separatorChar, '?') + "\' WHERE configuracao LIKE 'diretorio_base'";
-		
-		try {
-			Statement stat = getConexao().createStatement();
-			stat.execute(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DataException("Não foi possível alterar o diretório base");
-		}
-	}
-
-	public static String getDiretorioBase() throws DataException, DiretorioBaseInvalidoException {
-		String sql = "SELECT * FROM `configuracoes` WHERE configuracao LIKE 'diretorio_base'";
-		try {
-			Statement stat = getConexao().createStatement();			
-			ResultSet rs = stat.executeQuery(sql);			
-			if (!rs.next()) {
-				sql = "INSERT INTO configuracoes VALUES ('diretorio_base', 'Coleção Checada')";
-				stat.execute(sql);
-				return null;
-			}
-			
-			String dir = rs.getString("valor");
-			if (dir != null && !dir.equals("")) {
-				return dir.replace('?', File.separatorChar);
-			} else {
-				throw new DiretorioBaseInvalidoException();
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DataException("não foi possível ler o diretório base no banco de dados");
-		}
-	}
-
-	public static String getDiretorioProximoArquivo() {
-		DecimalFormat df = new DecimalFormat("000");
-		int i = 1;
-		while (true) {
-			String sql = "SELECT COUNT(idMusica) FROM Musica where diretorio LIKE \'" + 
-				df.format(i) + "\'";
-			
-			Statement stat;
-			
-			try {
-				stat = getConexao().createStatement();
-				ResultSet rs = stat.executeQuery(sql);				
-				rs.next();				
-				int numeroDeMusicas = rs.getInt("COUNT(idMusica)");
-				
-				if (numeroDeMusicas < 500) {
-					if (numeroDeMusicas == 0) {
-						File dir = new File(getDiretorioBase() + File.separator + df.format(i));
-						dir.mkdir();
-					}
-					return df.format(i);
-				} else {
-					i++;
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DiretorioBaseInvalidoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-	}
 	
 	public static void desativarBD() {
 		MysqldResourceI m = new MysqldResource(new File(DIRETORIO_BD));
@@ -640,20 +563,6 @@ public class BDUtil {
 		Statement stat = getConexao().createStatement();
 		stat.execute(sql);
 	}
-
-	/*public static void salvarListaReproducao(List<Musica> musicas, int indiceAtual) {
-		String sql = "INSERT INTO playlist (ordem, idMusica) VALUES ";
-		for (int i = 0; i < musicas.size(); i++) {
-			Musica m = musicas.get(i);
-			
-			sql += "(" + i + ", " +  
-		}
-	}
-
-	public static Map<String, Object> getListaReproducao() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 	
 	public static void salvarConfiguracao(String nomeConfig, String valorConfig) throws DataException {
 		// verificando se já existe uma configuração com o mesmo nome

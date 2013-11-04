@@ -16,7 +16,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import util.Util;
-
 import bd.BDUtil;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
@@ -48,7 +47,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			System.out.println("Assuntos antigos removidos da música");
 
 			sql = "UPDATE Musica SET nome=?, letra=?, duracao=?, observacao=?, "
-					+ "nomearquivo=?, diretorio=?, idTipo=?, idQualidade=?, chaveUnica=?, ano = ?, modified = ? "
+					+ "idarquivomusica=?, diretorio=?, idTipo=?, idQualidade=?, chaveUnica=?, ano = ?, modified = ? "
 					+ "WHERE idMusica=?";
 
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
@@ -61,8 +60,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				ps.setNull(3, java.sql.Types.INTEGER);
 			}
 			ps.setString(4, m.getObservacao());
-			ps.setString(5, m.getNomeArquivo());
-			ps.setString(6, m.getDiretorio());
+			ps.setInt(5, m.getIdArquivoMusica());
+			ps.setString(6, "");
 			if (m.getTipo() != null && m.getTipo().getIdTipo() > 0) {
 				ps.setInt(7, m.getTipo().getIdTipo());
 			} else {
@@ -132,7 +131,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	}
 
 	public int cadastrarMusica(Musica m) throws DataException {
-		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, nomearquivo, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified, tipoarquivo) "
+		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, idarquivomusica, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified, tipoarquivo) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -146,8 +145,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				ps.setNull(3, java.sql.Types.INTEGER);
 			}
 			ps.setString(4, m.getObservacao());
-			ps.setString(5, m.getNomeArquivo());
-			ps.setString(6, m.getDiretorio());
+			ps.setInt(5, m.getIdArquivoMusica());
+			ps.setString(6, "");
 			if (m.getTipo() != null && m.getTipo().getIdTipo() > 0) {
 				ps.setInt(7, m.getTipo().getIdTipo());
 			} else {
@@ -239,8 +238,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				m.setLetra(r.getString("letra"));
 				m.setDuracao(r.getInt("duracao"));
 				m.setObservacao(r.getString("observacao"));
-				m.setDiretorio(r.getString("diretorio"));
-				m.setNomeArquivo(r.getString("nomearquivo"));
+				m.setIdArquivoMusica(r.getInt("idarquivomusica"));
 				m.setChaveUnica(r.getString("chaveUnica"));
 				m.setAno(r.getInt("ano"));
 				m.setNomeArquivoCapa(r.getString("nomeArquivoCapa"));
@@ -340,6 +338,13 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Música removida do Banco de Dados");
+			
+			// Removendo o arquivo da musica do banco de dados
+			sql = "DELETE FROM arquivomusica WHERE id = " + m.getIdArquivoMusica();
+			stat = BDUtil.getConexao().prepareStatement(sql);
+			stat.execute();
+			System.out.println("arquivo da Música removida do Banco de Dados");
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível remover a música do BD");
@@ -362,8 +367,6 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	public List<Musica> listarMusicasPorDiversos(
@@ -552,20 +555,30 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		}
 	}
 
-	public InputStream getCapaDiscoMusica(Musica m) throws DataException {
+	public int getCapaDiscoMusica(Musica m, String caminhoArquivo) throws DataException {
 		String sql = "SELECT arquivoCapa FROM musica WHERE idMusica = " + m.getIdMusica();
-		
+
 		try {
 			Statement s = BDUtil.getConexao().createStatement();			
 			ResultSet rs = s.executeQuery(sql);
 			if (rs.next()) {
-				return rs.getBinaryStream("arquivoCapa");
+				InputStream is = rs.getBinaryStream("arquivoCapa");
+				if (is != null)
+				{
+					if (Util.copyFile(is, caminhoArquivo)) {
+						return ARQUIVO_CAPA_COPIADO_OK;
+					} else {
+						return ARQUIVO_CAPA_ERRO_COPIA;
+					}
+				} else {
+					return ARQUIVO_CAPA_INEXISTENTE;
+				}
 			} else {
-				return null;
+				return ARQUIVO_CAPA_INEXISTENTE;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DataException("Não foi possivel ler a imagem da capa");
+			throw new DataException("Não foi possivel ler a imagem da capa (3)");
 		}
 	}
 
@@ -578,18 +591,54 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		if (lista.size() > 0) return lista.get(0);
 		else return null;
 	}
-	
-	public int exportarArquivoCapa(Musica musica, String caminhoArquivo) throws DataException {
-		InputStream is = getCapaDiscoMusica(musica);
+
+	public int cadastrarArquivoMusica(File arquivo) throws DataException {
+		Statement stat;
+		int id = 0;
 		
-		if (is != null) {
-			if (Util.copyFile(is, caminhoArquivo)) {
-				return ARQUIVO_CAPA_COPIADO_OK;
+		try {
+			stat = BDUtil.getConexao().createStatement();
+		
+			String sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + arquivo.getPath() + "\'));";
+			stat.execute(sql, Statement.RETURN_GENERATED_KEYS);
+
+			ResultSet id_arquivo = stat.getGeneratedKeys();
+			id_arquivo.next();
+			
+			id = id_arquivo.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DataException();
+		}
+		
+		return id;
+	}
+
+	public int getArquivoMusica(Musica m, String caminhoArquivo) throws DataException {
+		String sql = "SELECT arquivomusica FROM arquivomusica WHERE id = " + m.getIdArquivoMusica();
+		
+		try {
+			Statement s = BDUtil.getConexao().createStatement();			
+			ResultSet rs = s.executeQuery(sql);
+			if (rs.next()) {
+				InputStream is = rs.getBinaryStream("arquivomusica");
+				if (is != null)
+				{
+					if (Util.copyFile(is, caminhoArquivo)) {
+						return ARQUIVO_MUSICA_COPIADO_OK;
+					} else {
+						return ARQUIVO_MUSICA_ERRO_COPIA;
+					}
+				} else {
+					return ARQUIVO_MUSICA_INEXISTENTE;
+				}
 			} else {
-				return ARQUIVO_CAPA_ERRO_COPIA;
+				return ARQUIVO_MUSICA_INEXISTENTE;
 			}
-		} else {
-			return ARQUIVO_CAPA_INEXISTENTE;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataException("Não foi possivel ler o arquivo da musica");
 		}
 	}
 }

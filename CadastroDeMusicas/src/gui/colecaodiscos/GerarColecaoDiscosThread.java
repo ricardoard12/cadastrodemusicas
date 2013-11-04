@@ -105,8 +105,8 @@ public class GerarColecaoDiscosThread extends Thread {
 				painel.getLogTextArea().setCaretPosition(painel.getLogTextArea().getText().length());
 				painel.getMusicaAtualTextField().setText(m.getNome());
 				
-				File origem = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + 
-						File.separator + m.getNomeArquivo());
+				File origem = new File(Util.getDiretorioBase() + File.separator + ""/*m.getDiretorio()*/ + 
+						File.separator + ""/*m.getNomeArquivo()*/);
 				
 				// testando pra ver se o número máximo de músicas foi atingido
 				if (limitarNumeroDeMusicas) {

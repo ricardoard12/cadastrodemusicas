@@ -735,7 +735,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 			}
 			
 			// copiando o arquivo MP3 para a pasta de destino
-			String diretorio = Util.getDiretorioProximoArquivo();
+			/*String diretorio = Util.getDiretorioProximoArquivo();
 			m.setDiretorio(diretorio);
 			File teste = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo());
 			int i = 0;
@@ -748,9 +748,9 @@ public class DialogImportacao extends javax.swing.JDialog {
 				nomeArquivo += ".mp3";
 				m.setNomeArquivo(nomeArquivo);
 				teste = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + nomeArquivo);
-			}
+			}*/
 			
-			if (Util.copyFile(arquivoCopiar.getAbsolutePath(), teste.getAbsolutePath())) {
+			/*if (Util.copyFile(arquivoCopiar.getAbsolutePath(), teste.getAbsolutePath())) {
 				try {
 					Fachada.cadastrarMusica(m);
 					
@@ -764,7 +764,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 				}
 			} else {
 				JOptionPane.showMessageDialog(this, "Erro ao Copiar o Arquivo MP3 da Música para o Destino.", "Erro ao Copiar Arquivo", JOptionPane.ERROR_MESSAGE);
-			}
+			}*/
 		}
 		
 		//$hide<<$
@@ -910,7 +910,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 				try {
 					// verificando se o nome do arquivo foi alterado
 					Musica musicaAntiga = Fachada.getMusica(m.getIdMusica());
-					if (!musicaAntiga.getDiretorio().equals(m.getDiretorio()) || !musicaAntiga.getNomeArquivo().equals(m.getNomeArquivo())) {
+					/*if (!musicaAntiga.getDiretorio().equals(m.getDiretorio()) || !musicaAntiga.getNomeArquivo().equals(m.getNomeArquivo())) {
 						m.setDiretorio(musicaAntiga.getDiretorio());
 						File arquivoMusicaAntiga = new File(Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() + File.separator + musicaAntiga.getNomeArquivo());
 						File arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo());
@@ -923,9 +923,9 @@ public class DialogImportacao extends javax.swing.JDialog {
 							}
 							arquivoMusicaNova = new File(Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + nomeArquivoNovo);
 							m.setNomeArquivo(nomeArquivoNovo);
-						}
-						arquivoMusicaAntiga.renameTo(arquivoMusicaNova);
-					}
+						}*/
+						/*arquivoMusicaAntiga.renameTo(arquivoMusicaNova);*/
+					/*}*/
 					
 					Fachada.alterarMusica(m);
 					// verificando se a música tem arquivo de capa de disco
@@ -1224,7 +1224,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 								
 				try {
 					// verificando se o nome do arquivo foi alterado
-					Musica musicaAntiga = Fachada.getMusica(m.getIdMusica());
+					/*Musica musicaAntiga = Fachada.getMusica(m.getIdMusica());
 					if (!musicaAntiga.getDiretorio().equals(m.getDiretorio()) || !musicaAntiga.getNomeArquivo().equals(m.getNomeArquivo())) {
 						m.setDiretorio(musicaAntiga.getDiretorio());
 						File arquivoMusicaAntiga = new File(Util.getDiretorioBase() + File.separator + musicaAntiga.getDiretorio() + File.separator + musicaAntiga.getNomeArquivo());
@@ -1240,7 +1240,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 							m.setNomeArquivo(nomeArquivoNovo);
 						}
 						arquivoMusicaAntiga.renameTo(arquivoMusicaNova);
-					}
+					}*/
 					
 					Fachada.alterarMusica(m);
 					// verificando se a música tem arquivo de capa de disco
@@ -1311,7 +1311,7 @@ public class DialogImportacao extends javax.swing.JDialog {
 				File tempFile = File.createTempFile("colec", ".mp3");
 				// como a música já foi setada antes, aqui pode-se procurar pelo id
 				Musica ma = Fachada.getMusica(m.getIdMusica());
-				File arquivoAntigo = new File(Util.getDiretorioBase() + File.separator + ma.getDiretorio() + File.separator + ma.getNomeArquivo());
+				File arquivoAntigo = new File(Util.getDiretorioBase() + File.separator + ""/*ma.getDiretorio()*/ + File.separator + ""/*ma.getNomeArquivo()*/);
 				// salvando o arquivo antigo para um arquivo temporario
 				if (Util.copyFile(arquivoAntigo.getAbsolutePath(), tempFile.getAbsolutePath())) {
 					// removendo o arquivo antigo

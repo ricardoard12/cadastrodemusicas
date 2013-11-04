@@ -95,7 +95,7 @@ public class CadastroDeMusicas extends JFrame {
 
 	private JMenuItem relatorioMusicasPorCantorMenuItem = null;
 
-	private JMenuItem diretorioBaseMenuItem = null;
+	/*private JMenuItem diretorioBaseMenuItem = null;*/
 
 	private JMenuItem cadastrarMusicaMenuItem = null;
 
@@ -111,7 +111,7 @@ public class CadastroDeMusicas extends JFrame {
 
 	private JDesktopPane desktopPane = null;
 
-	private JMenuItem backupBDMenuItem = null;
+	/*private JMenuItem backupBDMenuItem = null;*/
 
 	private JMenu todasAsMusicasMenu = null;
 	
@@ -132,7 +132,7 @@ public class CadastroDeMusicas extends JFrame {
 
 	private JMenuItem verificarArquivosMenuItem = null;
 
-	private JMenuItem cadastrarDiretorioMenuItem = null;
+	/*private JMenuItem cadastrarDiretorioMenuItem = null;*/
 
 	private JLabel backgroundLabel = null;
 
@@ -231,11 +231,11 @@ public class CadastroDeMusicas extends JFrame {
 		if (sistemaMenu == null) {
 			sistemaMenu = new JMenu();
 			sistemaMenu.setText("Sistema");
-			sistemaMenu.add(getDiretorioBaseMenuItem());
-			sistemaMenu.add(getVerificarArquivosMenuItem());
-			sistemaMenu.add(getBackupBDMenuItem());
-			sistemaMenu.add(getCadastrarDiretorioMenuItem());
-			sistemaMenu.addSeparator();
+			// sistemaMenu.add(getDiretorioBaseMenuItem());
+			/*sistemaMenu.add(getVerificarArquivosMenuItem());*/
+			// sistemaMenu.add(getBackupBDMenuItem());
+			// sistemaMenu.add(getCadastrarDiretorioMenuItem());
+			/*sistemaMenu.addSeparator();*/
 			sistemaMenu.add(getSairMenuItem());
 		}
 		return sistemaMenu;
@@ -302,7 +302,7 @@ public class CadastroDeMusicas extends JFrame {
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */
-	private JMenuItem getDiretorioBaseMenuItem() {
+	/*private JMenuItem getDiretorioBaseMenuItem() {
 		if (diretorioBaseMenuItem == null) {
 			diretorioBaseMenuItem = new JMenuItem();
 			diretorioBaseMenuItem.setText("Diretório Base");
@@ -324,7 +324,7 @@ public class CadastroDeMusicas extends JFrame {
 			});
 		}
 		return diretorioBaseMenuItem;
-	}
+	}*/
 
 	/**
 	 * This method initializes cadastrarMusicaMenuItem	
@@ -561,7 +561,7 @@ public class CadastroDeMusicas extends JFrame {
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */
-	private JMenuItem getBackupBDMenuItem() {
+	/*private JMenuItem getBackupBDMenuItem() {
 		if (backupBDMenuItem == null) {
 			backupBDMenuItem = new JMenuItem();
 			backupBDMenuItem.setText("Backup do BD");
@@ -574,7 +574,7 @@ public class CadastroDeMusicas extends JFrame {
 		
 		backupBDMenuItem.setEnabled(false);
 		return backupBDMenuItem;
-	}
+	}*/
 
 	/**
 	 * This method initializes todasAsMusicasMenu	
@@ -701,7 +701,7 @@ public class CadastroDeMusicas extends JFrame {
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */
-	private JMenuItem getCadastrarDiretorioMenuItem() {
+	/*private JMenuItem getCadastrarDiretorioMenuItem() {
 		if (cadastrarDiretorioMenuItem == null) {
 			cadastrarDiretorioMenuItem = new JMenuItem();
 			cadastrarDiretorioMenuItem.setText("Cadastrar Diretório");
@@ -714,26 +714,15 @@ public class CadastroDeMusicas extends JFrame {
 					});
 		}
 		return cadastrarDiretorioMenuItem;
-	}
+	}*/
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		try {
-			// TelaDeLogin.logar();
-			// mudouUsuarioLogado();
-			
-			//$hide>>$
-			Util.iniciarDiretorioBase();
-			//$hide<<$
-		} catch (DiretorioBaseInvalidoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Por favor, cadastre o diretório base.",
-					"Diretório Base inválido.", JOptionPane.ERROR_MESSAGE);
-		}
+
+		// TelaDeLogin.logar();
+		// mudouUsuarioLogado();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -862,7 +851,7 @@ public class CadastroDeMusicas extends JFrame {
 		System.exit(0);
 	}
 	
-	private void cadastrarTodasMusicasDeDiretorio() {
+	/*private void cadastrarTodasMusicasDeDiretorio() {
 		//$hide>>$
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -901,20 +890,15 @@ public class CadastroDeMusicas extends JFrame {
 			}
 		}
 		//$hide<<$
-	}
+	}*/
 		
 	
 	public void cadastrarMusica(File arquivo) {
 		//$hide>>$
 		System.out.println("Cadastrando o arquivo " + arquivo.getName());
 		
-		String nomeDoArquivo = arquivo.getPath();
-
 		String nome = arquivo.getName();
 
-		// pegando o nome do diretório
-		String diretorio = Util.getDiretorioProximoArquivo();
-		
 		// pegando a duração da música
 		int duracao = Util.getMP3Duration(arquivo.getPath());
 		
@@ -938,7 +922,6 @@ public class CadastroDeMusicas extends JFrame {
 		// setando os valores no objeto musica que será cadastrado
 		musica.setNome(nome);
 		musica.setDuracao(duracao);
-		musica.setDiretorio(diretorio);
 				
 		// Comentar todo esse trecho depois
 		/*try {
@@ -975,79 +958,42 @@ public class CadastroDeMusicas extends JFrame {
 		
 		
 		System.out.println("Música: " + musica.getNome());
-				
-		String nomeArquivo = null;
-		
-		// compondo o nome do arquivo final
-		nomeArquivo = musica.getNome();
-		if (cantor != null && cantor.length() > 0) {
-			nomeArquivo = nomeArquivo + " - " + cantor;
-		}
-		
-		nomeArquivo += ".mp3";
-		
-		// testando se já existe um arquivo com o mesmo nome
-		File arquivoExistente = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-		int i = 0;
-		while (arquivoExistente.exists()) {
-			i++;
-			nomeArquivo = musica.getNome() + " #" + i;
-			if (cantor != null && cantor.length() > 0) {
-				nomeArquivo = nomeArquivo + " - " + cantor;
-			}
-			
-			nomeArquivo += ".mp3";
-			
-			arquivoExistente = new File(Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator + nomeArquivo);
-		}
-		
-		musica.setNomeArquivo(nomeArquivo);
-		
-		String caminhoCompleto = Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator +
-			musica.getNomeArquivo();
-			
-		if (Util.copyFile(nomeDoArquivo, caminhoCompleto)) {
-			File apagar = new File(nomeDoArquivo);
-			apagar.delete();
-			
-			// cadastrar a música
-			try {				
-				Fachada.cadastrarMusica(musica);
 
-				// testar se tem o nome do cantor
-				if (cantor != null & !cantor.equals("")) {
-					// verificar se o cantor já está cadastrado
-					List<Cantor> cantores = Fachada.listarCantoresPorDiversos(null, cantor, Constantes.TIPO_ARQUIVO_TODOS);
-					
-					Cantor c = null;
-					
-					if (cantores != null && cantores.size() > 0) {
-						for (Cantor cl: cantores) {
-							if (cl.getNomeSemEspacos().equals(cantor)) c = cl;
-						}						
-					} 
-					
-					if (c == null) {
-						c = new Cantor();
-						c.setNomeSemEspacos(cantor);
-						c.setNome(cantorCompleto);
-						Fachada.cadastrarCantor(c);
-					}
-					
-					Fachada.adicionarCantorAMusica(musica, c);
+		// cadastrar a música
+		try {				
+			Fachada.cadastrarMusica(musica, arquivo);
+
+			// testar se tem o nome do cantor
+			if (cantor != null & !cantor.equals("")) {
+				// verificar se o cantor já está cadastrado
+				List<Cantor> cantores = Fachada.listarCantoresPorDiversos(null, cantor, Constantes.TIPO_ARQUIVO_TODOS);
+				
+				Cantor c = null;
+				
+				if (cantores != null && cantores.size() > 0) {
+					for (Cantor cl: cantores) {
+						if (cl.getNomeSemEspacos().equals(cantor)) c = cl;
+					}						
+				} 
+				
+				if (c == null) {
+					c = new Cantor();
+					c.setNomeSemEspacos(cantor);
+					c.setNome(cantorCompleto);
+					Fachada.cadastrarCantor(c);
 				}
 				
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Houve um erro ao cadastrar a música no Banco de Dados.");
-			}			
-		} else {
-			System.out.println("Não foi possível copiar o arquivo para o destino.");
-		}
+				Fachada.adicionarCantorAMusica(musica, c);
+			}
+			
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Houve um erro ao cadastrar a música no Banco de Dados.");
+		}			
 		//$hide<<$
 	}
-	
+
 	private JMenu getPlayerMenu() {
 		if(playerMenu == null) {
 			playerMenu = new JMenu();
