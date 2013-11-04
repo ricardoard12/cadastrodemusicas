@@ -141,22 +141,18 @@ public class MusicasInternalFrame extends JInternalFrame {
 		getProcurarMusicasPanel().procurarMusicas();
 		getEditarMusicasPanel().atualizarTabelaDeCantores();
 		getEditarMusicasPanel().atualizarTabelaDeMusicas();
-		getEditarMusicasPanel().atualizaNomeArquivoDaMusica();
 	}
 	
 	public void musicaFoiEditada() {
 		getProcurarMusicasPanel().procurarMusicas();
 		getCadastrarMusicasPanel().atualizarTabelaDeCantores();
 		getCadastrarMusicasPanel().atualizarTabelaDeMusicas();
-		getCadastrarMusicasPanel().atualizaNomeArquivoDaMusica();
 	}
 	
 	public void musicaFoiApagada() {
 		getProcurarMusicasPanel().procurarMusicas();
 		getCadastrarMusicasPanel().atualizarTabelaDeMusicas();
 		getEditarMusicasPanel().atualizarTabelaDeMusicas();
-		getCadastrarMusicasPanel().atualizaNomeArquivoDaMusica();
-		getEditarMusicasPanel().atualizaNomeArquivoDaMusica();
 	}
 	
 	public void novoRitmoCadastrado() {

@@ -1,8 +1,7 @@
 package gui.player;
 
-import exceptions.ConfiguracaoInexistenteException;
+import dao.MusicaDAO;
 import exceptions.DataException;
-import exceptions.DiretorioBaseInvalidoException;
 import fachada.Fachada;
 
 import java.awt.Color;
@@ -18,7 +17,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +44,6 @@ import player.MP3PlayerExterno;
 import util.Configuracoes;
 import util.Util;
 import bd.BDUtil;
-import classesbasicas.Constantes;
 import classesbasicas.Musica;
 import classesbasicas.Playlist;
 
@@ -688,13 +685,13 @@ public class PlayerPanel extends javax.swing.JPanel {
 			musicaAtual = m;
 			nomeMusicaAtualLabel.setText(m.getNome());
 			duracaoMusicaAtualLabel.setText("0:00/" + Util.formataDuracao(m.getDuracao()));
-			try {
-				nomeArquivo = Util.salvarArquivoDiretorioTemporario(new File(BDUtil.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo()));
+			
+			if (Fachada.exportarArquivoMusica(m, Util.getCaminhoArquivoTempMusica(m)) == MusicaDAO.ARQUIVO_MUSICA_COPIADO_OK)
+			{
+				nomeArquivo = Util.getCaminhoArquivoTempMusica(m);
 				arquivosTemporarios.add(nomeArquivo);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+
 			if (nomeArquivo != null) {
 				player.open(new File(nomeArquivo));
 				player.play();	
@@ -702,9 +699,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 				JOptionPane.showMessageDialog(this, "Erro ao tentar tocar a música.", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (DataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DiretorioBaseInvalidoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BasicPlayerException e) {

@@ -53,7 +53,7 @@ public class VerificarArquivosThread extends Thread {
 					e1.printStackTrace();
 				}*/
 				
-				if (Util.verificarArquivo(m)) {
+				/*if (Util.verificarArquivo(m)) {
 					// painel.getLogTextArea().append("Resultado: OK\n\n");
 				} else {
 					mensagem = "Verificando a Música " + m.getNome() + "\n";
@@ -61,7 +61,7 @@ public class VerificarArquivosThread extends Thread {
 					mensagem += "Resultado: ERRO, arquivo não encontrado\n\n";
 					painel.getLogTextArea().append(mensagem);
 					pro++;
-				}
+				}*/
 				
 				/*try {
 					sleep(500);

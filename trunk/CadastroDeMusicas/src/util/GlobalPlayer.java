@@ -8,6 +8,7 @@ import java.io.IOException;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import player.MP3PlayerInterno;
+import classesbasicas.Musica;
 
 public class GlobalPlayer {
 	private static MP3PlayerInterno player = null;
@@ -25,7 +26,7 @@ public class GlobalPlayer {
 		GlobalPlayer.player = player;
 	}
 	
-	public static void play(String nomeArquivo) {	
+	public static void play(String nomeArquivo, boolean criarArquivoTemp) {	
 		stop();
 		
 		try {
@@ -33,11 +34,17 @@ public class GlobalPlayer {
 				player = new MP3PlayerInterno();
 			}
 			
-			tempFile = File.createTempFile("colec", ".mp3");
-			File arquivo = new File(nomeArquivo);			
-			Util.copyFile(arquivo.getPath(), tempFile.getPath());
-			
-	     	player.open(tempFile);
+			if (criarArquivoTemp)
+			{
+				tempFile = File.createTempFile("colec", ".mp3");
+				File arquivo = new File(nomeArquivo);			
+				Util.copyFile(arquivo.getPath(), tempFile.getPath());
+				
+		     	player.open(tempFile);
+			} else {
+				player.open(new File(nomeArquivo));
+			}
+
 	     	player.play();
 	     	player.getController().setVisible(true);
 		} catch (FileNotFoundException e1) {
@@ -46,6 +53,26 @@ public class GlobalPlayer {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (BasicPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void play(Musica m) {	
+		stop();
+		
+		try {
+			if (player == null) {
+				player = new MP3PlayerInterno();
+			}
+			
+	     	player.open(new File(Util.getCaminhoArquivoTempMusica(m)));
+	     	player.play();
+	     	player.getController().setVisible(true);
 		} catch (BasicPlayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

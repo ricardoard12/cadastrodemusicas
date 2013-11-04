@@ -19,8 +19,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -53,7 +51,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import util.Configuracoes;
-import util.Util;
 import classesbasicas.Assunto;
 import classesbasicas.Cantor;
 import classesbasicas.Colecao;
@@ -532,21 +529,16 @@ public class ProcurarMusicasPanel extends JPanel {
 						
 							if (indice >= 0) {						
 								
-								//$hide>>$
-								String nomeArquivo = Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo();
-								//$hide<<$
-								File arquivo = new File(nomeArquivo);
-								if (arquivo.delete() || !arquivo.exists()) {
-									try {
-										Fachada.excluirMusica(m);
-									} catch (DataException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-										JOptionPane.showMessageDialog(ProcurarMusicasPanel.this, "Não foi possível remover a música do BD.", "Erro.", JOptionPane.ERROR_MESSAGE);
-										pai.musicaFoiApagada();
-										return;
-									}
+								try {
+									Fachada.excluirMusica(m);
+								} catch (DataException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+									JOptionPane.showMessageDialog(ProcurarMusicasPanel.this, "Não foi possível remover a música do BD.", "Erro.", JOptionPane.ERROR_MESSAGE);
+									pai.musicaFoiApagada();
+									return;
 								}
+								
 							}
 						}
 						JOptionPane.showMessageDialog(ProcurarMusicasPanel.this, "Músicas excluídas com Sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

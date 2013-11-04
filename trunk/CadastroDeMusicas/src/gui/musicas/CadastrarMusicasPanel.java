@@ -1664,7 +1664,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		System.out.println("Mudou o nome da música!!!");
 		if (musica != null) {
 			musica.setNome(getNomeTextField().getText());
-			atualizaNomeArquivoDaMusica();
+			/*atualizaNomeArquivoDaMusica();*/
 			atualizarTabelaDeMusicas();
 		}
 		//$hide<<$
@@ -1690,7 +1690,7 @@ public class CadastrarMusicasPanel extends JPanel {
 		if (musica != null) {
 			musica.setCantores(null);
 			atualizarTabelaDeCantores();
-			atualizaNomeArquivoDaMusica();
+			/*atualizaNomeArquivoDaMusica();*/
 		}
 		//$hide<<$
 		
@@ -1715,104 +1715,100 @@ public class CadastrarMusicasPanel extends JPanel {
 			return;
 		}
 		
-		// copiando o arquivo para o destino (diretório com a coleção de músicas)
+		/*// copiando o arquivo para o destino (diretório com a coleção de músicas)
 		String caminhoCompleto = Util.getDiretorioBase() + File.separator + musica.getDiretorio() + File.separator +
-			musica.getNomeArquivo();
+			musica.getNomeArquivo();*/
 		
-		if (Util.copyFile(this.nomeDoArquivo, caminhoCompleto)) {
-			// cadastrar a música
-			try {				
-				// setando o tipo da música
-				if (getTipoComboBox().getSelectedIndex() > 0) {
-					musica.setTipo(tipos.get(getTipoComboBox().getSelectedIndex() - 1));
-				}
-				
-				// setando a letra da música
-				if (getLetraTextArea().getText() != null && !getLetraTextArea().getText().equals("")) {
-					musica.setLetra(getLetraTextArea().getText());
-				}
-				
-				// setando a qualidade
-				if (getQualidadeComboBox().getSelectedIndex() > 0) {
-					musica.setQualidade(qualidades.get(getQualidadeComboBox().getSelectedIndex() - 1));
-				}
-				
-				// setando a observação
-				if (getObservacaoTextArea().getText() != null && !getObservacaoTextArea().getText().equals("")) {
-					musica.setObservacao(getObservacaoTextArea().getText());
-				}
-				
-				// setando o nome do arquivo da capa do disco e a imagem da capa
-				if (caminhoImagemCapaSelecionada != null) {
-					musica.setNomeArquivoCapa(caminhoImagemCapaSelecionada);
-				}
-				
-				// setando o ano
-				if (getAnoTextField().getText() != null && getAnoTextField().getText().trim().length() == 4) {
-					musica.setAno(Integer.parseInt(getAnoTextField().getText()));
-				}
-				
-				// setando os assuntos
-				int indices[] = getAssuntosList().getSelectedIndices();
-				if (indices.length > 0) {
-					List<Assunto> lista = new ArrayList<Assunto>();
-					for (int i: indices) {
-						lista.add(assuntos.get(i));
-						System.out.println("adicionado o assunto " + assuntos.get(i).getAssunto());
-					}
-					musica.setAssuntos(lista);
-				}
-
-				int tipoArquivo = getTipoArquivo();
-				musica.setTipoArquivo(tipoArquivo);
-				
-				Fachada.cadastrarMusica(musica);				
-				// salvar a imagem da capa do disco
-				if (nomeArquivoCapaSelecionada != null) {
-					Fachada.alterarCapaDiscoMusica(musica, nomeArquivoCapaSelecionada, caminhoImagemCapaSelecionada);	
-				}
-				
-				// testar se o cantor é um novo cantor ou se não tem cantor para cadastrar (cantor desconhecido)
-				if (musica.getCantores() == null || musica.getCantores().size() == 0) {
-					String nomeSemEspacos = getCantorTextField().getText().trim().replaceAll(" ", "").toUpperCase();
-					
-					if (nomeSemEspacos != null && !nomeSemEspacos.equals("")) {
-						// cadastrar o novo cantor
-						Cantor cantor = new Cantor();
-						cantor.setNomeSemEspacos(nomeSemEspacos);
-						
-						String nome = JOptionPane.showInputDialog(CadastrarMusicasPanel.this, 
-								"Por favor, indique o nome do Cantor (" + cantor.getNomeSemEspacos() + ")", "Cantor", JOptionPane.QUESTION_MESSAGE);
-						
-						if (nome != null && !nome.equals("")) {
-							cantor.setNome(nome);
-						} else {
-							cantor.setNome(cantor.getNomeSemEspacos());
-						}
-						
-						cantor.setTipoArquivo(tipoArquivo);
-						
-						Fachada.cadastrarCantor(cantor);
-						Fachada.adicionarCantorAMusica(musica, cantor);
-					}
-				}
-				
-				JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
-						"Música cadastrada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Houve um erro ao cadastrar a música no Banco de Dados.", "Erro ao cadastrar música", JOptionPane.ERROR_MESSAGE);
+		// cadastrar a música
+		try {				
+			// setando o tipo da música
+			if (getTipoComboBox().getSelectedIndex() > 0) {
+				musica.setTipo(tipos.get(getTipoComboBox().getSelectedIndex() - 1));
 			}
 			
-			new Thread() {
-				public void run() {pai.musicaFoiCadastrada();}
-			}.start();
+			// setando a letra da música
+			if (getLetraTextArea().getText() != null && !getLetraTextArea().getText().equals("")) {
+				musica.setLetra(getLetraTextArea().getText());
+			}
 			
-			cancelarOperacao();			
-		} else {
-			JOptionPane.showMessageDialog(this, "Não foi possível copiar o arquivo para o destino.", "Erro na cópia do arquivo", JOptionPane.ERROR_MESSAGE);
+			// setando a qualidade
+			if (getQualidadeComboBox().getSelectedIndex() > 0) {
+				musica.setQualidade(qualidades.get(getQualidadeComboBox().getSelectedIndex() - 1));
+			}
+			
+			// setando a observação
+			if (getObservacaoTextArea().getText() != null && !getObservacaoTextArea().getText().equals("")) {
+				musica.setObservacao(getObservacaoTextArea().getText());
+			}
+			
+			// setando o nome do arquivo da capa do disco e a imagem da capa
+			if (caminhoImagemCapaSelecionada != null) {
+				musica.setNomeArquivoCapa(caminhoImagemCapaSelecionada);
+			}
+			
+			// setando o ano
+			if (getAnoTextField().getText() != null && getAnoTextField().getText().trim().length() == 4) {
+				musica.setAno(Integer.parseInt(getAnoTextField().getText()));
+			}
+			
+			// setando os assuntos
+			int indices[] = getAssuntosList().getSelectedIndices();
+			if (indices.length > 0) {
+				List<Assunto> lista = new ArrayList<Assunto>();
+				for (int i: indices) {
+					lista.add(assuntos.get(i));
+					System.out.println("adicionado o assunto " + assuntos.get(i).getAssunto());
+				}
+				musica.setAssuntos(lista);
+			}
+
+			int tipoArquivo = getTipoArquivo();
+			musica.setTipoArquivo(tipoArquivo);
+			
+			Fachada.cadastrarMusica(musica, new File(this.nomeDoArquivo));				
+			// salvar a imagem da capa do disco
+			if (nomeArquivoCapaSelecionada != null) {
+				Fachada.alterarCapaDiscoMusica(musica, nomeArquivoCapaSelecionada, caminhoImagemCapaSelecionada);	
+			}
+			
+			// testar se o cantor é um novo cantor ou se não tem cantor para cadastrar (cantor desconhecido)
+			if (musica.getCantores() == null || musica.getCantores().size() == 0) {
+				String nomeSemEspacos = getCantorTextField().getText().trim().replaceAll(" ", "").toUpperCase();
+				
+				if (nomeSemEspacos != null && !nomeSemEspacos.equals("")) {
+					// cadastrar o novo cantor
+					Cantor cantor = new Cantor();
+					cantor.setNomeSemEspacos(nomeSemEspacos);
+					
+					String nome = JOptionPane.showInputDialog(CadastrarMusicasPanel.this, 
+							"Por favor, indique o nome do Cantor (" + cantor.getNomeSemEspacos() + ")", "Cantor", JOptionPane.QUESTION_MESSAGE);
+					
+					if (nome != null && !nome.equals("")) {
+						cantor.setNome(nome);
+					} else {
+						cantor.setNome(cantor.getNomeSemEspacos());
+					}
+					
+					cantor.setTipoArquivo(tipoArquivo);
+					
+					Fachada.cadastrarCantor(cantor);
+					Fachada.adicionarCantorAMusica(musica, cantor);
+				}
+			}
+			
+			JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
+					"Música cadastrada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Houve um erro ao cadastrar a música no Banco de Dados.", "Erro ao cadastrar música", JOptionPane.ERROR_MESSAGE);
 		}
+		
+		new Thread() {
+			public void run() {pai.musicaFoiCadastrada();}
+		}.start();
+		
+		cancelarOperacao();			
 		//$hide<<$
 	}
 	
@@ -1821,8 +1817,8 @@ public class CadastrarMusicasPanel extends JPanel {
 		JFileChooser chooser = new JFileChooser();
 		if (Util.diretorioPassado != null) {
 			chooser.setCurrentDirectory(new File(Util.diretorioPassado));
-		} else if (Util.getDiretorioBase() != null) {
-			chooser.setCurrentDirectory(new File(Util.getDiretorioBase()));
+		} else {
+			chooser.setCurrentDirectory(new File("./"));
 		}
 		
 		chooser.setMultiSelectionEnabled(true);
@@ -1854,9 +1850,6 @@ public class CadastrarMusicasPanel extends JPanel {
 		limparCampos();
 		ativarCampos();
 		
-		// pegando o nome do diretório
-		String diretorio = Util.getDiretorioProximoArquivo();
-		
 		nomeDoArquivo = file.getPath();
 
 		String nome = file.getName();
@@ -1881,11 +1874,9 @@ public class CadastrarMusicasPanel extends JPanel {
 		// setando os valores no objeto musica que será cadastrado
 		musica.setNome(nome);
 		musica.setDuracao(duracao);
-		musica.setDiretorio(diretorio);
 
 		getNomeTextField().setText(nome);
 		getDuracaoTextField().setText(Util.formataDuracao(musica.getDuracao()));
-		getDiretorioTextField().setText(diretorio);
 		getCantorTextField().setText(cantor);
 		getTipoComboBox().setSelectedIndex(0);
 		getQualidadeComboBox().setSelectedIndex(0);
@@ -1893,11 +1884,11 @@ public class CadastrarMusicasPanel extends JPanel {
 		atualizarTabelaDeMusicas();
 		atualizarTabelaDeCantores();
 		
-		atualizaNomeArquivoDaMusica();
+		/*atualizaNomeArquivoDaMusica();*/
 		//$hide<<$
 	}
 	
-	public void atualizaNomeArquivoDaMusica() {
+	/*public void atualizaNomeArquivoDaMusica() {
 		//$hide>>$
 		if (musica != null) {
 			musica.setNomeArquivo(Util.compoeNomeArquivo(musica));
@@ -1925,7 +1916,7 @@ public class CadastrarMusicasPanel extends JPanel {
 			getNomeArquivoTextField().setText(musica.getNomeArquivo());
 		}			
 		//$hide<<$
-	}	
+	}*/	
 	
 	private void atualizarCantores() {
 		//$hide>>$
@@ -2312,8 +2303,8 @@ public class CadastrarMusicasPanel extends JPanel {
 	
 	private void tocarArquivoEscolhido() {
 		//$hide>>$
-		if (musica != null && nomeDoArquivo != null && !nomeDoArquivo.equals("")) {		
-			GlobalPlayer.play(nomeDoArquivo);
+		if (musica != null && nomeDoArquivo != null && !nomeDoArquivo.equals("")) {	
+			GlobalPlayer.play(nomeDoArquivo, true);
 			getControle1Panel().add(GlobalPlayer.getControle(), BorderLayout.SOUTH);				
 			validate();	
 			GlobalPlayer.getControle().repaint();
@@ -2332,10 +2323,15 @@ public class CadastrarMusicasPanel extends JPanel {
 		//$hide>>$
 		if (musicas != null && musicas.size() > 0 && getMusicasTable().getSelectedRow() != -1) {		
 			Musica m = musicas.get(getMusicasTable().getSelectedRow());
-			String nomeArquivo = Util.getDiretorioBase() + File.separator + m.getDiretorio() +
-				File.separator + m.getNomeArquivo();
+			String nomeArquivo = Util.getCaminhoArquivoTempMusica(m);
+			try {
+				Fachada.exportarArquivoMusica(m, nomeArquivo);
+			} catch (DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			GlobalPlayer.play(nomeArquivo);
+			GlobalPlayer.play(nomeArquivo, false);
 			getControlePanel().add(GlobalPlayer.getControle(), BorderLayout.SOUTH);				
 			validate();	
 			GlobalPlayer.getControle().repaint();
@@ -2459,24 +2455,19 @@ public class CadastrarMusicasPanel extends JPanel {
 						+ "?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
 
 		if (confirm == JOptionPane.OK_OPTION) {
-			String nomeArquivo = Util.getDiretorioBase() + File.separator
-					+ m.getDiretorio() + File.separator + m.getNomeArquivo();
-			File arquivo = new File(nomeArquivo);
-			if (arquivo.delete()) {
-				try {
-					Fachada.excluirMusica(m);
-					JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
-							"Música excluída com Sucesso.", "Sucesso",
-							JOptionPane.INFORMATION_MESSAGE);
-					pai.musicaFoiApagada();
-					
-				} catch (DataException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
-							"Não foi possível remover a música do BD.",
-							"Erro.", JOptionPane.ERROR_MESSAGE);
-				}
+			try {
+				Fachada.excluirMusica(m);
+				JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
+						"Música excluída com Sucesso.", "Sucesso",
+						JOptionPane.INFORMATION_MESSAGE);
+				pai.musicaFoiApagada();
+				
+			} catch (DataException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(CadastrarMusicasPanel.this,
+						"Não foi possível remover a música do BD.",
+						"Erro.", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		//$hide<<$

@@ -630,9 +630,8 @@ public class VisualizarMusicaPanel extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (musicaAtual != null) {
 						//$hide>>$
-						String nomeArquivo = Util.getDiretorioBase() + File.separator + musicaAtual.getDiretorio() +
-						File.separator + musicaAtual.getNomeArquivo();
-						GlobalPlayer.play(nomeArquivo);
+						String nomeArquivo = Util.getCaminhoArquivoTempMusica(musicaAtual);
+						GlobalPlayer.play(nomeArquivo, false);
 						
 						getControlePanel().add(GlobalPlayer.getControle(), BorderLayout.NORTH);				
 						getControlePanel().validate();
@@ -706,7 +705,8 @@ public class VisualizarMusicaPanel extends JPanel {
 		// mostrar a capa
 		if (musica.getNomeArquivoCapa() != null) {
 			try {
-				BufferedImage bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica));
+				
+				BufferedImage bi = ImageIO.read(Fachada.getCapaDiscoMusica(musica, Util.getCaminhoDiretorioTemporario() + File.pathSeparator + musica.getNomeArquivoCapa()));
 				int side = getCapaLabel().getWidth() < getCapaLabel().getHeight() ? getCapaLabel().getWidth() : getCapaLabel().getHeight();
 				Image scaledImage = bi.getScaledInstance(side, side, Image.SCALE_SMOOTH);
 				capaLabel.setText("");
@@ -721,14 +721,7 @@ public class VisualizarMusicaPanel extends JPanel {
 		}
 		
 		// dados da coleção
-		getDiretorioTextField().setText(musica.getDiretorio());
-		if (musica.getQualidade() != null) {
-			getQualidadeTextField().setText(musica.getQualidade().getQualidade());
-		}
-		getNomeArquivoTextField().setText(musica.getNomeArquivo());
-		if (musica.getObservacao() != null) {
-			getObservacaoTextArea().setText(musica.getObservacao());
-		}
+
 		if (musica.getAssuntos() != null && musica.getAssuntos().size() > 0) {
 			Vector<String> assuntos = new Vector<String>();
 			
@@ -769,7 +762,7 @@ public class VisualizarMusicaPanel extends JPanel {
 					try {
 						BufferedImage bi;
 						try {
-							bi = ImageIO.read(Fachada.getCapaDiscoMusica(musicaAtual));
+							bi = ImageIO.read(Fachada.getCapaDiscoMusica(musicaAtual, Util.getCaminhoDiretorioTemporario() + File.pathSeparator + musicaAtual.getNomeArquivoCapa()));
 						} catch (DataException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
