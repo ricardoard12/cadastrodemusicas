@@ -16,6 +16,8 @@ import dao.AssuntoDAO;
 import exceptions.DataException;
 
 public class AssuntoDAOMySQL implements AssuntoDAO {
+	
+	private static List<Assunto> lista = null;
 
 	public void alterarAssunto(Assunto a) throws DataException {
 		String sql = "UPDATE assunto SET chaveUnica=?, assunto=?, modified=? WHERE idAssunto=?";
@@ -97,12 +99,24 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public Assunto getAssunto(int idAssunto) throws DataException {
-		String sql = "SELECT * FROM Assunto WHERE idAssunto = " + idAssunto;
+		Assunto a = null;
 		
-		List<Assunto> lista = listarAssuntosPorConsulta(sql);
+		if (lista == null)
+		{
+			String sql = "SELECT * FROM Assunto";
+			lista = listarAssuntosPorConsulta(sql);
+		}
 		
-		if (lista.size() == 0) return null;
-		else return lista.get(lista.size() - 1);
+		for (Assunto assunto: lista)
+		{
+			if (assunto.getIdAssunto() == idAssunto)
+			{
+				a = assunto;
+				break;
+			}
+		}
+		
+		return a;
 	}
 
 	public List<Assunto> listarAssuntos() throws DataException {
