@@ -17,6 +17,8 @@ import exceptions.DataException;
 
 public class CantorDAOMySQL implements CantorDAO {
 
+	private static List<Cantor> lista = null;
+	
 	public void alterarCantor(Cantor c) throws DataException {
 		String sql = "UPDATE Cantor SET nome=?, nomeSemEspacos=?, chaveUnica=?, modified=? WHERE idCantor=?";
 
@@ -100,16 +102,26 @@ public class CantorDAOMySQL implements CantorDAO {
 		}
 	}
 
-	public Cantor getCantor(int idCantor) throws DataException {		
-		String sql = "SELECT * FROM Cantor WHERE idCantor = " + idCantor;
+	public Cantor getCantor(int idCantor) throws DataException {
+		Cantor c = null;
 		
-		List<Cantor> lista = listarCantoresPorConsulta(sql);
-		
-		if (lista.size() == 0) return null;
-		else return lista.get(lista.size() - 1);
-	}
+		if (lista == null)
+		{
+			String sql = "SELECT * FROM Cantor";
+			lista = listarCantoresPorConsulta(sql);
+		}
 
-	
+		for (Cantor cantor: lista)
+		{
+			if (cantor.getIdCantor() == idCantor)
+			{
+				c = cantor;
+				break;
+			}
+		}
+		
+		return c;
+	}
 	
 	public List<Cantor> listarCantores() throws DataException {
 		String sql = "SELECT * FROM Cantor ORDER BY nome";

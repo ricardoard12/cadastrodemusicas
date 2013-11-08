@@ -14,10 +14,11 @@ import dao.QualidadeDAO;
 import exceptions.DataException;
 
 public class QualidadeDAOMySQL implements QualidadeDAO {
+	
+	private static List<Qualidade> lista = null;
 
 	public void alterarQualidade(Qualidade q) throws DataException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public int cadastrarQualidade(Qualidade q) throws DataException {
@@ -36,7 +37,10 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int codigo = rs.getInt("GENERATED_KEY");			
-			q.setIdQualidade(codigo);			
+			q.setIdQualidade(codigo);
+			
+			lista = null;
+			
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,15 +49,23 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 	}
 
 	public Qualidade getQualidade(int idQualidade) throws DataException {
-		String sql = "SELECT * FROM Qualidade WHERE idQualidade = " + idQualidade;
+		Qualidade q = null;
 		
-		List<Qualidade> lista = listarQualidadesPorConsulta(sql);
-		
-		if (lista.size() <= 0) {
-			return null;
-		} else {
-			return lista.get(0);
+		if (lista == null)
+		{
+			lista = listarQualidades();
 		}
+
+		for (Qualidade qual: lista)
+		{
+			if (qual.getIdQualidade() == idQualidade)
+			{
+				q = qual;
+				break;
+			}
+		}
+		
+		return q;
 	}
 	
 	private List<Qualidade> listarQualidadesPorConsulta(String sql) throws DataException {

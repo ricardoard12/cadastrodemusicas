@@ -18,6 +18,8 @@ import exceptions.DataException;
 
 public class TipoDAOMySQL implements TipoDAO {
 
+	private static List<Tipo> lista = null;
+	
 	public void alterarTipo(Tipo t) throws DataException {
 		String sql = "UPDATE tipo SET chaveUnica=?, tipo=?, modified=? WHERE idTipo=?";
 
@@ -71,15 +73,23 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public Tipo getTipo(int idTipo) throws DataException {
-		String sql = "SELECT * FROM Tipo WHERE idTipo = " + idTipo;
+		Tipo t = null;
 		
-		List<Tipo> lista = listarTiposPorConsulta(sql);
-		
-		if (lista.size() <= 0) {
-			return null;
-		} else {
-			return lista.get(0);
+		if (lista == null)
+		{
+			lista = listarTipos();
 		}
+		
+		for (Tipo tipo: lista)
+		{
+			if (tipo.getIdTipo() == idTipo)
+			{
+				t = tipo;
+				break;
+			}
+		}
+		
+		return t;
 	}
 	
 	private List<Tipo> listarTiposPorConsulta(String sql) throws DataException {

@@ -12,8 +12,10 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import util.Util;
 import bd.BDUtil;
@@ -30,7 +32,15 @@ import dao.TipoDAO;
 import exceptions.DataException;
 
 public class MusicaDAOMySQL implements MusicaDAO {
-
+	
+	private static Map<Integer, Integer> musicaCantor = null;
+	private static Map<Integer, List<Integer>> musicaAssunto = null;
+	
+	private static QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
+	private static TipoDAO tipoDAO = new TipoDAOMySQL();
+	private static CantorDAO cantorDAO = new CantorDAOMySQL();
+	private static AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
+	
 	public void alterarMusica(Musica m) throws DataException {		
 		try {
 			// Removendo os cantores antigos da música
@@ -38,6 +48,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Cantores antigos removidos da música");
+			stat.close();
 
 			// Removendo os assuntos antigos da música
 			sql = "DELETE FROM musicaAssunto WHERE idMusica = "
@@ -45,6 +56,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Assuntos antigos removidos da música");
+			stat.close();
 
 			sql = "UPDATE Musica SET nome=?, letra=?, duracao=?, observacao=?, "
 					+ "idarquivomusica=?, diretorio=?, idTipo=?, idQualidade=?, chaveUnica=?, ano = ?, modified = ? "
@@ -91,7 +103,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 
 			ps.execute();
 			m.setModified(modified);
-
+			ps.close();
+			
 			if (m.getCantores() != null && m.getCantores().size() > 0) {
 				sql = "INSERT INTO MusicaCantor (idCantor, idMusica) "
 						+ "VALUES (?, ?)";
@@ -107,6 +120,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 
 					ps.execute();
 				}
+				ps.close();
 			}
 
 			// cadastrando os assuntos
@@ -121,6 +135,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 					ps.setInt(2, m.getIdMusica());
 
 					ps.execute();
+					ps.close();
 				}
 			}
 		} catch (SQLException e) {
@@ -185,6 +200,9 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			m.setCreated(data);
 			m.setModified(data);
 			
+			rs.close();
+			ps.close();
+			
 			// cadastrando os cantores
 			if (m.getCantores() != null && m.getCantores().size() > 0) {
 				sql = "INSERT INTO MusicaCantor (idCantor, idMusica) "
@@ -199,6 +217,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 					
 					ps.execute();
 				}
+				ps.close();
 			}
 			
 			// cadastrando os assuntos
@@ -213,6 +232,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 					ps.setInt(2, m.getIdMusica());
 					
 					ps.execute();
+					ps.close();
 				}
 			}
 			
@@ -256,14 +276,12 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				if (r.wasNull()) {
 					m.setQualidade(null);
 				} else {
-					QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
 					m.setQualidade(qualidadeDAO.getQualidade(qualidade));
 				}
 				tipo = r.getInt("idTipo");
 				if (r.wasNull()) {
 					m.setTipo(null);
 				} else {
-					TipoDAO tipoDAO = new TipoDAOMySQL();
 					m.setTipo(tipoDAO.getTipo(tipo));
 				}
 					
@@ -271,30 +289,70 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				m.setCantores(new ArrayList<Cantor>());
 				m.setAssuntos(new ArrayList<Assunto>());
 				
-				sql = "SELECT * FROM musicacantor WHERE idMusica = " + m.getIdMusica();
-				Statement st = BDUtil.getConexao().createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				
-				while (rs.next()) {
-					int idCantor = rs.getInt("idCantor");
+				if (musicaCantor == null)
+				{
+					sql = "SELECT * FROM musicacantor";
+					Statement st = BDUtil.getConexao().createStatement();
+					ResultSet rs = st.executeQuery(sql);
 					
-					CantorDAO cantorDAO = new CantorDAOMySQL();
+					musicaCantor = new HashMap<Integer, Integer>();
+					while (rs.next()) {
+						int idCantor = rs.getInt("idCantor");
+						int idMusica = rs.getInt("idMusica");
+						
+						musicaCantor.put(idMusica, idCantor);
+					}	
+					
+					rs.close();
+					st.close();
+				}
+
+				if (musicaCantor.containsKey(m.getIdMusica()))
+				{
+					int idCantor = musicaCantor.get(m.getIdMusica());
+					
 					m.getCantores().add(cantorDAO.getCantor(idCantor));
 				}
 				
-				sql = "SELECT * FROM musicaassunto inner join assunto on musicaAssunto.idAssunto = assunto.idAssunto " +
-						"WHERE idMusica = " + m.getIdMusica() + " order by assunto.assunto";
-				rs = st.executeQuery(sql);
-				
-				while(rs.next()) {
-					int idAssunto = rs.getInt("idAssunto");
+				if (musicaAssunto == null)
+				{
+					sql = "SELECT * FROM musicaassunto";
+					Statement st = BDUtil.getConexao().createStatement();
+					ResultSet rs = st.executeQuery(sql);
 					
-					AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
-					m.getAssuntos().add(assuntoDAO.getAssunto(idAssunto));
+					musicaAssunto = new HashMap<Integer, List<Integer>>();
+					while (rs.next()) {
+						int idAssunto = rs.getInt("idAssunto");
+						int idMusica = rs.getInt("idMusica");
+
+						List<Integer> assuntos = null;
+						if (musicaAssunto.containsKey(idMusica))
+						{
+							 assuntos = musicaAssunto.get(idMusica);
+						} else {
+							assuntos = new ArrayList<Integer>();
+							musicaAssunto.put(idMusica, assuntos);
+						}
+						assuntos.add(idAssunto);
+					}
+					
+					rs.close();
+					st.close();
+				}
+
+				if (musicaAssunto.containsKey(m.getIdMusica()))
+				{
+					for (int idAssunto: musicaAssunto.get(m.getIdMusica()))
+					{
+						m.getAssuntos().add(assuntoDAO.getAssunto(idAssunto));	
+					}
 				}				
 				
 				lista.add(m);				
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 		} catch (SQLException e) {
@@ -326,6 +384,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Cantores antigos removidos da música");
+			stat.close();
 
 			// Removendo os assuntos antigos da música
 			sql = "DELETE FROM musicaAssunto WHERE idMusica = "
@@ -333,18 +392,20 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Assuntos antigos removidos da música");
+			stat.close();
 			
 			sql = "DELETE FROM musica WHERE idMusica = " + m.getIdMusica();
 			stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Música removida do Banco de Dados");
+			stat.close();
 			
 			// Removendo o arquivo da musica do banco de dados
 			sql = "DELETE FROM arquivomusica WHERE id = " + m.getIdArquivoMusica();
 			stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("arquivo da Música removida do Banco de Dados");
-			
+			stat.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível remover a música do BD");
@@ -363,6 +424,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			ps.setInt(2, m.getIdMusica());
 			
 			ps.execute();
+			
+			ps.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -414,7 +477,6 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				sql += "and (0";
 				for (String q: qualidades)
 				{
-					QualidadeDAO qualidadeDAO = new QualidadeDAOMySQL();
 					int qualidadeId = qualidadeDAO.getQualidadeId(q);
 					sql += " or qualidade.idQualidade = " + qualidadeId;
 				}	
@@ -544,6 +606,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			if (fis != null) {
 				fis.close();
 			}
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possivel alterar a imagem da capa");
@@ -566,8 +629,10 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				if (is != null)
 				{
 					if (Util.copyFile(is, caminhoArquivo)) {
+						is.close();
 						return ARQUIVO_CAPA_COPIADO_OK;
 					} else {
+						is.close();
 						return ARQUIVO_CAPA_ERRO_COPIA;
 					}
 				} else {
@@ -576,7 +641,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			} else {
 				return ARQUIVO_CAPA_INEXISTENTE;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possivel ler a imagem da capa (3)");
 		}
@@ -606,6 +671,9 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			id_arquivo.next();
 			
 			id = id_arquivo.getInt(1);
+			
+			id_arquivo.close();
+			stat.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -626,8 +694,10 @@ public class MusicaDAOMySQL implements MusicaDAO {
 				if (is != null)
 				{
 					if (Util.copyFile(is, caminhoArquivo)) {
+						is.close();
 						return ARQUIVO_MUSICA_COPIADO_OK;
 					} else {
+						is.close();
 						return ARQUIVO_MUSICA_ERRO_COPIA;
 					}
 				} else {
@@ -636,7 +706,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 			} else {
 				return ARQUIVO_MUSICA_INEXISTENTE;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possivel ler o arquivo da musica");
 		}
