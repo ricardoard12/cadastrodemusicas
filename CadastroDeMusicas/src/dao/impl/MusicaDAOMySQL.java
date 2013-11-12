@@ -41,7 +41,18 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	private static CantorDAO cantorDAO = new CantorDAOMySQL();
 	private static AssuntoDAO assuntoDAO = new AssuntoDAOMySQL();
 	
-	public void alterarMusica(Musica m) throws DataException {		
+	private void limparListas()
+	{
+		musicaCantor.clear();
+		musicaCantor = null;
+		
+		musicaAssunto.clear();
+		musicaAssunto = null;
+	}
+	
+	public void alterarMusica(Musica m) throws DataException {	
+		limparListas();
+		
 		try {
 			// Removendo os cantores antigos da música
 			String sql = "DELETE FROM musicaCantor WHERE idMusica = " + m.getIdMusica();
@@ -148,6 +159,8 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	public int cadastrarMusica(Musica m) throws DataException {
 		String sql = "INSERT INTO Musica (nome, letra, duracao, observacao, idarquivomusica, diretorio, idTipo, idQualidade, chaveUnica, ano, created, modified, tipoarquivo) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		limparListas();
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -377,6 +390,7 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	}
 
 	public void removerMusica(Musica m) throws DataException {
+		limparListas();
 		
 		try {
 			// Removendo os cantores antigos da música
@@ -414,9 +428,12 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	}
 
 	public void adicionarCantor(Musica m, Cantor c) throws DataException {
+		PreparedStatement ps;
+		
 		String sql = "INSERT INTO MusicaCantor (idCantor, idMusica) "
 			+ "VALUES (?, ?)";
-		PreparedStatement ps;
+
+		limparListas();
 		
 		try {
 			ps = BDUtil.getConexao().prepareStatement(sql);

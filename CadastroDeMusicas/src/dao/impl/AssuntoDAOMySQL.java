@@ -19,11 +19,22 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	
 	private static List<Assunto> lista = null;
 
+	private void limparLista()
+	{
+		lista.clear();
+		lista = null;
+	}
+	
 	public void alterarAssunto(Assunto a) throws DataException {
-		String sql = "UPDATE assunto SET chaveUnica=?, assunto=?, modified=? WHERE idAssunto=?";
-
 		PreparedStatement ps;
+		
+		String sql = "UPDATE assunto SET chaveUnica=?, assunto=?, modified=? WHERE idAssunto=?";
+		
+		limparLista();
+		
 		try {
+		
+			
 			ps = BDUtil.getConexao().prepareStatement(sql);
 			
 			ps.setString(1, a.getChaveUnica());
@@ -34,6 +45,8 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			
 			ps.execute();
 			a.setModified(modified);
+			ps.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -44,6 +57,8 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 		String sql = "INSERT INTO assunto (assunto, chaveUnica, created, modified, tipoarquivo) "
 			+ "VALUES (?, ?, ?, ?, ?)";
 	
+		limparLista();
+		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -64,6 +79,10 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 			a.setIdAssunto(codigo);
 			a.setCreated(data);
 			a.setModified(data);
+			
+			rs.close();
+			ps.close();
+			
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,6 +109,9 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 								
 				lista.add(a);
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 		} catch (SQLException e) {
@@ -128,11 +150,16 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 	}
 
 	public void removerAssunto(Assunto a) throws DataException {
+		limparLista();
+		
 		try {
 			String sql = "DELETE FROM assunto WHERE idAssunto = " + a.getIdAssunto();
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
+			
 			System.out.println("Tipo removido do sistema.");
+			
+			stat.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException();

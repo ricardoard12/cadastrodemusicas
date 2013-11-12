@@ -20,10 +20,19 @@ public class TipoDAOMySQL implements TipoDAO {
 
 	private static List<Tipo> lista = null;
 	
+	private void limparLista()
+	{
+		lista.clear();
+		lista = null;
+	}
+	
 	public void alterarTipo(Tipo t) throws DataException {
+		PreparedStatement ps;
+		
 		String sql = "UPDATE tipo SET chaveUnica=?, tipo=?, modified=? WHERE idTipo=?";
 
-		PreparedStatement ps;
+		limparLista();
+		
 		try {
 			ps = BDUtil.getConexao().prepareStatement(sql);
 			
@@ -35,6 +44,8 @@ public class TipoDAOMySQL implements TipoDAO {
 			
 			ps.execute();
 			t.setModified(modified);
+			
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -44,6 +55,8 @@ public class TipoDAOMySQL implements TipoDAO {
 	public int cadastrarTipo(Tipo t) throws DataException {
 		String sql = "INSERT INTO tipo (tipo, chaveUnica, created, modified, tipoarquivo) "
 			+ "VALUES (?, ?, ?, ?, ?)";
+		
+		limparLista();
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -65,6 +78,10 @@ public class TipoDAOMySQL implements TipoDAO {
 			t.setIdTipo(codigo);
 			t.setCreated(data);
 			t.setModified(data);
+			
+			rs.close();
+			ps.close();
+			
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,6 +129,9 @@ public class TipoDAOMySQL implements TipoDAO {
 				lista.add(t);
 			}
 			
+			r.close();
+			s.close();
+			
 			return lista;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,11 +148,15 @@ public class TipoDAOMySQL implements TipoDAO {
 	}
 
 	public void removerTipo(Tipo t) throws DataException {
+		limparLista();
+		
 		try {
 			String sql = "DELETE FROM tipo WHERE idTipo = " + t.getIdTipo();
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Tipo removido do sistema.");
+			
+			stat.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException();

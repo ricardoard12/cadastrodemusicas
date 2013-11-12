@@ -27,6 +27,7 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 			ps.setInt(2, playlist.getIdPlaylist());
 			
 			ps.execute();
+			ps.close();
 			
 			Statement s = BDUtil.getConexao().createStatement();
 			sql = "DELETE FROM playlistitem WHERE idPlaylist = " + playlist.getIdPlaylist();
@@ -38,6 +39,8 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 					  ", " + m.getIdMusica() + ", " + i + ")";
 				s.execute(sql);
 			}
+			
+			s.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -67,6 +70,10 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 					  ", " + m.getIdMusica() + ", " + i + ")";
 				s.execute(sql);
 			}
+			s.close();
+			
+			rs.close();
+			ps.close();
 			
 			return codigo;
 		} catch (SQLException e) {
@@ -100,6 +107,9 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 					int id = r.getInt("idMusica");
 					p.getItens().add(mDAO.getMusica(id));
 				}
+				
+				r.close();
+				s.close();
 				
 				return p;
 			} else {
@@ -141,6 +151,9 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 				playlists.add(p);
 			}
 			
+			r.close();
+			s.close();
+			
 			return playlists;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,6 +173,8 @@ public class PlaylistDAOMySQL implements PlaylistDAO {
 			s.execute(sql);
 			sql = "DELETE FROM playlist WHERE idPlaylist = " + playlist.getIdPlaylist();
 			s.execute(sql);
+			
+			s.close();
 		} catch (SQLException e) {
 			throw new DataException("Não foi possível remover a Playlist.");
 		}		

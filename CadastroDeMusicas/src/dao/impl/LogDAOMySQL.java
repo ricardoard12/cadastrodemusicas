@@ -55,10 +55,14 @@ public class LogDAOMySQL implements LogDAO {
 				rs.next();
 				int codigo = rs.getInt("GENERATED_KEY");			
 				log.setIdLog(codigo);
-				return log.getIdLog();
+				rs.close();
 			} else {
 				System.out.println("Erro ao executar a inserção");
 			}
+			
+			ps.close();
+			
+			return log.getIdLog();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException();
@@ -117,6 +121,9 @@ public class LogDAOMySQL implements LogDAO {
 				
 				lista.add(l);
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 		} catch (SQLException e) {
