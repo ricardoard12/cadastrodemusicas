@@ -24,6 +24,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Músicas antigas removidas da coleção");
+			stat.close();
 
 			sql = "UPDATE colecao SET nome=?, descricao=?, modified = ? WHERE idColecao=?";
 
@@ -56,7 +57,10 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				pstat.executeBatch();
 				BDUtil.getConexao().commit();
 				BDUtil.getConexao().setAutoCommit(true);
+				pstat.close();
 			}
+			
+			ps.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,7 +114,11 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				stat.executeBatch();
 				BDUtil.getConexao().commit();
 				BDUtil.getConexao().setAutoCommit(true);
+				stat.close();
 			}
+			
+			rs.close();
+			ps.close();
 			
 			return codigo;
 		} catch (SQLException e) {
@@ -138,6 +146,9 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				lista.add(c);
 			}
 			
+			r.close();
+			s.close();
+			
 			return lista;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -161,6 +172,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				String sql = "SELECT * FROM musicacolecao WHERE idMusica = " + m.getIdMusica() + " AND idColecao = " + c.getIdColecao();
 				ResultSet r = s.executeQuery(sql);
 				if (r.next()) {
+					r.close();
 					continue;
 				} else {
 					sql = "INSERT INTO musicacolecao (idMusica, idColecao) VALUES (?, ?)";
@@ -168,10 +180,14 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 					ps.setInt(1, m.getIdMusica());
 					ps.setInt(2, c.getIdColecao());
 					ps.execute();
+					ps.close();
+					r.close();
 				}
 			}
 			BDUtil.getConexao().commit();
 			BDUtil.getConexao().setAutoCommit(true);
+			
+			s.close();
 		} catch (SQLException e) {
 			try {
 				BDUtil.getConexao().setAutoCommit(true);
@@ -192,6 +208,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 			stat = BDUtil.getConexao().createStatement();
 			String sql = "DELETE FROM colecao WHERE idColecao = " + c.getIdColecao();
 			stat.execute(sql);
+			stat.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Erro ao Excluir a Coleção");
@@ -208,6 +225,7 @@ public class ColecaoDAOMySQL implements ColecaoDAO {
 				String sql = "DELETE FROM musicacolecao WHERE idColecao = " + c.getIdColecao() + " AND idMusica = " + m.getIdMusica();
 				stat.execute(sql);
 			}
+			stat.close();
 			BDUtil.getConexao().setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();

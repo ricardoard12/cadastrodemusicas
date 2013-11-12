@@ -17,13 +17,23 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 	
 	private static List<Qualidade> lista = null;
 
+	private void limparLista()
+	{
+		lista.clear();
+		lista = null;
+	}
+	
 	public void alterarQualidade(Qualidade q) throws DataException {
 		// TODO Auto-generated method stub
+		
+		limparLista();
 	}
 
 	public int cadastrarQualidade(Qualidade q) throws DataException {
 		String sql = "INSERT INTO qualidade (qualidade) "
 			+ "VALUES (?)";
+		
+		limparLista();
 	
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -39,7 +49,8 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 			int codigo = rs.getInt("GENERATED_KEY");			
 			q.setIdQualidade(codigo);
 			
-			lista = null;
+			rs.close();
+			ps.close();
 			
 			return codigo;
 		} catch (SQLException e) {
@@ -83,6 +94,9 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 								
 				lista.add(q);
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 		} catch (SQLException e) {

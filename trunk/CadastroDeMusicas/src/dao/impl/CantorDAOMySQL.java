@@ -19,10 +19,19 @@ public class CantorDAOMySQL implements CantorDAO {
 
 	private static List<Cantor> lista = null;
 	
+	private void limparLista()
+	{
+		lista.clear();
+		lista = null;
+	}
+	
 	public void alterarCantor(Cantor c) throws DataException {
+		PreparedStatement ps;
+		
 		String sql = "UPDATE Cantor SET nome=?, nomeSemEspacos=?, chaveUnica=?, modified=? WHERE idCantor=?";
 
-		PreparedStatement ps;
+		limparLista();
+		
 		try {
 			ps = BDUtil.getConexao().prepareStatement(sql);
 			
@@ -36,6 +45,7 @@ public class CantorDAOMySQL implements CantorDAO {
 			ps.execute();
 			
 			c.setModified(modified);
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o cantor");
@@ -45,6 +55,8 @@ public class CantorDAOMySQL implements CantorDAO {
 	public int cadastrarCantor(Cantor c) throws DataException {
 		String sql = "INSERT INTO Cantor (nomesemespacos, nome, chaveUnica, created, modified, tipoarquivo) "
 			+ "VALUES (?, ?, ?, ?, ?, ?)";
+		
+		limparLista();
 		
 		try {
 			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -67,6 +79,10 @@ public class CantorDAOMySQL implements CantorDAO {
 			c.setIdCantor(codigo);
 			c.setCreated(data);
 			c.setModified(data);
+			
+			rs.close();
+			ps.close();
+			
 			return codigo;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,6 +110,9 @@ public class CantorDAOMySQL implements CantorDAO {
 				
 				lista.add(c);
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 		} catch (SQLException e) {
@@ -132,11 +151,15 @@ public class CantorDAOMySQL implements CantorDAO {
 	}
 
 	public void removerCantor(Cantor c) throws DataException {
+		limparLista();
+		
 		try {
 			String sql = "DELETE FROM cantor WHERE idCantor = " + c.getIdCantor();
 			PreparedStatement stat = BDUtil.getConexao().prepareStatement(sql);
 			stat.execute();
 			System.out.println("Tipo removido do sistema.");
+			
+			stat.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException();

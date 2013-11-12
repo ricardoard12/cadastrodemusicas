@@ -1,6 +1,5 @@
 package dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,20 +15,13 @@ import encrypt.Encrypt;
 import exceptions.DataException;
 
 public class UsuarioDAOMySQL implements UsuarioDAO {
-
-	private Connection conexao;
-	
-	public UsuarioDAOMySQL() {
-		conexao = BDUtil.getConexao(); 
-		System.out.println("conexao com o banco iniciada.");
-	}
 	
 	public void cadastrarUsuario(Usuario u) throws DataException {
 		String sql = "INSERT INTO usuarios (login, nome, telefone, senha, tipo) "
 				+ "VALUES (?, ?, ?, ?, ?)";
 
 		try {
-			PreparedStatement ps = conexao.prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
 
 			ps.setString(1, u.getLogin());
 			ps.setString(2, u.getNome());
@@ -40,6 +32,8 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 			ps.execute();
 
 			System.out.println("usuario cadastrado");
+			
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível cadastrar o usuario.");
@@ -54,12 +48,13 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 		String sql = "DELETE FROM usuarios WHERE login = '?'";
 		
 		try {
-			PreparedStatement ps = conexao.prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
 			ps.setString(1, u.getLogin());
 			ps.execute();
 
 			System.out.println("usuario removido");
 
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível remover o usuario.");
@@ -71,7 +66,7 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 			+ "WHERE login = ?";
 		
 		try {
-			PreparedStatement ps = conexao.prepareStatement(sql);
+			PreparedStatement ps = BDUtil.getConexao().prepareStatement(sql);
 
 			ps.setString(1, u.getLogin());
 			ps.setString(2, u.getNome());
@@ -83,7 +78,8 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 			ps.execute();
 
 			System.out.println("usuario alterado");
-						
+			
+			ps.close();						
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DataException("Não foi possível alterar o usuario");
@@ -98,7 +94,7 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 		List<Usuario> lista = new ArrayList<Usuario>();
 		
 		try {
-			Statement s = conexao.createStatement();
+			Statement s = BDUtil.getConexao().createStatement();
 			ResultSet r = s.executeQuery(sql);
 			
 			while (r.next()) {
@@ -112,6 +108,9 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 				
 				lista.add(u);
 			}
+			
+			r.close();
+			s.close();
 			
 			return lista;
 			
