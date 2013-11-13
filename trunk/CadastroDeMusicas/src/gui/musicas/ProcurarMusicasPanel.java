@@ -636,6 +636,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	}
 
 	public void procurarMusicas() {
+		System.out.println("Entrando em Procurar Musicas.");
+
 		getMusicasTableModel().setDataVector(getMusicasDados(), 
 				getNomesCampos());
 		
@@ -648,6 +650,8 @@ public class ProcurarMusicasPanel extends JPanel {
 		getMusicasTable();
 		
 		getNumeroRegistrosTextField().setText("" + musicasDados.size());
+		
+		System.out.println("Saindo de Procuar Musicas.");
 	}
 
 	public void setPai(MusicasInternalFrame pai) {
@@ -866,15 +870,15 @@ public class ProcurarMusicasPanel extends JPanel {
 			ritmoComboBox.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
 					//$hide>>$
-					if (getRitmoComboBox().getSelectedIndex() != 0) {
+					/*if (getRitmoComboBox().getSelectedIndex() != 0) {
 						String ritmo = (String) getRitmoComboBox().getSelectedItem();
 						adicionarFiltro(Constantes.CAMPO_PROCURA_RITMO, ritmo, false);
 						if (ritmoComboBox.getItemCount() > 0)
 						{
 							ritmoComboBox.setSelectedIndex(0);	
 						}
-						procurarMusicas();	
-					}
+						procurarMusicas();
+					}*/
 					//$hide<<$										
 				}
 			});
@@ -975,7 +979,7 @@ public class ProcurarMusicasPanel extends JPanel {
 			qualidadeComboBox.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
 					//$hide>>$
-					if (getQualidadeComboBox().getSelectedIndex() != 0) {
+					/*if (getQualidadeComboBox().getSelectedIndex() != 0) {
 						String qualidade = (String) getQualidadeComboBox().getSelectedItem();
 						adicionarFiltro(Constantes.CAMPO_PROCURA_QUALIDADE, qualidade,false);
 						if (qualidadeComboBox.getItemCount() > 0)
@@ -983,7 +987,7 @@ public class ProcurarMusicasPanel extends JPanel {
 							qualidadeComboBox.setSelectedIndex(0);
 						}
 						procurarMusicas();	
-					}
+					}*/
 					//$hide<<$										
 				}
 			});
@@ -1471,7 +1475,9 @@ public class ProcurarMusicasPanel extends JPanel {
 				public void itemStateChanged(ItemEvent evt) {
 					if (radioButtonCantada.isSelected()) {
 						if (Configuracoes.getConfiguracao(Configuracoes.CONFIGURACAO_TIPO_SISTEMA).equals(Configuracoes.VALOR_CONFIG_TIPO_SISTEMA_MUSICAS))
-							configurarProcuraMusicasCantadas();	
+							System.out.println("Procurar Musicas Cantadas (Antes)");
+							configurarProcuraMusicasCantadas();
+							System.out.println("Procurar Musicas Cantadas (Depois)");
 					}
 				}
 			
@@ -1536,6 +1542,8 @@ public class ProcurarMusicasPanel extends JPanel {
 	}
 	
 	private void configurarProcuraMusicasCantadas() {
+		System.out.println("Configurar Procurar Musicas Cantadas (Entrando)");
+		
 		cantorLabel.setText("Cantor");
 		
 		ritmoLabel.setText("Ritmo");
@@ -1551,12 +1559,18 @@ public class ProcurarMusicasPanel extends JPanel {
 		
 		nomesCampos = null;
 		
+		System.out.println("Atualizando Ritmos");
 		atualizarRitmos();
+		System.out.println("Atualizando Assuntos");
 		atualizarAssuntos();
 		
+		System.out.println("Limpando Filtros");
 		limparFiltros();
 		
+		System.out.println("Procurando Musicas");
 		procurarMusicas();
+		
+		System.out.println("Configurar Procurar Musicas Cantadas (Saindo)");
 	}
 	
 	private void configurarProcuraMusicasInstrumentais() {

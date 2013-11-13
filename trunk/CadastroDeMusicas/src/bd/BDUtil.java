@@ -511,9 +511,17 @@ public class BDUtil {
 	}
 	
 	public static void desativarBD() {
-		MysqldResourceI m = new MysqldResource(new File(DIRETORIO_BD));
-		m.shutdown();		
+		try {
+			getConexao().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		conexao = null;
+		
+		MysqldResourceI m = new MysqldResource(new File(DIRETORIO_BD));
+		
+		m.shutdown();	
 	}
 
 	public static void atualizarChavesUnicas() {
