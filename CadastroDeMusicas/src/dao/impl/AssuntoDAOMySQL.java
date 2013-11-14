@@ -21,8 +21,11 @@ public class AssuntoDAOMySQL implements AssuntoDAO {
 
 	private void limparLista()
 	{
-		lista.clear();
-		lista = null;
+		if (lista != null)
+		{
+			lista.clear();
+			lista = null;
+		}
 	}
 	
 	public void alterarAssunto(Assunto a) throws DataException {

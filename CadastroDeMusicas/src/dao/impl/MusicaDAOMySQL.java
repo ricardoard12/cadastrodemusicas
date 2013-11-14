@@ -43,11 +43,17 @@ public class MusicaDAOMySQL implements MusicaDAO {
 	
 	private void limparListas()
 	{
-		musicaCantor.clear();
-		musicaCantor = null;
-		
-		musicaAssunto.clear();
-		musicaAssunto = null;
+		if (musicaCantor != null)
+		{
+			musicaCantor.clear();
+			musicaCantor = null;
+		}
+
+		if (musicaAssunto != null)
+		{
+			musicaAssunto.clear();
+			musicaAssunto = null;			
+		}
 	}
 	
 	public void alterarMusica(Musica m) throws DataException {	

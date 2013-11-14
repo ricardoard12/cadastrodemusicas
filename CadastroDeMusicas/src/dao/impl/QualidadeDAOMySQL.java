@@ -19,8 +19,11 @@ public class QualidadeDAOMySQL implements QualidadeDAO {
 
 	private void limparLista()
 	{
-		lista.clear();
-		lista = null;
+		if (lista != null)
+		{
+			lista.clear();
+			lista = null;
+		}
 	}
 	
 	public void alterarQualidade(Qualidade q) throws DataException {
