@@ -686,8 +686,10 @@ public class MusicaDAOMySQL implements MusicaDAO {
 		
 		try {
 			stat = BDUtil.getConexao().createStatement();
-		
-			String sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + arquivo.getPath() + "\'));";
+			String fPath = arquivo.getAbsolutePath().replaceAll("(\\\\|" + File.pathSeparator + ")", "/").replaceAll("(\')", "\\\\'");
+			
+			String sql = "INSERT INTO arquivomusica (arquivomusica) VALUES(LOAD_FILE(\'" + fPath + "\'));";
+			
 			stat.execute(sql, Statement.RETURN_GENERATED_KEYS);
 
 			ResultSet id_arquivo = stat.getGeneratedKeys();
