@@ -21,8 +21,11 @@ public class CantorDAOMySQL implements CantorDAO {
 	
 	private void limparLista()
 	{
-		lista.clear();
-		lista = null;
+		if (lista != null)
+		{
+			lista.clear();
+			lista = null;
+		}
 	}
 	
 	public void alterarCantor(Cantor c) throws DataException {

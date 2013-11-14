@@ -22,8 +22,11 @@ public class TipoDAOMySQL implements TipoDAO {
 	
 	private void limparLista()
 	{
-		lista.clear();
-		lista = null;
+		if (lista != null)
+		{
+			lista.clear();
+			lista = null;			
+		}
 	}
 	
 	public void alterarTipo(Tipo t) throws DataException {
