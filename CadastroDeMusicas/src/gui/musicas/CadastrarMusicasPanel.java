@@ -1698,7 +1698,7 @@ public class CadastrarMusicasPanel extends JPanel {
 	
 	private void cadastrarMusica() {
 		//$hide>>$
-		if (musica == null) {
+		if (musica == null || nomeDoArquivo == null) {
 			return;
 		}
 		
