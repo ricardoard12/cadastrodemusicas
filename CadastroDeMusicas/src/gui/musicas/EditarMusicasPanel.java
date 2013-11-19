@@ -2157,7 +2157,7 @@ public class EditarMusicasPanel extends JPanel {
 	
 	private void substituirArquivo() {
 		//$hide>>$
-/*		Musica m;
+		Musica m;
 		if (musica != null) {
 			try {
 				m = Fachada.getMusica(musica.getIdMusica());
@@ -2186,54 +2186,31 @@ public class EditarMusicasPanel extends JPanel {
 			File arquivo = chooser.getSelectedFile();
 			
 			try {
-				File tempFile = File.createTempFile("colec", ".mp3");
+					Fachada.substituirArquivoMusica(m, arquivo);
 				
-				String nomeArquivoAntigo = Util.getDiretorioBase() + File.separator + m.getDiretorio() + File.separator + m.getNomeArquivo();
-				
-				if (nomeArquivoAntigo.equals(arquivo.getPath())) {
-					JOptionPane.showMessageDialog(EditarMusicasPanel.this, "O Arquivo escolhido é o mesmo que já está na coleção.",
-							"Erro", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				if (Util.copyFile(nomeArquivoAntigo, tempFile.getPath())) {
-					File arquivoAntigo = new File(nomeArquivoAntigo);
-					if (arquivoAntigo.delete()) {
-						if (Util.copyFile(arquivo.getPath(), nomeArquivoAntigo)) {
-							m.setDuracao(Util.getMP3Duration(nomeArquivoAntigo));
-							
-							Fachada.alterarMusica(m);
-							Fachada.dispararAlteracaoArquivoMusica(m);
-							
-							pai.musicaFoiEditada();
-							
-							musica.setDuracao(m.getDuracao());
-							getDuracaoTextField().setText(Util.formataDuracao(musica.getDuracao()));
-							
-							JOptionPane.showMessageDialog(EditarMusicasPanel.this, "Arquivo Substituído com sucesso.\n\n" +
-									"A duração da música foi alterada para " + Util.formataDuracao(m.getDuracao()) +
-									", conforme a duração do novo Arquivo.\n" +
-									"Se houver alguma observação relativa ao arquivo antigo, lembre-se de alterar\no campo " +
-									"para estar de acordo com o novo.", "Arquivo Substituído", JOptionPane.INFORMATION_MESSAGE);
-						} else {
-							if (Util.copyFile(tempFile.getPath(), nomeArquivoAntigo)) {
-								System.out.println("Operação restaurada");;
-							}
-						}
-					}					
+					m.setDuracao(Util.getMP3Duration(arquivo.getPath()));
 					
-					tempFile.delete();
-				} else {
-					System.out.println("Erro ao copiar o arquivo temporário");
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					
+					Fachada.alterarMusica(m);
+					Fachada.dispararAlteracaoArquivoMusica(m);
+					
+					pai.musicaFoiEditada();
+					
+					musica.setDuracao(m.getDuracao());
+					getDuracaoTextField().setText(Util.formataDuracao(musica.getDuracao()));
+					musica.setIdArquivoMusica(m.getIdArquivoMusica());
+					
+					JOptionPane.showMessageDialog(EditarMusicasPanel.this, "Arquivo Substituído com sucesso.\n\n" +
+							"A duração da música foi alterada para " + Util.formataDuracao(m.getDuracao()) +
+							", conforme a duração do novo Arquivo.\n" +
+							"Se houver alguma observação relativa ao arquivo antigo, lembre-se de alterar\no campo " +
+							"para estar de acordo com o novo.", "Arquivo Substituído", JOptionPane.INFORMATION_MESSAGE);
 			} catch (DataException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(EditarMusicasPanel.this, "Erro ao substituir Arquivo.", "Erro", JOptionPane.INFORMATION_MESSAGE);
 			}
-		}*/
+		}
 		//$hide<<$
 	}
 
