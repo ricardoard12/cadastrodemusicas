@@ -919,6 +919,14 @@ public class ProcurarMusicasPanel extends JPanel {
 					}
 				}
 			});
+			
+			assuntoComboBox.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println(arg0.getActionCommand());
+					}
+				}
+			);
 		}
 		return assuntoComboBox;
 	}

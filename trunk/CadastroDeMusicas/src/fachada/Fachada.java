@@ -362,6 +362,25 @@ public class Fachada {
 		musicaDAO.cadastrarMusica(m);
 	}
 	
+	public static void substituirArquivoMusica(Musica m, File f) throws DataException
+	{
+		MusicaDAO musicaDAO = new MusicaDAOMySQL();
+		
+		if (m.getChaveUnica() == null || m.getChaveUnica().equals("")) m.gerarChaveUnica();
+		
+		int id = musicaDAO.cadastrarArquivoMusica(f);
+		if (id == 0)
+		{
+			throw new DataException();
+		} else {
+			m.setIdArquivoMusica(id);
+		}
+		
+		musicaDAO.alterarMusica(m);
+	}
+
+
+	
 	public static void cadastrarCantor(Cantor c) throws DataException {
 		CantorDAO cantorDAO = new CantorDAOMySQL();
 		cantorDAO.cadastrarCantor(c);
